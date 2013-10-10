@@ -92,10 +92,10 @@ test-romfs.o: mkromfs
 
 
 qemu: main.bin $(QEMU_STM32)
-	$(QEMU_STM32) -M stm32-p103 -kernel main.bin
+	$(QEMU_STM32) -nographic -M stm32-p103 -kernel main.bin
 
 qemudbg: main.bin $(QEMU_STM32)
-	$(QEMU_STM32) -M stm32-p103 \
+	$(QEMU_STM32) -nographic -M stm32-p103 \
 		-gdb tcp::3333 -S \
 		-kernel main.bin
 		
