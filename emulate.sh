@@ -6,7 +6,7 @@ CUR=`dirname $0`
 
 emulate () {
 	$QEMU_STM32 \
-		-M stm32-p103 \
+		-nographic -M stm32-p103 \
 		-kernel $1 \
 		-serial stdio \
 		-parallel none \
