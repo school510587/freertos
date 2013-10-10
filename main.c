@@ -48,6 +48,13 @@ void USART2_IRQHandler()
 	}
 }
 
+char recv_byte()
+{
+	while (USART_GetFlagStatus(USART2, USART_FLAG_RXNE) != SET);
+
+	return (char)USART_ReceiveData(USART2);
+}
+
 void send_byte(char ch)
 {
 	/* Wait until the RS232 port can receive another byte (this semaphore
@@ -76,6 +83,8 @@ void read_romfs_task(void *pvParameters)
 		fio_write(1, buf, count);
 	} while (count);
 	
+buf[0]=recv_byte();
+fio_write(1, buf, 1);
 	while (1);
 }
 
