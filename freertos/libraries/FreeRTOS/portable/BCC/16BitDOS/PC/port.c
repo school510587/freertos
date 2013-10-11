@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -71,7 +71,7 @@ Changes from V2.6.1
 	  macro to be consistent with the later ports.
 
 Changes from V4.0.1
-	
+
 	+ Add function prvSetTickFrequencyDefault() to set the DOS tick back to
 	  its proper value when the scheduler exits.
 */
@@ -129,13 +129,13 @@ static void prvSetTickFrequencyDefault( void );
 static short sDOSTickCounter;
 
 /* Set true when the vectors are set so the scheduler will service the tick. */
-static portBASE_TYPE xSchedulerRunning = pdFALSE;				
+static portBASE_TYPE xSchedulerRunning = pdFALSE;
 
 /* Points to the original routine installed on the vector we use for manual context switches.  This is then used to restore the original routine during prvExitFunction(). */
-static void ( __interrupt __far *pxOldSwitchISR )();		
+static void ( __interrupt __far *pxOldSwitchISR )();
 
 /* Points to the original routine installed on the vector we use to chain to the DOS tick.  This is then used to restore the original routine during prvExitFunction(). */
-static void ( __interrupt __far *pxOldSwitchISRPlus1 )();	
+static void ( __interrupt __far *pxOldSwitchISRPlus1 )();
 
 /* Used to restore the original DOS context when the scheduler is ended. */
 static jmp_buf xJumpBuf;
@@ -146,7 +146,7 @@ static jmp_buf xJumpBuf;
 portBASE_TYPE xPortStartScheduler( void )
 {
 pxISR pxOriginalTickISR;
-	
+
 	/* This is called with interrupts already disabled. */
 
 	/* Remember what was on the interrupts we are going to use
@@ -244,7 +244,7 @@ static void prvPortResetPIC( void )
 	if( sDOSTickCounter <= 0 )
 	{
 		sDOSTickCounter = ( short ) portTICKS_PER_DOS_TICK;
-		__asm{ int	portSWITCH_INT_NUMBER + 1 };		
+		__asm{ int	portSWITCH_INT_NUMBER + 1 };
 	}
 	else
 	{

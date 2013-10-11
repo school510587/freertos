@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -73,7 +73,7 @@
 
 /*
 	Changes from V2.5.2
-		
+
 	+ The critical section management functions have been changed.  These no
 	  longer modify the stack and are safe to use at all optimisation levels.
 	  The functions are now also the same for both ARM and THUMB modes.
@@ -143,7 +143,7 @@ void vPortYieldProcessor( void )
 	__asm volatile ( "bl vTaskSwitchContext" );
 
 	/* Restore the context of the new task. */
-	portRESTORE_CONTEXT();	
+	portRESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
@@ -154,7 +154,7 @@ void vTickISR( void ) __attribute__((naked));
 void vTickISR( void )
 {
 	/* Save the context of the interrupted task. */
-	portSAVE_CONTEXT();	
+	portSAVE_CONTEXT();
 
 	/* Increment the RTOS tick count, then look for the highest priority
 	task that is ready to run. */
@@ -167,7 +167,7 @@ void vTickISR( void )
 	/* Ready for the next interrupt. */
 	T0_IR = portTIMER_MATCH_ISR_BIT;
 	VICVectAddr = portCLEAR_VIC_INTERRUPT;
-	
+
 	/* Restore the context of the new task. */
 	portRESTORE_CONTEXT();
 }
@@ -194,14 +194,14 @@ void vTickISR( void )
 			"LDMIA	SP!, {R0}		\n\t"	/* Pop R0.									*/
 			"BX		R14" );					/* Return back to thumb.					*/
 	}
-			
+
 	void vPortEnableInterruptsFromThumb( void )
 	{
 		__asm volatile (
-			"STMDB	SP!, {R0}		\n\t"	/* Push R0.									*/	
-			"MRS	R0, CPSR		\n\t"	/* Get CPSR.								*/	
-			"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.							*/	
-			"MSR	CPSR, R0		\n\t"	/* Write back modified value.				*/	
+			"STMDB	SP!, {R0}		\n\t"	/* Push R0.									*/
+			"MRS	R0, CPSR		\n\t"	/* Get CPSR.								*/
+			"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.							*/
+			"MSR	CPSR, R0		\n\t"	/* Write back modified value.				*/
 			"LDMIA	SP!, {R0}		\n\t"	/* Pop R0.									*/
 			"BX		R14" );					/* Return back to thumb.					*/
 	}
@@ -241,10 +241,10 @@ void vPortExitCritical( void )
 		{
 			/* Enable interrupts as per portEXIT_CRITICAL().					*/
 			__asm volatile (
-				"STMDB	SP!, {R0}		\n\t"	/* Push R0.						*/	
-				"MRS	R0, CPSR		\n\t"	/* Get CPSR.					*/	
-				"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.				*/	
-				"MSR	CPSR, R0		\n\t"	/* Write back modified value.	*/	
+				"STMDB	SP!, {R0}		\n\t"	/* Push R0.						*/
+				"MRS	R0, CPSR		\n\t"	/* Get CPSR.					*/
+				"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.				*/
+				"MSR	CPSR, R0		\n\t"	/* Write back modified value.	*/
 				"LDMIA	SP!, {R0}" );			/* Pop R0.						*/
 		}
 	}

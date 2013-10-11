@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -122,7 +122,7 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x29292929;      /* Initial Value of R29 */
 	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x30303030;      /* Initial Value of R30 */
-	pxTopOfStack--; 	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x19191919;      /* Initial Value of R19 */
 	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x18181818;      /* Initial Value of R18 */
@@ -161,7 +161,7 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) pvParameters;    /* R1 is expected to hold the function parameter*/
 	pxTopOfStack--;
-	*pxTopOfStack = ( portSTACK_TYPE ) portNO_CRITICAL_SECTION_NESTING;	
+	*pxTopOfStack = ( portSTACK_TYPE ) portNO_CRITICAL_SECTION_NESTING;
 
 	/*
 	 * Return a pointer to the top of the stack we have generated so this can
@@ -207,7 +207,7 @@ static void prvSetupTimerInterrupt( void )
 	}
 	#else
 	{
-		TM0CMP0   = (configCPU_CLOCK_HZ / configTICK_RATE_HZ);	
+		TM0CMP0   = (configCPU_CLOCK_HZ / configTICK_RATE_HZ);
 	}
 	#endif
 

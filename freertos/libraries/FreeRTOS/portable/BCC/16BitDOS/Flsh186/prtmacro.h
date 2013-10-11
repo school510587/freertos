@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -111,7 +111,7 @@
 #define portSTACK_GROWTH				( -1 )
 #define portSWITCH_INT_NUMBER 			0x80
 #define portYIELD()						__asm{ int portSWITCH_INT_NUMBER }
-#define portTICK_RATE_MS		( ( portTickType ) 1000 / configTICK_RATE_HZ )		
+#define portTICK_RATE_MS		( ( portTickType ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT      2
 #define portINITIAL_SW		( ( portSTACK_TYPE ) 0x0202 )	/* Start the tasks with interrupts enabled. */
 /*-----------------------------------------------------------*/

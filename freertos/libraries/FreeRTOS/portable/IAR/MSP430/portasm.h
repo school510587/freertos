@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -91,7 +91,7 @@ portSAVE_CONTEXT macro
 		mov.w	r1, 0(r12)
 		endm
 /*-----------------------------------------------------------*/
-		
+
 portRESTORE_CONTEXT macro
 		mov.w	&pxCurrentTCB, r12
 		mov.w	@r12, r1

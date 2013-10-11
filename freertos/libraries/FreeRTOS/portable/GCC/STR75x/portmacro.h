@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -98,15 +98,15 @@ extern "C" {
 	typedef unsigned portLONG portTickType;
 	#define portMAX_DELAY ( portTickType ) 0xffffffff
 #endif
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portSTACK_GROWTH			( -1 )
-#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )		
+#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT			8
 #define portYIELD()					asm volatile ( "SWI 0" )
 #define portNOP()					asm volatile ( "NOP" )
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Critical section handling. */
 /*
@@ -123,7 +123,7 @@ extern "C" {
 
 	#define portDISABLE_INTERRUPTS()	vPortDisableInterruptsFromThumb()
 	#define portENABLE_INTERRUPTS()		vPortEnableInterruptsFromThumb()
-	
+
 #else
 
 	#define portDISABLE_INTERRUPTS()											\
@@ -133,7 +133,7 @@ extern "C" {
 			"ORR	R0, R0, #0xC0	\n\t"	/* Disable IRQ, FIQ.			*/	\
 			"MSR	CPSR, R0		\n\t"	/* Write back modified value.	*/	\
 			"LDMIA	SP!, {R0}			" )	/* Pop R0.						*/
-			
+
 	#define portENABLE_INTERRUPTS()												\
 		asm volatile (															\
 			"STMDB	SP!, {R0}		\n\t"	/* Push R0.						*/	\
@@ -149,7 +149,7 @@ extern void vPortExitCritical( void );
 
 #define portENTER_CRITICAL()		vPortEnterCritical();
 #define portEXIT_CRITICAL()			vPortExitCritical();
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Task utilities. */
 #define portEND_SWITCHING_ISR( xSwitchRequired ) 	\
@@ -161,7 +161,7 @@ extern void vTaskSwitchContext( void );				\
 		vTaskSwitchContext();						\
 	}												\
 }
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
 #define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void * pvParameters )

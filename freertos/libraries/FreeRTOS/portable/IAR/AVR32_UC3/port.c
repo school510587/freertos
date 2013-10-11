@@ -14,7 +14,7 @@
 
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -335,7 +335,7 @@ clock cycles from now. */
 		}
 		Set_system_register(AVR32_COMPARE, lCycles);
 	}
-	
+
 	#pragma optimize = no_inline
 	static void prvScheduleNextTick(void)
 	{

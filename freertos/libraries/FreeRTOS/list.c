@@ -159,7 +159,7 @@ portTickType xValueOfInsertion;
 			   before vTaskStartScheduler() has been called?).
 		See http://www.freertos.org/FAQHelp.html for more tips.
 		**********************************************************************/
-		
+
 		for( pxIterator = ( xListItem * ) &( pxList->xListEnd ); pxIterator->pxNext->xItemValue <= xValueOfInsertion; pxIterator = pxIterator->pxNext )
 		{
 			/* There is nothing to do here, we are just iterating to the
@@ -186,7 +186,7 @@ xList * pxList;
 
 	pxItemToRemove->pxNext->pxPrevious = pxItemToRemove->pxPrevious;
 	pxItemToRemove->pxPrevious->pxNext = pxItemToRemove->pxNext;
-	
+
 	/* The list item knows which list it is in.  Obtain the list from the list
 	item. */
 	pxList = ( xList * ) pxItemToRemove->pvContainer;

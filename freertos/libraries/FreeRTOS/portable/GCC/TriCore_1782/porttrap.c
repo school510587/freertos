@@ -213,24 +213,24 @@ void vInternalProtectionTrap( int iTrapIdentification )
 
 		case portTIN_IPT_MEMORY_PROTECTION_READ:
 			/* Load word using invalid address. */
-			
+
 		case portTIN_IPT_MEMORY_PROTECTION_WRITE:
 			/* Store Word using invalid address. */
-			
+
 		case portTIN_IPT_MEMORY_PROTECTION_EXECUTION:
 			/* PC jumped to an address outside of the valid range. */
-			
+
 		case portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS:
 			/* Access to a peripheral denied at current execution level. */
-			
+
 		case portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS:
 			/* NULL Pointer. */
-			
+
 		case portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION:
 			/* Tried to modify a global address pointer register. */
-			
+
 		default:
-		
+
 			pxCurrentTCB[ 0 ] = _mfcr( $PCXI );
 			_debug();
 			break;

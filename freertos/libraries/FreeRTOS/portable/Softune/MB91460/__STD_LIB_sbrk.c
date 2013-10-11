@@ -11,7 +11,7 @@
 	extern  char        *_heep;
 	extern  long        _heep_size;
 	#endif
-*/	
+*/
 	extern  char  *sbrk(int  size)
 	{
 	   if  (brk_siz  +  size  >  _heep_size  ||  brk_siz  +  size  <  0)

@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -105,7 +105,7 @@ FreeRTOSConfig.h to set the configMEMMODEL value. */
 	typedef unsigned portLONG portTickType;
 	#define portMAX_DELAY ( portTickType ) 0xffffffff
 #endif
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Critical section handling. */
 #if configKERNEL_INTERRUPT_PRIORITY != 6
@@ -127,7 +127,7 @@ FreeRTOSConfig.h to set the configMEMMODEL value. */
 
 /* Architecture specifics. */
 #define portSTACK_GROWTH			( -1 )
-#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )		
+#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT			2
 #define portNOP()					__asm( " NOP " );
 /*-----------------------------------------------------------*/

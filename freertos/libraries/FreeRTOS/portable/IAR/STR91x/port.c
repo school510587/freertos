@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -170,37 +170,37 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 	/* First on the stack is the return address - which in this case is the
 	start of the task.  The offset is added to make the return address appear
 	as it would within an IRQ ISR. */
-	*pxTopOfStack = ( portSTACK_TYPE ) pxCode + portINSTRUCTION_SIZE;		
+	*pxTopOfStack = ( portSTACK_TYPE ) pxCode + portINSTRUCTION_SIZE;
 	pxTopOfStack--;
 
 	*pxTopOfStack = ( portSTACK_TYPE ) 0xaaaaaaaa;	/* R14 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
 	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x12121212;	/* R12 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x11111111;	/* R11 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x10101010;	/* R10 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x09090909;	/* R9 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x08080808;	/* R8 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x07070707;	/* R7 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x06060606;	/* R6 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x05050505;	/* R5 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x04040404;	/* R4 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x03030303;	/* R3 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x02020202;	/* R2 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x01010101;	/* R1 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 
 	/* When the task starts is will expect to find the function parameter in
 	R0. */
@@ -216,7 +216,7 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 	tasks context. */
 	*pxTopOfStack = portNO_CRITICAL_NESTING;
 
-	return pxTopOfStack;	
+	return pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -229,7 +229,7 @@ extern void vPortStartFirstTask( void );
 	prvSetupTimerInterrupt();
 
 	/* Start the first task. */
-	vPortStartFirstTask();	
+	vPortStartFirstTask();
 
 	/* Should not get here! */
 	return 0;
@@ -251,14 +251,14 @@ keyword. */
 	{
 		/* This function is copied from the ST STR7 library and is
 		copyright STMicroelectronics.  Reproduced with permission. */
-	
+
 		u32 b0;
 		u16 a0;
 		long err, err_min=n;
-	
+
 		*a = a0 = ((n-1)/65536ul) + 1;
 		*b = b0 = n / *a;
-	
+
 		for (; *a <= 256; (*a)++)
 		{
 			*b = n / *a;
@@ -276,7 +276,7 @@ keyword. */
 				if (err == 0) break;
 			}
 		}
-	
+
 		*a = a0;
 		*b = b0;
 	}
@@ -287,10 +287,10 @@ keyword. */
 	WDG_InitTypeDef xWdg;
 	unsigned short a;
 	unsigned long n = configCPU_PERIPH_HZ / configTICK_RATE_HZ, b;
-	
+
 		/* Configure the watchdog as a free running timer that generates a
 		periodic interrupt. */
-	
+
 		SCU_APBPeriphClockConfig( __WDG, ENABLE );
 		WDG_DeInit();
 		WDG_StructInit(&xWdg);
@@ -299,15 +299,15 @@ keyword. */
 		xWdg.WDG_Preload = b - 1;
 		WDG_Init( &xWdg );
 		WDG_ITConfig(ENABLE);
-		
+
 		/* Configure the VIC for the WDG interrupt. */
 		VIC_Config( WDG_ITLine, VIC_IRQ, 10 );
 		VIC_ITCmd( WDG_ITLine, ENABLE );
-		
+
 		/* Install the default handlers for both VIC's. */
 		VIC0->DVAR = ( unsigned long ) prvDefaultHandler;
 		VIC1->DVAR = ( unsigned long ) prvDefaultHandler;
-		
+
 		WDG_Cmd(ENABLE);
 	}
 	/*-----------------------------------------------------------*/
@@ -317,7 +317,7 @@ keyword. */
 		{
 			/* Increment the tick counter. */
 			vTaskIncrementTick();
-		
+
 			#if configUSE_PREEMPTION == 1
 			{
 				/* The new tick value might unblock a task.  Ensure the highest task that
@@ -326,7 +326,7 @@ keyword. */
 				vTaskSwitchContext();
 			}
 			#endif /* configUSE_PREEMPTION. */
-		
+
 			/* Clear the interrupt in the watchdog. */
 			WDG->SR &= ~0x0001;
 		}
@@ -338,15 +338,15 @@ keyword. */
 	{
 		/* This function is copied from the ST STR7 library and is
 		copyright STMicroelectronics.  Reproduced with permission. */
-	
+
 		u16 b0;
 		u8 a0;
 		long err, err_min=n;
-	
-	
+
+
 		*a = a0 = ((n-1)/256) + 1;
 		*b = b0 = n / *a;
-	
+
 		for (; *a <= 256; (*a)++)
 		{
 			*b = n / *a;
@@ -364,7 +364,7 @@ keyword. */
 				if (err == 0) break;
 			}
 		}
-	
+
 		*a = a0;
 		*b = b0;
 	}
@@ -375,14 +375,14 @@ keyword. */
 		unsigned char a;
 		unsigned short b;
 		unsigned long n = configCPU_PERIPH_HZ / configTICK_RATE_HZ;
-		
+
 		TIM_InitTypeDef timer;
-		
+
 		SCU_APBPeriphClockConfig( __TIM23, ENABLE );
 		TIM_DeInit(TIM2);
 		TIM_StructInit(&timer);
 		prvFindFactors( n, &a, &b );
-		
+
 		timer.TIM_Mode           = TIM_OCM_CHANNEL_1;
 		timer.TIM_OC1_Modes      = TIM_TIMING;
 		timer.TIM_Clock_Source   = TIM_CLK_APB;
@@ -390,17 +390,17 @@ keyword. */
 		timer.TIM_Prescaler      = a-1;
 		timer.TIM_Pulse_Level_1  = TIM_HIGH;
 		timer.TIM_Pulse_Length_1 = s_nPulseLength  = b-1;
-		
+
 		TIM_Init (TIM2, &timer);
 		TIM_ITConfig(TIM2, TIM_IT_OC1, ENABLE);
 		/* Configure the VIC for the WDG interrupt. */
 		VIC_Config( TIM2_ITLine, VIC_IRQ, 10 );
 		VIC_ITCmd( TIM2_ITLine, ENABLE );
-		
+
 		/* Install the default handlers for both VIC's. */
 		VIC0->DVAR = ( unsigned long ) prvDefaultHandler;
 		VIC1->DVAR = ( unsigned long ) prvDefaultHandler;
-		
+
 		TIM_CounterCmd(TIM2, TIM_CLEAR);
 		TIM_CounterCmd(TIM2, TIM_START);
 	}
@@ -410,10 +410,10 @@ keyword. */
 	{
 		/* Reset the timer counter to avioid overflow. */
 		TIM2->OC1R += s_nPulseLength;
-		
+
 		/* Increment the tick counter. */
 		vTaskIncrementTick();
-		
+
 		#if configUSE_PREEMPTION == 1
 		{
 			/* The new tick value might unblock a task.  Ensure the highest task that
@@ -422,7 +422,7 @@ keyword. */
 			vTaskSwitchContext();
 		}
 		#endif
-		
+
 		/* Clear the interrupt in the watchdog. */
 		TIM2->SR &= ~TIM_FLAG_OC1;
 	}

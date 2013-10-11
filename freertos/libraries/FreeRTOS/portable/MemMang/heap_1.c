@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -92,7 +92,7 @@ static union xRTOS_HEAP
 		volatile portDOUBLE dDummy;
 	#else
 		volatile unsigned long ulDummy;
-	#endif	
+	#endif
 	unsigned char ucHeap[ configTOTAL_HEAP_SIZE ];
 } xHeap;
 
@@ -121,11 +121,11 @@ void *pvReturn = NULL;
 			/* Return the next free byte then increment the index past this
 			block. */
 			pvReturn = &( xHeap.ucHeap[ xNextFreeByte ] );
-			xNextFreeByte += xWantedSize;			
-		}	
+			xNextFreeByte += xWantedSize;
+		}
 	}
 	xTaskResumeAll();
-	
+
 	#if( configUSE_MALLOC_FAILED_HOOK == 1 )
 	{
 		if( pvReturn == NULL )
@@ -134,7 +134,7 @@ void *pvReturn = NULL;
 			vApplicationMallocFailedHook();
 		}
 	}
-	#endif	
+	#endif
 
 	return pvReturn;
 }

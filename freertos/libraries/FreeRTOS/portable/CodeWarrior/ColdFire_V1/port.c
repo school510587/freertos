@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -137,13 +137,13 @@ extern void vPortStartFirstTask( void );
 /*-----------------------------------------------------------*/
 
 static void prvSetupTimerInterrupt( void )
-{				
+{
 	/* Prescale by 1 - ie no prescale. */
 	RTCSC |= 8;
-	
+
 	/* Compare match value. */
 	RTCMOD = portRTC_CLOCK_HZ / configTICK_RATE_HZ;
-	
+
 	/* Enable the RTC to generate interrupts - interrupts are already disabled
 	when this code executes. */
 	RTCSC_RTIE = 1;

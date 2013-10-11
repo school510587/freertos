@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -89,7 +89,7 @@ scheduler startup function. */
 
 	/* Tick context switch function.  This is the timer ISR. */
 	void interrupt vPortTickInterrupt( void );
-	
+
 	/* Simply called by xPortStartScheduler().  xPortStartScheduler() does not
 	start the scheduler directly because the header file containing the
 	xPortStartScheduler() prototype is part of the common kernel code, and
@@ -164,13 +164,13 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 	"I" bit of CCR is cleared */
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x00;
 	pxTopOfStack--;
-	
+
 	#ifdef BANKED_MODEL
 		/* The page of the task. */
 		*pxTopOfStack = ( portSTACK_TYPE ) ( ( int ) pxCode );
 		pxTopOfStack--;
 	#endif
-	
+
 	/* Finally the critical nesting depth is initialised with 0 (not within
 	a critical section). */
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x00;
@@ -258,11 +258,11 @@ void interrupt vPortTickInterrupt( void )
 		context switch. */
 		vTaskSwitchContext();
 
-		TFLG1 = 1;								
+		TFLG1 = 1;
 
 		/* Restore the context of a task - which may be a different task
 		to that interrupted. */
-		portRESTORE_CONTEXT();	
+		portRESTORE_CONTEXT();
 	}
 	#else
 	{

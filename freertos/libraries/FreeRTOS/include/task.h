@@ -41,7 +41,7 @@
 
     1 tab == 4 spaces!
 
-	
+
     ***************************************************************************
      *                                                                       *
      *    Having a problem?  Start by reading the FAQ "My application does   *
@@ -51,10 +51,10 @@
 	 *                                                                       *
     ***************************************************************************
 
-	
+
     http://www.FreeRTOS.org - Documentation, training, latest information,
     license and contact details.
-	
+
 	http://www.FreeRTOS.org/plus - Selection of FreeRTOS ecosystem products,
 	including FreeRTOS+Trace - an indispensable productivity tool.
 
@@ -322,7 +322,7 @@ static const xTaskParameters xCheckTaskParameters =
 	// the task, with appropriate access permissions.  Different processors have
 	// different memory alignment requirements - refer to the FreeRTOS documentation
 	// for full information.
-	{											
+	{
 		// Base address					Length	Parameters
         { cReadWriteArray,				32,		portMPU_REGION_READ_WRITE },
         { cReadOnlyArray,				32,		portMPU_REGION_READ_ONLY },
@@ -373,7 +373,7 @@ xTaskHandle xHandle;
 // ucOneKByte array.  The other two of the maximum 3 definable regions are
 // unused so set to zero.
 static const xMemoryRegion xAltRegions[ portNUM_CONFIGURABLE_REGIONS ] =
-{											
+{
 	// Base address		Length		Parameters
 	{ ucOneKByte,		1024,		portMPU_REGION_READ_WRITE },
 	{ 0,				0,			0 },
@@ -389,7 +389,7 @@ void vATask( void *pvParameters )
 	// for this purpose.  NULL is used as the task handle to indicate that this
 	// function should modify the MPU regions of the calling task.
 	vTaskAllocateMPURegions( NULL, xAltRegions );
-	
+
 	// Now the task can continue its function, but from this point on can only
 	// access its stack and the ucOneKByte array (unless any other statically
 	// defined or shared regions have been declared elsewhere).

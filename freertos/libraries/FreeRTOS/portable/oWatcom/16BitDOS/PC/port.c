@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -66,7 +66,7 @@
 
 /*
 Changes from V1.00:
-	
+
 	+ Call to taskYIELD() from within tick ISR has been replaced by the more
 	  efficient portSWITCH_CONTEXT().
 	+ ISR function definitions renamed to include the prv prefix.
@@ -82,7 +82,7 @@ Changes from V2.6.1
 	  macro to be consistent with the later ports.
 
 Changes from V4.0.1
-	
+
 	+ Add function prvSetTickFrequencyDefault() to set the DOS tick back to
 	  its proper value when the scheduler exits.
 */
@@ -138,16 +138,16 @@ static void prvSetTickFrequencyDefault( void );
 /*lint -e956 File scopes necessary here. */
 
 /* Used to signal when to chain to the DOS tick, and when to just clear the PIC ourselves. */
-static short sDOSTickCounter;							
+static short sDOSTickCounter;
 
 /* Set true when the vectors are set so the scheduler will service the tick. */
-static short sSchedulerRunning = pdFALSE;				
+static short sSchedulerRunning = pdFALSE;
 
 /* Points to the original routine installed on the vector we use for manual context switches.  This is then used to restore the original routine during prvExitFunction(). */
-static void ( __interrupt __far *pxOldSwitchISR )();		
+static void ( __interrupt __far *pxOldSwitchISR )();
 
 /* Points to the original routine installed on the vector we use to chain to the DOS tick.  This is then used to restore the original routine during prvExitFunction(). */
-static void ( __interrupt __far *pxOldSwitchISRPlus1 )();	
+static void ( __interrupt __far *pxOldSwitchISRPlus1 )();
 
 /* Used to restore the original DOS context when the scheduler is ended. */
 static jmp_buf xJumpBuf;
@@ -158,7 +158,7 @@ static jmp_buf xJumpBuf;
 portBASE_TYPE xPortStartScheduler( void )
 {
 pxISR pxOriginalTickISR;
-	
+
 	/* This is called with interrupts already disabled. */
 
 	/* Remember what was on the interrupts we are going to use
@@ -178,7 +178,7 @@ pxISR pxOriginalTickISR;
 	_dos_setvect( portSWITCH_INT_NUMBER + 1, pxOriginalTickISR );
 
 	#if configUSE_PREEMPTION == 1
-	{		
+	{
 		/* Put our tick switch function on the timer interrupt. */
 		_dos_setvect( portTIMER_INT_NUMBER, prvPreemptiveTick );
 	}
@@ -257,7 +257,7 @@ static void prvPortResetPIC( void )
 	if( sDOSTickCounter <= 0 )
 	{
 		sDOSTickCounter = ( short ) portTICKS_PER_DOS_TICK;
-		__asm{ int	portSWITCH_INT_NUMBER + 1 };		
+		__asm{ int	portSWITCH_INT_NUMBER + 1 };
 	}
 	else
 	{

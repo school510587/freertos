@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -131,7 +131,7 @@ portSTACK_TYPE DS_Reg = 0;
 	/* We are going to start the scheduler using a return from interrupt
 	instruction to load the program counter, so first there would be the
 	function call with parameters preamble. */
-	
+
 	*pxTopOfStack = FP_SEG( pvParameters );
 	pxTopOfStack--;
 	*pxTopOfStack = FP_OFF( pvParameters );

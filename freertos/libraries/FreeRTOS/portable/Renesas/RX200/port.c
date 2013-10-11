@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -130,7 +130,7 @@ extern void vTaskSwitchContext( void );
 portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE pxCode, void *pvParameters )
 {
 	/* R0 is not included as it is the stack pointer. */
-	
+
 	*pxTopOfStack = 0x00;
 	pxTopOfStack--;
     *pxTopOfStack = 0x00;
@@ -138,7 +138,7 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
  	*pxTopOfStack = portINITIAL_PSW;
 	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) pxCode;
-	
+
 	/* When debugging it can be useful if every register is set to a known
 	value.  Otherwise code space can be saved by just setting the registers
 	that need to be set. */
@@ -179,9 +179,9 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 		pxTopOfStack -= 15;
 	}
 	#endif
-	
+
 	*pxTopOfStack = ( portSTACK_TYPE ) pvParameters; /* R1 */
-	pxTopOfStack--;				
+	pxTopOfStack--;
 	*pxTopOfStack = 0x12345678; /* Accumulator. */
 	pxTopOfStack--;
 	*pxTopOfStack = 0x87654321; /* Accumulator. */
@@ -202,15 +202,15 @@ extern void vApplicationSetupTimerInterrupt( void );
 		use.  A demo application is provided to show a suitable example. */
 		vApplicationSetupTimerInterrupt();
 
-		/* Enable the software interrupt. */		
+		/* Enable the software interrupt. */
 		_IEN( _ICU_SWINT ) = 1;
-		
+
 		/* Ensure the software interrupt is clear. */
 		_IR( _ICU_SWINT ) = 0;
-		
+
 		/* Ensure the software interrupt is set to the kernel priority. */
 		_IPR( _ICU_SWINT ) = configKERNEL_INTERRUPT_PRIORITY;
-	
+
 		/* Start the first task. */
 		prvStartFirstTask();
 	}
@@ -260,7 +260,7 @@ void vTickISR( void )
 		vTaskIncrementTick();
 	}
 	set_ipl( configKERNEL_INTERRUPT_PRIORITY );
-	
+
 	/* Only select a new task if the preemptive scheduler is being used. */
 	#if( configUSE_PREEMPTION == 1 )
 		taskYIELD();
@@ -282,17 +282,17 @@ static void prvYieldHandler( void )
 
 	/* Move the data that was automatically pushed onto the interrupt stack when
 	the interrupt occurred from the interrupt stack to the user stack.
-	
+
 	R15 is saved before it is clobbered. */
 	PUSH.L	R15
-	
+
 	/* Read the user stack pointer. */
 	MVFC	USP, R15
-	
+
 	/* Move the address down to the data being moved. */
 	SUB		#12, R15
 	MVTC	R15, USP
-	
+
 	/* Copy the data across. */
 	MOV.L	[ R0 ], [ R15 ] ; R15
 	MOV.L 	4[ R0 ], 4[ R15 ]  ; PC
@@ -300,13 +300,13 @@ static void prvYieldHandler( void )
 
 	/* Move the interrupt stack pointer to its new correct position. */
 	ADD	#12, R0
-	
+
 	/* All the rest of the registers are saved directly to the user stack. */
 	SETPSW	U
 
 	/* Save the rest of the general registers (R15 has been saved already). */
 	PUSHM	R1-R14
-	
+
 	/* Save the accumulator. */
 	MVFACHI	R15
 	PUSH.L	R15
@@ -318,7 +318,7 @@ static void prvYieldHandler( void )
 	MOV.L	#_pxCurrentTCB, R15
 	MOV.L	[ R15 ], R15
 	MOV.L	R0, [ R15 ]
-			
+
 	/* Ensure the interrupt mask is set to the syscall priority while the kernel
 	structures are being accessed. */
 	MVTIPL	#configMAX_SYSCALL_INTERRUPT_PRIORITY
@@ -351,7 +351,7 @@ static void prvYieldHandler( void )
 void vPortEndScheduler( void )
 {
 	/* Not implemented as there is nothing to return to. */
-	
+
 	/* The following line is just to prevent the symbol getting optimised away. */
 	( void ) vTaskSwitchContext();
 }

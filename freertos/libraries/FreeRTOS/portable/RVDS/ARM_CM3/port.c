@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -146,8 +146,8 @@ __asm void vPortSVCHandler( void )
 	msr psp, r0					/* Restore the task stack pointer. */
 	mov r0, #0
 	msr	basepri, r0
-	orr r14, #0xd				
-	bx r14						
+	orr r14, #0xd
+	bx r14
 }
 /*-----------------------------------------------------------*/
 
@@ -181,7 +181,7 @@ portBASE_TYPE xPortStartScheduler( void )
 	/* Start the timer that generates the tick ISR.  Interrupts are disabled
 	here already. */
 	prvSetupTimerInterrupt();
-	
+
 	/* Initialise the critical nesting count ready for the first task. */
 	uxCriticalNesting = 0;
 
@@ -232,26 +232,26 @@ __asm void xPortPendSVHandler( void )
 
 	PRESERVE8
 
-	mrs r0, psp						
+	mrs r0, psp
 
 	ldr	r3, =pxCurrentTCB		 	 /* Get the location of the current TCB. */
-	ldr	r2, [r3]						
+	ldr	r2, [r3]
 
 	stmdb r0!, {r4-r11}				 /* Save the remaining registers. */
 	str r0, [r2]					 /* Save the new top of stack into the first member of the TCB. */
 
-	stmdb sp!, {r3, r14}		
+	stmdb sp!, {r3, r14}
 	mov r0, #configMAX_SYSCALL_INTERRUPT_PRIORITY
-	msr basepri, r0		
+	msr basepri, r0
 	bl vTaskSwitchContext
 	mov r0, #0
 	msr basepri, r0
-	ldmia sp!, {r3, r14}			
+	ldmia sp!, {r3, r14}
 
-	ldr r1, [r3]					
+	ldr r1, [r3]
 	ldr r0, [r1]					 /* The first item in pxCurrentTCB is the task top of stack. */
 	ldmia r0!, {r4-r11}			 /* Pop the registers and the critical nesting count. */
-	msr psp, r0						
+	msr psp, r0
 	bx r14
 	nop
 }
@@ -263,7 +263,7 @@ unsigned long ulDummy;
 
 	/* If using preemption, also force a context switch. */
 	#if configUSE_PREEMPTION == 1
-		*(portNVIC_INT_CTRL) = portNVIC_PENDSVSET;	
+		*(portNVIC_INT_CTRL) = portNVIC_PENDSVSET;
 	#endif
 
 	ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();

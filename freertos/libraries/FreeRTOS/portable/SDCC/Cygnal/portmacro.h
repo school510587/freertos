@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -102,7 +102,7 @@ void vSerialISR( void ) interrupt 4;
 	typedef unsigned portLONG portTickType;
 	#define portMAX_DELAY ( portTickType ) 0xffffffff
 #endif
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Critical section management. */
 #define portENTER_CRITICAL()		_asm		\
@@ -122,24 +122,24 @@ void vSerialISR( void ) interrupt 4;
 
 #define portDISABLE_INTERRUPTS()	EA = 0;
 #define portENABLE_INTERRUPTS()		EA = 1;
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT			1
 #define portSTACK_GROWTH			( 1 )
-#define portTICK_RATE_MS			( ( unsigned portLONG ) 1000 / configTICK_RATE_HZ )		
-/*-----------------------------------------------------------*/	
+#define portTICK_RATE_MS			( ( unsigned portLONG ) 1000 / configTICK_RATE_HZ )
+/*-----------------------------------------------------------*/
 
 /* Task utilities. */
 void vPortYield( void ) _naked;
 #define portYIELD()	vPortYield();
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 #define portNOP()				_asm	\
 									nop \
 								_endasm;
 
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
 #define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )

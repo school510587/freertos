@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -145,7 +145,7 @@ unsigned long *pulLocal;
 		/* The start address / PSW value is also written in as a 32bit value,
 		so leave a space for the second two bytes. */
 		pxTopOfStack--;
-	
+
 		/* Task function start address combined with the PSW. */
 		pulLocal = ( unsigned long * ) pxTopOfStack;
 		*pulLocal = ( ( ( unsigned long ) pxCode ) | ( portPSW << 24UL ) );
@@ -189,7 +189,7 @@ unsigned long *pulLocal;
 
 	/* Finally the critical section nesting count is set to zero when the task
 	first starts. */
-	*pxTopOfStack = ( portSTACK_TYPE ) portNO_CRITICAL_SECTION_NESTING;	
+	*pxTopOfStack = ( portSTACK_TYPE ) portNO_CRITICAL_SECTION_NESTING;
 
 	/* Return a pointer to the top of the stack we have generated so this can
 	be stored in the task control block for the task. */
@@ -232,7 +232,7 @@ static void prvSetupTimerInterrupt( void )
 	priority. */
 	TMMK05 = 1;
 
-	/* Clear Timer Array Unit Channel 5 interrupt flag. */	
+	/* Clear Timer Array Unit Channel 5 interrupt flag. */
 	TMIF05 = 0;
 
 	/* Set Timer Array Unit Channel 5 interrupt priority */
@@ -248,10 +248,10 @@ static void prvSetupTimerInterrupt( void )
 	/* Set Timer Array Unit Channel 5 output mode */
 	TOM0 &= ~0x0020;
 
-	/* Set Timer Array Unit Channel 5 output level */	
+	/* Set Timer Array Unit Channel 5 output level */
 	TOL0 &= ~0x0020;
 
-	/* Set Timer Array Unit Channel 5 output enable */	
+	/* Set Timer Array Unit Channel 5 output enable */
 	TOE0 &= ~0x0020;
 
 	/* Interrupt of Timer Array Unit Channel 5 enabled */

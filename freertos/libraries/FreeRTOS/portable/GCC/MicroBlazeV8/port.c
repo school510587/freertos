@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -171,7 +171,7 @@ const unsigned long ulR13 = ( unsigned long ) &_SDA_BASE_;
 	/* First stack an initial value for the critical section nesting.  This
 	is initialised to zero. */
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x00;
-	
+
 	/* R0 is always zero. */
 	/* R1 is the SP. */
 
@@ -204,13 +204,13 @@ const unsigned long ulR13 = ( unsigned long ) &_SDA_BASE_;
 	#else
 		pxTopOfStack-= 8;
 	#endif
-	
+
 	*pxTopOfStack = ( portSTACK_TYPE ) ulR13;	/* R13 - read/write small data area. */
 	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) pxCode;	/* R14 - return address for interrupt. */
 	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) NULL;	/* R15 - return address for subroutine. */
-	
+
 	#ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
 		pxTopOfStack--;
 		*pxTopOfStack = ( portSTACK_TYPE ) 0x10;	/* R16 - return address for trap (debugger). */
@@ -222,10 +222,10 @@ const unsigned long ulR13 = ( unsigned long ) &_SDA_BASE_;
 	#else
 		pxTopOfStack -= 4;
 	#endif
-	
+
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x00;	/* R19 - must be saved across function calls. Callee-save.  Seems to be interpreted as the frame pointer. */
-	
-	#ifdef portPRE_LOAD_STACK_FOR_DEBUGGING	
+
+	#ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
 		pxTopOfStack--;
 		*pxTopOfStack = ( portSTACK_TYPE ) 0x14;	/* R20 - reserved for storing a pointer to the Global Offset Table (GOT) in Position Independent Code (PIC). Non-volatile in non-PIC code. Must be saved across function calls. Callee-save.  Not used by FreeRTOS. */
 		pxTopOfStack--;
@@ -268,7 +268,7 @@ extern unsigned long _stack[];
 
 	/* Setup the hardware to generate the tick.  Interrupts are disabled when
 	this function is called.
-	
+
 	This port uses an application defined callback function to install the tick
 	interrupt handler because the kernel will run on lots of different
 	MicroBlaze and FPGA configurations - not all of	which will have the same
@@ -332,7 +332,7 @@ long lReturn;
 	{
 		XIntc_Enable( &xInterruptControllerInstance, ucInterruptID );
 	}
-	
+
 	configASSERT( lReturn );
 }
 /*-----------------------------------------------------------*/
@@ -345,12 +345,12 @@ long lReturn;
 	controller because the interrupt controller instance variable is private
 	to this file. */
 	lReturn = prvEnsureInterruptControllerIsInitialised();
-	
+
 	if( lReturn == pdPASS )
 	{
 		XIntc_Disable( &xInterruptControllerInstance, ucInterruptID );
 	}
-	
+
 	configASSERT( lReturn );
 }
 /*-----------------------------------------------------------*/
@@ -363,7 +363,7 @@ long lReturn;
 	interrupt controller instance variable is private to this file. */
 
 	lReturn = prvEnsureInterruptControllerIsInitialised();
-	
+
 	if( lReturn == pdPASS )
 	{
 		lReturn = XIntc_Connect( &xInterruptControllerInstance, ucInterruptID, pxHandler, pvCallBackRef );
@@ -373,7 +373,7 @@ long lReturn;
 	{
 		lReturn = pdPASS;
 	}
-	
+
 	configASSERT( lReturn == pdPASS );
 
 	return lReturn;
@@ -390,7 +390,7 @@ long lReturn;
 	if( lInterruptControllerInitialised != pdTRUE )
 	{
 		lReturn = prvInitialiseInterruptController();
-		
+
 		if( lReturn == pdPASS )
 		{
 			lInterruptControllerInitialised = pdTRUE;
@@ -421,7 +421,7 @@ extern void vApplicationClearTimerInterrupt( void );
 	FPGA configurations - not all of which will have the same timer peripherals
 	defined or available.  An example definition of
 	vApplicationClearTimerInterrupt() is provided in the official demo
-	application that accompanies this port. */	
+	application that accompanies this port. */
 	vApplicationClearTimerInterrupt();
 
 	/* Increment the RTOS tick - this might cause a task to unblock. */

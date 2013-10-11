@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -129,17 +129,17 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 {
 	/* Simulate the stack frame as it would be created by a context switch
 	interrupt. */
-	
+
 	/* Offset added to account for the way the MCU uses the stack on entry/exit
 	of interrupts, and to ensure alignment. */
 	pxTopOfStack--;
-		
+
 	*pxTopOfStack = portINITIAL_XPSR;	/* xPSR */
 	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) pxCode;	/* PC */
 	pxTopOfStack--;
 	*pxTopOfStack = 0;	/* LR */
-	
+
 	/* Save code space by skipping register initialisation. */
 	pxTopOfStack -= 5;	/* R12, R3, R2 and R1. */
 	*pxTopOfStack = ( portSTACK_TYPE ) pvParameters;	/* R0 */
@@ -150,7 +150,7 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 	*pxTopOfStack = portINITIAL_EXEC_RETURN;
 
 	pxTopOfStack -= 8;	/* R11, R10, R9, R8, R7, R6, R5 and R4. */
-	
+
 	return pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
@@ -167,16 +167,16 @@ portBASE_TYPE xPortStartScheduler( void )
 	/* Start the timer that generates the tick ISR.  Interrupts are disabled
 	here already. */
 	prvSetupTimerInterrupt();
-	
+
 	/* Initialise the critical nesting count ready for the first task. */
 	uxCriticalNesting = 0;
 
 	/* Ensure the VFP is enabled - it should be anyway. */
 	vPortEnableVFP();
-	
+
 	/* Lazy save always. */
 	*( portFPCCR ) |= portASPEN_AND_LSPEN_BITS;
-	
+
 	/* Start the first task. */
 	vPortStartFirstTask();
 
@@ -222,7 +222,7 @@ unsigned long ulDummy;
 
 	/* If using preemption, also force a context switch. */
 	#if configUSE_PREEMPTION == 1
-		*(portNVIC_INT_CTRL) = portNVIC_PENDSVSET;	
+		*(portNVIC_INT_CTRL) = portNVIC_PENDSVSET;
 	#endif
 
 	ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();

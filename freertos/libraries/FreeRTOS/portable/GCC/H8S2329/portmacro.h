@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -103,7 +103,7 @@ extern "C" {
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT			2
 #define portSTACK_GROWTH			( -1 )
-#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )		
+#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )
 #define portYIELD()					asm volatile( "TRAPA #0" )
 #define portNOP()					asm volatile( "NOP" )
 /*-----------------------------------------------------------*/

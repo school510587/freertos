@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -70,7 +70,7 @@
 #define portEPC_STACK_LOCATION	124
 #define portSTATUS_STACK_LOCATION 128
 
-/******************************************************************/ 	
+/******************************************************************/
 .macro	portSAVE_CONTEXT
 
 	/* Make room for the context. First save the current status so we can
@@ -160,8 +160,8 @@
 	sw			s5, (s6)
 
 	.endm
-	
-/******************************************************************/	
+
+/******************************************************************/
 .macro	portRESTORE_CONTEXT
 
 	/* Restore the stack pointer from the TCB.  This is only done if the
@@ -173,7 +173,7 @@
 	nop
 	la			s6, uxSavedTaskStackPointer
 	lw			s5, (s6)
-	
+
 	/* Restore the context. */
 	lw			s6, 8(s5)
 	mtlo		s6

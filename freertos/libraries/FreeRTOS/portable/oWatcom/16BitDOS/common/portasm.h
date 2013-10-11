@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -104,7 +104,7 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
 										"mov	bp, sp"						/* Prepair the bp register for the restoration of the SP in the compiler generated portion of the ISR */	\
 										"add	bp, 0x0002"
 
-										
+
 
 	#pragma aux portFIRST_CONTEXT =		"mov	ax, seg pxCurrentTCB"			\
 										"mov	ds, ax"							\
@@ -117,7 +117,7 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
 										"pop	es"								\
 										"pop	ds"								\
 										"popa"									\
-										"iret"									
+										"iret"
 #else
 
 	#pragma aux portSWITCH_CONTEXT =	"mov	ax, seg pxCurrentTCB"														\
@@ -131,7 +131,7 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
 										"les	bx, dword ptr pxCurrentTCB"													\
 										"mov	ss, es:[ bx + 2 ]"															\
 										"mov	sp, es:[ bx ]"
-										
+
 
 	#pragma aux portFIRST_CONTEXT =		"mov	ax, seg pxCurrentTCB"			\
 										"mov	ds, ax"							\
@@ -143,7 +143,7 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
 										"pop	es"								\
 										"pop	ds"								\
 										"popa"									\
-										"iret"									
+										"iret"
 #endif
 
 

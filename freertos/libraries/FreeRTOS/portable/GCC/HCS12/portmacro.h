@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -108,7 +108,7 @@ extern "C" {
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-#define portENABLE_INTERRUPTS()				__asm( "cli" )	
+#define portENABLE_INTERRUPTS()				__asm( "cli" )
 #define portDISABLE_INTERRUPTS()			__asm( "sei" )
 
 /*

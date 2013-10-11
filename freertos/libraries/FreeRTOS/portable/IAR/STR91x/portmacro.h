@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -100,7 +100,7 @@ extern "C" {
 	typedef unsigned portLONG portTickType;
 	#define portMAX_DELAY ( portTickType ) 0xffffffff
 #endif
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portSTACK_GROWTH			( -1 )
@@ -108,7 +108,7 @@ extern "C" {
 #define portBYTE_ALIGNMENT			8
 #define portYIELD()					asm ( "SWI 0" )
 #define portNOP()					asm ( "NOP" )
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Critical section handling. */
 __arm __interwork void vPortEnterCritical( void );
@@ -120,7 +120,7 @@ __arm __interwork void vPortExitCritical( void );
 #define portENABLE_INTERRUPTS()		__enable_interrupt()
 
 
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Task utilities. */
 #define portEND_SWITCHING_ISR( xSwitchRequired ) 	\
@@ -132,7 +132,7 @@ extern void vTaskSwitchContext( void );				\
 		vTaskSwitchContext();						\
 	}												\
 }
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */

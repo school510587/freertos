@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -144,7 +144,7 @@ extern void *pxCurrentTCB;
 
 	/* Fill an xPortRegisterDump structure with the MicroBlaze context as it
 	was immediately before the exception occurrence. */
-	
+
 	/* First fill in the name and handle of the task that was in the Running
 	state when the exception occurred. */
 	xRegisterDump.xCurrentTaskHandle = pxCurrentTCB;
@@ -168,7 +168,7 @@ extern void *pxCurrentTCB;
 	xRegisterDump.ulR18 = pulStackPointerOnFunctionEntry[ portexR18_STACK_OFFSET ];
 	xRegisterDump.ulR19 = pulStackPointerOnFunctionEntry[ portexR19_STACK_OFFSET ];
 	xRegisterDump.ulMSR = pulStackPointerOnFunctionEntry[ portexMSR_STACK_OFFSET ];
-	
+
 	/* Obtain the value of all other registers. */
 	xRegisterDump.ulR2_small_data_area = mfgpr( R2 );
 	xRegisterDump.ulR13_read_write_small_data_area = mfgpr( R13 );
@@ -191,7 +191,7 @@ extern void *pxCurrentTCB;
 	xRegisterDump.ulEAR = mfear();
 	xRegisterDump.ulESR = mfesr();
 	xRegisterDump.ulEDR = mfedr();
-	
+
 	/* Move the saved program counter back to the instruction that was executed
 	when the exception occurred.  This is only valid for certain types of
 	exception. */

@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -137,7 +137,7 @@ unsigned long ulValue;
 	ulValue >>= 8UL;
 	*pxTopOfStack = ( portSTACK_TYPE ) ( ulValue & 0xff );
 
-	/* Followed by the CCR. */	
+	/* Followed by the CCR. */
 	pxTopOfStack--;
 	*pxTopOfStack = portINITIAL_CCR;
 
@@ -154,7 +154,7 @@ unsigned long ulValue;
 	*pxTopOfStack = 0x66;
 	pxTopOfStack--;
 	*pxTopOfStack = 0x66;
-	
+
 	/* ER0 */
 	ulValue = ( unsigned long ) pvParameters;
 
@@ -169,7 +169,7 @@ unsigned long ulValue;
 	pxTopOfStack--;
 	ulValue >>= 8UL;
 	*pxTopOfStack = ( portSTACK_TYPE ) ( ulValue & 0xff );
-	
+
 	/* ER1 */
 	pxTopOfStack--;
 	*pxTopOfStack = 0x11;
@@ -284,7 +284,7 @@ void vPortYield( void )
 	void vTickISR( void )
 	{
 		portSAVE_STACK_POINTER();
-		
+
 		vTaskIncrementTick();
 		vTaskSwitchContext();
 

@@ -71,11 +71,11 @@ void read_romfs_task(void *pvParameters)
 	do {
 		//Read from /romfs/test.txt to buffer
 		count = fio_read(fd, buf, sizeof(buf));
-		
+
 		//Write buffer to fd 1 (stdout, through uart)
 		fio_write(1, buf, count);
 	} while (count);
-	
+
 	while (1);
 }
 
@@ -84,12 +84,12 @@ int main()
 	init_rs232();
 	enable_rs232_interrupts();
 	enable_rs232();
-	
+
 	fs_init();
 	fio_init();
-	
+
 	register_romfs("romfs", &_sromfs);
-	
+
 	/* Create the queue used by the serial task.  Messages for write to
 	 * the RS232. */
 	vSemaphoreCreateBinary(serial_tx_wait_sem);

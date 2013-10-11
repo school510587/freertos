@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -130,7 +130,7 @@ portSTACK_TYPE *pxOriginalTOS;
 	Remember where the top of the (simulated) stack is before we place
 	anything on it. */
 	pxOriginalTOS = pxTopOfStack;
-	
+
 	/* To ensure asserts in tasks.c don't fail, although in this case the assert
 	is not really required. */
 	pxTopOfStack--;
@@ -138,37 +138,37 @@ portSTACK_TYPE *pxOriginalTOS;
 	/* First on the stack is the return address - which in this case is the
 	start of the task.  The offset is added to make the return address appear
 	as it would within an IRQ ISR. */
-	*pxTopOfStack = ( portSTACK_TYPE ) pxCode + portINSTRUCTION_SIZE;		
+	*pxTopOfStack = ( portSTACK_TYPE ) pxCode + portINSTRUCTION_SIZE;
 	pxTopOfStack--;
 
 	*pxTopOfStack = ( portSTACK_TYPE ) 0xaaaaaaaa;	/* R14 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
 	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x12121212;	/* R12 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x11111111;	/* R11 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x10101010;	/* R10 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x09090909;	/* R9 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x08080808;	/* R8 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x07070707;	/* R7 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x06060606;	/* R6 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x05050505;	/* R5 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x04040404;	/* R4 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x03030303;	/* R3 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x02020202;	/* R2 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x01010101;	/* R1 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) pvParameters; /* R0 */
 	pxTopOfStack--;
 
@@ -227,7 +227,7 @@ void vPortEndScheduler( void )
 	void vNonPreemptiveTick( void ) __irq
 	{
 		/* Increment the tick count - this may make a delaying task ready
-		to run - but a context switch is not performed. */		
+		to run - but a context switch is not performed. */
 		vTaskIncrementTick();
 
 		T0IR = portTIMER_MATCH_ISR_BIT;				/* Clear the timer event */
@@ -276,11 +276,11 @@ unsigned portLONG ulCompareMatch;
 	/* Setup the VIC for the timer. */
 	VICIntSelect &= ~( portTIMER_VIC_CHANNEL_BIT );
 	VICIntEnable |= portTIMER_VIC_CHANNEL_BIT;
-	
+
 	/* The ISR installed depends on whether the preemptive or cooperative
 	scheduler is being used. */
 	#if configUSE_PREEMPTION == 1
-	{	
+	{
 		VICVectAddr0 = ( unsigned portLONG ) vPreemptiveTick;
 	}
 	#else

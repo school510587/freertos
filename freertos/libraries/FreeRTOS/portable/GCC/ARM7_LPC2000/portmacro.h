@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -97,14 +97,14 @@ extern "C" {
 	typedef unsigned portLONG portTickType;
 	#define portMAX_DELAY ( portTickType ) 0xffffffff
 #endif
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
 #define portSTACK_GROWTH			( -1 )
-#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )		
+#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT			8
 #define portNOP()					__asm volatile ( "NOP" );
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 
 /* Scheduler utilities. */
@@ -221,7 +221,7 @@ extern void vTaskSwitchContext( void );
 
 	#define portDISABLE_INTERRUPTS()	vPortDisableInterruptsFromThumb()
 	#define portENABLE_INTERRUPTS()		vPortEnableInterruptsFromThumb()
-	
+
 #else
 
 	#define portDISABLE_INTERRUPTS()											\
@@ -231,7 +231,7 @@ extern void vTaskSwitchContext( void );
 			"ORR	R0, R0, #0xC0	\n\t"	/* Disable IRQ, FIQ.			*/	\
 			"MSR	CPSR, R0		\n\t"	/* Write back modified value.	*/	\
 			"LDMIA	SP!, {R0}			" )	/* Pop R0.						*/
-			
+
 	#define portENABLE_INTERRUPTS()												\
 		__asm volatile (														\
 			"STMDB	SP!, {R0}		\n\t"	/* Push R0.						*/	\

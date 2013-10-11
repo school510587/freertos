@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1-rc1 - Copyright (C) 2011 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -202,7 +202,7 @@ xThreadState *pxThreadState = NULL;
 	SetThreadAffinityMask( pxThreadState->pvThread, 0x01 );
 	SetThreadPriorityBoost( pxThreadState->pvThread, TRUE );
 	SetThreadPriority( pxThreadState->pvThread, THREAD_PRIORITY_IDLE );
-	
+
 	return ( portSTACK_TYPE * ) pxThreadState;
 }
 /*-----------------------------------------------------------*/
@@ -235,7 +235,7 @@ xThreadState *pxThreadState;
 	{
 		lSuccess = pdFAIL;
 	}
-	
+
 	if( lSuccess == pdPASS )
 	{
 		if( SetThreadPriority( pvHandle, THREAD_PRIORITY_NORMAL ) == 0 )
@@ -259,7 +259,7 @@ xThreadState *pxThreadState;
 			SetThreadPriorityBoost( pvHandle, TRUE );
 			SetThreadAffinityMask( pvHandle, 0x01 );
 		}
-		
+
 		/* Start the highest priority task by obtaining its associated thread
 		state structure, in which is stored the thread handle. */
 		pxThreadState = ( xThreadState * ) *( ( unsigned long * ) pxCurrentTCB );
@@ -273,8 +273,8 @@ xThreadState *pxThreadState;
 		/* Handle all simulated interrupts - including yield requests and
 		simulated ticks. */
 		prvProcessSimulatedInterrupts();
-	}	
-	
+	}
+
 	/* Would not expect to return from prvProcessSimulatedInterrupts(), so should
 	not get here. */
 	return 0;
@@ -419,7 +419,7 @@ xThreadState *pxThreadState;
 			/* The event handler needs to know to signal the interrupt acknowledge event
 			the next time this task runs. */
 			pxThreadState = ( xThreadState * ) *( ( unsigned long * ) pxCurrentTCB );
-			SetEvent( pvInterruptEvent );			
+			SetEvent( pvInterruptEvent );
 		}
 
 		ReleaseMutex( pvInterruptEventMutex );
@@ -457,7 +457,7 @@ void vPortEnterCritical( void )
 	else
 	{
 		ulCriticalNesting++;
-	}	
+	}
 }
 /*-----------------------------------------------------------*/
 

@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -66,7 +66,7 @@
 
 /*
 Changes from V1.00:
-	
+
 	+ pxPortInitialiseStack() now initialises the stack of new tasks to the
 	  same format used by the compiler.  This allows the compiler generated
 	  interrupt mechanism to be used for context switches.
@@ -81,7 +81,7 @@ Changes from V2.6.1:
 	+ usPortCheckFreeStackSpace() has been moved to tasks.c.
 */
 
-	
+
 
 #include <stdlib.h>
 #include "FreeRTOS.h"

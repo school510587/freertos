@@ -1,6 +1,6 @@
 ;/*
 ;    FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-;	
+;
 ;
 ;    ***************************************************************************
 ;     *                                                                       *
@@ -64,7 +64,7 @@
 		.define "pop.w", pop_x
 		.define "mov.w", mov_x
 	.endif
-	
+
 	.if $DEFINED( __LARGE_CODE_MODEL__ )
 		.define "calla", call_x
 		.define "reta", ret_x
@@ -72,7 +72,7 @@
 		.define "call", call_x
 		.define "ret", ret_x
 	.endif
-	
+
 
 
 

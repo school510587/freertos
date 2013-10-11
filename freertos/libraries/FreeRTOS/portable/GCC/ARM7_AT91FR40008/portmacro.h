@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -66,7 +66,7 @@
 
 /*
 	Changes from V3.2.3
-	
+
 	+ Modified portENTER_SWITCHING_ISR() to allow use with GCC V4.0.1.
 
 	Changes from V3.2.4
@@ -120,11 +120,11 @@ extern "C" {
 	typedef unsigned portLONG portTickType;
 	#define portMAX_DELAY ( portTickType ) 0xffffffff
 #endif
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portSTACK_GROWTH			( -1 )
-#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )		
+#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT			8
 #define portYIELD()					asm volatile ( "SWI 0" )
 #define portNOP()					asm volatile ( "NOP" )
@@ -137,7 +137,7 @@ extern "C" {
 #define portTIMER_REG_BASE_PTR		AT91C_BASE_TC0
 #define portTIMER_CLK_ENABLE_BIT	AT91C_PS_TC0
 #define portTIMER_AIC_CHANNEL		( ( unsigned portLONG ) 4 )
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
@@ -249,7 +249,7 @@ extern volatile unsigned portLONG ulCriticalNesting;					\
 
 	#define portDISABLE_INTERRUPTS()	vPortDisableInterruptsFromThumb()
 	#define portENABLE_INTERRUPTS()		vPortEnableInterruptsFromThumb()
-	
+
 #else
 
 	#define portDISABLE_INTERRUPTS()											\
@@ -259,7 +259,7 @@ extern volatile unsigned portLONG ulCriticalNesting;					\
 			"ORR	R0, R0, #0xC0	\n\t"	/* Disable IRQ, FIQ.			*/	\
 			"MSR	CPSR, R0		\n\t"	/* Write back modified value.	*/	\
 			"LDMIA	SP!, {R0}			" )	/* Pop R0.						*/
-			
+
 	#define portENABLE_INTERRUPTS()												\
 		asm volatile (															\
 			"STMDB	SP!, {R0}		\n\t"	/* Push R0.						*/	\
@@ -276,7 +276,7 @@ extern void vPortExitCritical( void );
 #define portENTER_CRITICAL()		vPortEnterCritical();
 #define portEXIT_CRITICAL()			vPortExitCritical();
 
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
 #define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )

@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -134,7 +134,7 @@ void vPortYieldProcessor( void )
 	vTaskSwitchContext();
 
 	/* Restore the context of the new task. */
-	portRESTORE_CONTEXT();	
+	portRESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
@@ -149,17 +149,17 @@ void vPortYieldProcessor( void )
 	simply increment the system tick. */
 	void vNonPreemptiveTick( void ) __attribute__ ((interrupt ("IRQ")));
 	void vNonPreemptiveTick( void )
-	{		
+	{
 		unsigned long ulDummy;
-		
+
 		/* Increment the tick count - which may wake some tasks but as the
 		preemptive scheduler is not being used any woken task is not given
 		processor time no matter what its priority. */
 		vTaskIncrementTick();
-		
+
 		/* Clear the PIT interrupt. */
 		ulDummy = AT91C_BASE_PITC->PITC_PIVR;
-		
+
 		/* End the interrupt in the AIC. */
 		AT91C_BASE_AIC->AIC_EOICR = ulDummy;
 	}
@@ -172,17 +172,17 @@ void vPortYieldProcessor( void )
 	void vPreemptiveTick( void )
 	{
 		/* Save the context of the current task. */
-		portSAVE_CONTEXT();			
+		portSAVE_CONTEXT();
 
 		/* Increment the tick count - this may wake a task. */
 		vTaskIncrementTick();
 
 		/* Find the highest priority task that is ready to run. */
 		vTaskSwitchContext();
-		
+
 		/* End the interrupt in the AIC. */
 		AT91C_BASE_AIC->AIC_EOICR = AT91C_BASE_PITC->PITC_PIVR;;
-		
+
 		portRESTORE_CONTEXT();
 	}
 
@@ -208,14 +208,14 @@ void vPortDisableInterruptsFromThumb( void )
 		"LDMIA	SP!, {R0}		\n\t"	/* Pop R0.									*/
 		"BX		R14" );					/* Return back to thumb.					*/
 }
-		
+
 void vPortEnableInterruptsFromThumb( void )
 {
 	asm volatile (
-		"STMDB	SP!, {R0}		\n\t"	/* Push R0.									*/	
-		"MRS	R0, CPSR		\n\t"	/* Get CPSR.								*/	
-		"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.							*/	
-		"MSR	CPSR, R0		\n\t"	/* Write back modified value.				*/	
+		"STMDB	SP!, {R0}		\n\t"	/* Push R0.									*/
+		"MRS	R0, CPSR		\n\t"	/* Get CPSR.								*/
+		"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.							*/
+		"MSR	CPSR, R0		\n\t"	/* Write back modified value.				*/
 		"LDMIA	SP!, {R0}		\n\t"	/* Pop R0.									*/
 		"BX		R14" );					/* Return back to thumb.					*/
 }
@@ -254,10 +254,10 @@ void vPortExitCritical( void )
 		{
 			/* Enable interrupts as per portEXIT_CRITICAL().					*/
 			asm volatile (
-				"STMDB	SP!, {R0}		\n\t"	/* Push R0.						*/	
-				"MRS	R0, CPSR		\n\t"	/* Get CPSR.					*/	
-				"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.				*/	
-				"MSR	CPSR, R0		\n\t"	/* Write back modified value.	*/	
+				"STMDB	SP!, {R0}		\n\t"	/* Push R0.						*/
+				"MRS	R0, CPSR		\n\t"	/* Get CPSR.					*/
+				"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.				*/
+				"MSR	CPSR, R0		\n\t"	/* Write back modified value.	*/
 				"LDMIA	SP!, {R0}" );			/* Pop R0.						*/
 		}
 	}

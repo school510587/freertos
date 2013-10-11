@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -128,14 +128,14 @@ Changes from V3.0.1
 	{								\
 		bGIE=0;						\
 	} while(bGIE)	// MicroChip recommends this check!
-	
+
 #define portENABLE_INTERRUPTS()		\
 	do								\
 	{								\
 		bGIE=1;						\
 	} while(0)
 
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /*
  * Critical section macros.
@@ -429,7 +429,7 @@ extern unsigned portSHORT usCalcMinStackSize;
 
 /*-----------------------------------------------------------*/
 
-#define portTICK_RATE_MS	( ( portTickType ) 1000 / configTICK_RATE_HZ )		
+#define portTICK_RATE_MS	( ( portTickType ) 1000 / configTICK_RATE_HZ )
 
 /*-----------------------------------------------------------*/
 

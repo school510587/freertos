@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -136,7 +136,7 @@ unsigned long *pulTopOfStack, ulTemp;
 	else
 	{
 		/* Make room for a 20 bit value stored as a 32 bit value. */
-		pusTopOfStack = ( unsigned short * ) pxTopOfStack;		
+		pusTopOfStack = ( unsigned short * ) pxTopOfStack;
 		pusTopOfStack--;
 		pulTopOfStack = ( unsigned long * ) pusTopOfStack;
 		*pulTopOfStack = ( unsigned long ) pxCode;
@@ -145,7 +145,7 @@ unsigned long *pulTopOfStack, ulTemp;
 	pusTopOfStack--;
 	*pusTopOfStack = portFLAGS_INT_ENABLED;
 	pusTopOfStack -= ( sizeof( portSTACK_TYPE ) / 2 );
-	
+
 	/* From here on the size of stacked items depends on the memory model. */
 	pxTopOfStack = ( portSTACK_TYPE * ) pusTopOfStack;
 
@@ -166,7 +166,7 @@ unsigned long *pulTopOfStack, ulTemp;
 		*pxTopOfStack = ( portSTACK_TYPE ) 0x9999;
 		pxTopOfStack--;
 		*pxTopOfStack = ( portSTACK_TYPE ) 0x8888;
-		pxTopOfStack--;	
+		pxTopOfStack--;
 		*pxTopOfStack = ( portSTACK_TYPE ) 0x5555;
 		pxTopOfStack--;
 		*pxTopOfStack = ( portSTACK_TYPE ) 0x6666;
@@ -184,7 +184,7 @@ unsigned long *pulTopOfStack, ulTemp;
 	/* A variable is used to keep track of the critical section nesting.
 	This variable has to be stored as part of the task context and is
 	initially set to zero. */
-	*pxTopOfStack = ( portSTACK_TYPE ) portNO_CRITICAL_SECTION_NESTING;	
+	*pxTopOfStack = ( portSTACK_TYPE ) portNO_CRITICAL_SECTION_NESTING;
 
 	/* Return a pointer to the top of the stack we have generated so this can
 	be stored in the task control block for the task. */
@@ -222,4 +222,4 @@ extern void vPortTickISR( void );
 	#endif
 }
 
-	
+

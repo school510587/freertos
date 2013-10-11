@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -147,7 +147,7 @@ portBASE_TYPE xPortStartScheduler( void )
 	/* Start the timer that generates the tick ISR.  Interrupts are disabled
 	here already. */
 	prvSetupTimerInterrupt();
-	
+
 	/* Initialise the critical nesting count ready for the first task. */
 	uxCriticalNesting = 0;
 
@@ -196,7 +196,7 @@ unsigned long ulDummy;
 
 	/* If using preemption, also force a context switch. */
 	#if configUSE_PREEMPTION == 1
-		*(portNVIC_INT_CTRL) = portNVIC_PENDSVSET;	
+		*(portNVIC_INT_CTRL) = portNVIC_PENDSVSET;
 	#endif
 
 	ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();

@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -103,7 +103,7 @@
 	#define portMAX_DELAY ( portTickType ) 0xffffffff
 #endif
 
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Interrupt control macros. */
 #define portDISABLE_INTERRUPTS()	_disable_interrupt(); _nop()
@@ -156,8 +156,8 @@ extern void vPortYield( void );
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT			2
 #define portSTACK_GROWTH			( -1 )
-#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )	
-#define portNOP()					__no_operation()	
+#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )
+#define portNOP()					__no_operation()
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
@@ -166,7 +166,7 @@ extern void vPortYield( void );
 
 extern void vTaskSwitchContext( void );
 #define portYIELD_FROM_ISR( x ) if( x ) vPortYield()
-	
+
 void vApplicationSetupTimerInterrupt( void );
 
 /* sizeof( int ) != sizeof( long ) so a full printf() library is required if

@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -130,37 +130,37 @@ portSTACK_TYPE *pxOriginalTOS;
 	/* First on the stack is the return address - which in this case is the
 	start of the task.  The offset is added to make the return address appear
 	as it would within an IRQ ISR. */
-	*pxTopOfStack = ( portSTACK_TYPE ) pxCode + portINSTRUCTION_SIZE;		
+	*pxTopOfStack = ( portSTACK_TYPE ) pxCode + portINSTRUCTION_SIZE;
 	pxTopOfStack--;
 
 	*pxTopOfStack = ( portSTACK_TYPE ) 0xaaaaaaaa;	/* R14 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
 	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x12121212;	/* R12 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x11111111;	/* R11 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x10101010;	/* R10 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x09090909;	/* R9 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x08080808;	/* R8 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x07070707;	/* R7 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x06060606;	/* R6 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x05050505;	/* R5 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x04040404;	/* R4 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x03030303;	/* R3 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x02020202;	/* R2 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x01010101;	/* R1 */
-	pxTopOfStack--;	
+	pxTopOfStack--;
 
 	/* When the task starts is will expect to find the function parameter in
 	R0. */
@@ -169,13 +169,13 @@ portSTACK_TYPE *pxOriginalTOS;
 
 	/* The status register is set for system mode, with interrupts enabled. */
 	*pxTopOfStack = ( portSTACK_TYPE ) portINITIAL_SPSR;
-	
+
 	if( ( ( unsigned long ) pxCode & 0x01UL ) != 0x00UL )
 	{
 		/* We want the task to start in thumb mode. */
 		*pxTopOfStack |= portTHUMB_MODE_BIT;
-	}		
-	
+	}
+
 	pxTopOfStack--;
 
 	/* Interrupt flags cannot always be stored on the stack and will
@@ -183,7 +183,7 @@ portSTACK_TYPE *pxOriginalTOS;
 	tasks context. */
 	*pxTopOfStack = portNO_CRITICAL_NESTING;
 
-	return pxTopOfStack;	
+	return pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -196,7 +196,7 @@ extern void vPortStartFirstTask( void );
 	prvSetupTimerInterrupt();
 
 	/* Start the first task. */
-	vPortStartFirstTask();	
+	vPortStartFirstTask();
 
 	/* Should not get here! */
 	return 0;
@@ -221,7 +221,7 @@ __arm __irq void vPortNonPreemptiveTick( void )
 
 	/* Clear the interrupt in the watchdog and EIC. */
 	WDG->SR = 0x0000;
-	portCLEAR_EIC();		
+	portCLEAR_EIC();
 }
 /*-----------------------------------------------------------*/
 
@@ -239,7 +239,7 @@ void vPortPreemptiveTick( void )
 
 	/* Clear the interrupt in the watchdog and EIC. */
 	WDG->SR = 0x0000;
-	portCLEAR_EIC();			
+	portCLEAR_EIC();
 }
 /*-----------------------------------------------------------*/
 

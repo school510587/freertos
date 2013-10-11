@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -97,12 +97,12 @@ Changes from V3.0.1
 		 * Reset the interrupt flag
 		 */
 		bCCP1IF = 0;
-	
+
 		/*
 	 	 * Maintain the tick count.
 	 	 */
 		vTaskIncrementTick();
-		
+
 		#if configUSE_PREEMPTION == 1
 		{
 			/*

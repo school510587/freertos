@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -66,7 +66,7 @@
 
 /*
 	Changes from V2.5.2
-		
+
 	+ usCriticalNesting now has a volatile qualifier.
 */
 
@@ -236,7 +236,7 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 	use the stack as per other ports.  Instead a variable is used to keep
 	track of the critical section nesting.  This variable has to be stored
 	as part of the task context and is initially set to zero. */
-	*pxTopOfStack = ( portSTACK_TYPE ) portNO_CRITICAL_SECTION_NESTING;	
+	*pxTopOfStack = ( portSTACK_TYPE ) portNO_CRITICAL_SECTION_NESTING;
 
 	/* Return a pointer to the top of the stack we have generated so this can
 	be stored in the task control block for the task. */
@@ -362,4 +362,4 @@ static void prvSetupTimerInterrupt( void )
 #endif
 
 
-	
+

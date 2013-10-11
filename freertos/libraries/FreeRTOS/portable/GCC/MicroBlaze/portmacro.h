@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -97,7 +97,7 @@ extern "C" {
 	typedef unsigned portLONG portTickType;
 	#define portMAX_DELAY ( portTickType ) 0xffffffff
 #endif
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Interrupt control macros. */
 void microblaze_disable_interrupts( void );
@@ -114,7 +114,7 @@ void vPortExitCritical( void );
 										microblaze_disable_interrupts();					\
 										uxCriticalNesting++;								\
 									}
-									
+
 #define portEXIT_CRITICAL()			{														\
 										extern unsigned portBASE_TYPE uxCriticalNesting;	\
 										/* Interrupts are disabled, so we can */			\
@@ -141,7 +141,7 @@ void vTaskSwitchContext();
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT			4
 #define portSTACK_GROWTH			( -1 )
-#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )		
+#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )
 #define portNOP()					asm volatile ( "NOP" )
 /*-----------------------------------------------------------*/
 

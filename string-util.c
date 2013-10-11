@@ -3,7 +3,7 @@
 #include <limits.h>
 
 #define ALIGN (sizeof(size_t))
-#define ONES ((size_t)-1/UCHAR_MAX)                                                                      
+#define ONES ((size_t)-1/UCHAR_MAX)
 #define HIGHS (ONES * (UCHAR_MAX/2+1))
 #define HASZERO(x) ((x)-ONES & ~(x) & HIGHS)
 
@@ -24,7 +24,7 @@ void *memset(void *dest, int c, size_t n)
 void *memcpy(void *dest, const void *src, size_t n)
 {
 	void *ret = dest;
-	
+
 	//Cut rear
 	uint8_t *dst8 = dest;
 	const uint8_t *src8 = src;
@@ -34,7 +34,7 @@ void *memcpy(void *dest, const void *src, size_t n)
 		case 1 : *dst8++ = *src8++;
 		case 0 : ;
 	}
-	
+
 	//stm32 data bus width
 	uint32_t *dst32 = (void *)dst8;
 	const uint32_t *src32 = (void *)src8;
@@ -42,7 +42,7 @@ void *memcpy(void *dest, const void *src, size_t n)
 	while (n--) {
 		*dst32++ = *src32++;
 	}
-	
+
 	return ret;
 }
 

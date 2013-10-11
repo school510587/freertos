@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -144,7 +144,7 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 	/* CCR: Note that when the task starts interrupts will be enabled since
 	"I" bit of CCR is cleared */
 	*--pxTopOfStack = ( portSTACK_TYPE ) 0x80;		// keeps Stop disabled (MCU default)
-	
+
 	/* tmp softregs used by GCC. Values right now don't	matter. */
 	__asm("\n\
 		movw _.frame, 2,-%0							\n\
@@ -159,7 +159,7 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 		/* The page of the task. */
 		*--pxTopOfStack = 0x30;      // can only directly start in PPAGE 0x30
 	#endif
-	
+
 	/* The critical nesting depth is initialised with 0 (meaning not in
 	a critical section). */
 	*--pxTopOfStack = ( portSTACK_TYPE ) 0x00;

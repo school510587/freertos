@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -139,7 +139,7 @@ portSTACK_TYPE *pxTopOfHardwareStack;
 	hardware call stack which uses the AVR stack pointer.  Second there is the
 	software stack (local variables, parameter passing, etc.) which uses the
 	AVR Y register.
-	
+
 	This function places both stacks within the memory block passed in as the
 	first parameter.  The hardware stack is placed at the bottom of the memory
 	block.  A gap is then left for the hardware stack to grow.  Next the software
@@ -342,7 +342,7 @@ unsigned char ucHighByte, ucLowByte;
 		vPortYieldFromTick();
 		asm( "reti" );
 	}
-	
+
 #else
 
 	/*
@@ -352,7 +352,7 @@ unsigned char ucHighByte, ucLowByte;
 	 *
 	 * THE INTERRUPT VECTOR IS POPULATED IN portmacro.s90.  DO NOT INSTALL
 	 * IT HERE USING THE USUAL PRAGMA.
-	 */		
+	 */
 	__interrupt void SIG_OUTPUT_COMPARE1A( void )
 	{
 		vTaskIncrementTick();
@@ -376,4 +376,4 @@ void vPortExitCritical( void )
 	}
 }
 
-	
+

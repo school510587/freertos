@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -283,7 +283,7 @@ portSTACK_TYPE *pxStartOfStack;
 
 	/* Next all the registers will have been pushed by portSAVE_CONTEXT(). */
 	*pxTopOfStack = 0xaa;	/* acc */
-	pxTopOfStack++;	
+	pxTopOfStack++;
 
 	/* We want tasks to start with interrupts enabled. */
 	*pxTopOfStack = portGLOBAL_INTERRUPT_BIT;
@@ -340,7 +340,7 @@ portSTACK_TYPE *pxStartOfStack;
 portBASE_TYPE xPortStartScheduler( void )
 {
 	/* Setup timer 2 to generate the RTOS tick. */
-	prvSetupTimerInterrupt();	
+	prvSetupTimerInterrupt();
 
 	/* Make sure we start with the expected SFR page.  This line should not
 	really be required. */
@@ -371,7 +371,7 @@ void vPortYield( void ) _naked
 	/* Save the execution context onto the stack, then copy the entire stack
 	to XRAM.  This is necessary as the internal RAM is only large enough to
 	hold one stack, and we want one per task.
-	
+
 	PERFORMANCE COULD BE IMPROVED BY ONLY COPYING TO XRAM IF A TASK SWITCH
 	IS REQUIRED. */
 	portSAVE_CONTEXT();
@@ -399,7 +399,7 @@ void vPortYield( void ) _naked
 
 		vTaskIncrementTick();
 		vTaskSwitchContext();
-		
+
 		portCLEAR_INTERRUPT_FLAG();
 		portCOPY_XRAM_TO_STACK();
 		portRESTORE_CONTEXT();
@@ -434,7 +434,7 @@ const unsigned char ucHighCaptureByte = ( unsigned char ) ( ulCaptureValue >> ( 
 	ucOriginalSFRPage = SFRPAGE;
 	SFRPAGE = 0;
 
-	/* TMR2CF can be left in its default state. */	
+	/* TMR2CF can be left in its default state. */
 	TMR2CF = ( unsigned char ) 0;
 
 	/* Setup the overflow reload value. */

@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -101,15 +101,15 @@ extern "C" {
 	typedef unsigned portLONG portTickType;
 	#define portMAX_DELAY ( portTickType ) 0xffffffff
 #endif
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portSTACK_GROWTH			( -1 )
-#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )		
+#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT			8
 #define portYIELD()					asm ( "SWI 0" )
 #define portNOP()					asm ( "NOP" )
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Critical section handling. */
 __arm __interwork void vPortDisableInterruptsFromThumb( void );
@@ -121,7 +121,7 @@ __arm __interwork void vPortExitCritical( void );
 #define portENABLE_INTERRUPTS()		__enable_interrupt()
 #define portENTER_CRITICAL()		vPortEnterCritical()
 #define portEXIT_CRITICAL()			vPortExitCritical()
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Task utilities. */
 #define portEND_SWITCHING_ISR( xSwitchRequired ) 	\
@@ -133,14 +133,14 @@ extern void vTaskSwitchContext( void );				\
 		vTaskSwitchContext();						\
 	}												\
 }
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* EIC utilities. */
 #define portEIC_CICR_ADDR		*( ( unsigned portLONG * ) 0xFFFFF804 )
 #define portEIC_IPR_ADDR		*( ( unsigned portLONG * ) 0xFFFFF840 )
 #define portCLEAR_EIC()			portEIC_IPR_ADDR = 0x01 << portEIC_CICR_ADDR
 
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
 #define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void * pvParameters )

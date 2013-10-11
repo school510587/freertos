@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -66,7 +66,7 @@
 
 /*
 Changes from V1.00:
-	
+
 	+ Call to taskYIELD() from within tick ISR has been replaced by the more
 	  efficient portSWITCH_CONTEXT().
 	+ ISR function definitions renamed to include the prv prefix.
@@ -152,7 +152,7 @@ portBASE_TYPE xPortStartScheduler( void )
 	_dos_setvect( portSWITCH_INT_NUMBER, prvYieldProcessor );
 
 	#if configUSE_PREEMPTION == 1
-	{		
+	{
 		/* Put our tick switch function on the timer interrupt. */
 		_dos_setvect( portTIMER_INT_NUMBER, prvPreemptiveTick );
 	}

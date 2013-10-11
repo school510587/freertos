@@ -128,9 +128,9 @@
 #endif
 
 #ifdef IAR_MSP430
-	#include "..\..\Source\portable\IAR\MSP430\portmacro.h"	
+	#include "..\..\Source\portable\IAR\MSP430\portmacro.h"
 #endif
-	
+
 #ifdef GCC_MSP430
 	#include "../../Source/portable/GCC/MSP430F449/portmacro.h"
 #endif
@@ -166,7 +166,7 @@
 #ifdef STR75X_IAR
 	#include "..\..\Source\portable\IAR\STR75x\portmacro.h"
 #endif
-	
+
 #ifdef STR75X_GCC
 	#include "..\..\Source\portable\GCC\STR75x\portmacro.h"
 #endif
@@ -174,7 +174,7 @@
 #ifdef STR91X_IAR
 	#include "..\..\Source\portable\IAR\STR91x\portmacro.h"
 #endif
-	
+
 #ifdef GCC_H8S
 	#include "../../Source/portable/GCC/H8S2329/portmacro.h"
 #endif
@@ -202,10 +202,10 @@
 #ifdef IAR_ARMCM3_LM
 	#include "../../Source/portable/IAR/ARM_CM3/portmacro.h"
 #endif
-	
+
 #ifdef HCS12_CODE_WARRIOR
 	#include "../../Source/portable/CodeWarrior/HCS12/portmacro.h"
-#endif	
+#endif
 
 #ifdef MICROBLAZE_GCC
 	#include "../../Source/portable/GCC/MicroBlaze/portmacro.h"
@@ -305,11 +305,11 @@
 #ifdef __IAR_78K0R_Kx3__
 	#include "../../Source/portable/IAR/78K0R/portmacro.h"
 #endif
-	
+
 #ifdef __IAR_78K0R_Kx3L__
 	#include "../../Source/portable/IAR/78K0R/portmacro.h"
 #endif
-	
+
 /* Catch all to ensure portmacro.h is included in the build.  Newer demos
 have the path as part of the project options, rather than as relative from
 the project location.  If portENTER_CRITICAL() has not been defined then
@@ -317,9 +317,9 @@ portmacro.h has not yet been included - as every portmacro.h provides a
 portENTER_CRITICAL() definition.  Check the demo application for your demo
 to find the path to the correct portmacro.h file. */
 #ifndef portENTER_CRITICAL
-	#include "portmacro.h"	
+	#include "portmacro.h"
 #endif
-	
+
 #if portBYTE_ALIGNMENT == 8
 	#define portBYTE_ALIGNMENT_MASK ( 0x0007 )
 #endif

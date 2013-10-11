@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -146,7 +146,7 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 
 	*pxTopOfStack = (portSTACK_TYPE) 0x00000000; 	/* critical nesting level - no longer used. */
 	pxTopOfStack--;
-	
+
 	return pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
@@ -201,7 +201,7 @@ unsigned portBASE_TYPE uxSavedStatus;
 	uxSavedStatus = uxPortSetInterruptMaskFromISR();
 		vTaskIncrementTick();
 	vPortClearInterruptMaskFromISR( uxSavedStatus );
-	
+
 	/* If we are using the preemptive scheduler then we might want to select
 	a different task to execute. */
 	#if configUSE_PREEMPTION == 1

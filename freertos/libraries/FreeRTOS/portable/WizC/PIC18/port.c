@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -67,7 +67,7 @@
 /*
 Changes from V3.2.1
 	+ CallReturn Depth increased from 8 to 10 levels to accomodate wizC/fedC V12.
-	
+
 Changes from V3.2.0
 	+ TBLPTRU is now initialised to zero during the initial stack creation of a new task. This solves
 	an error on devices with more than 64kB ROM.
@@ -207,7 +207,7 @@ unsigned char ucScratch;
 	{
 		*pxTopOfStack-- = ( portSTACK_TYPE ) 0;
 	}
-	
+
 	/*
 	 * The only function return address so far is the address of the task entry.
 	 * The order is TOSU/TOSH/TOSL. For devices > 64kB, TOSU is put on the
@@ -233,7 +233,7 @@ unsigned char ucScratch;
 	 * track of the critical section nesting.  This variable has to be stored
 	 * as part of the task context and is initially set to zero.
 	 */
-	*pxTopOfStack-- = ( portSTACK_TYPE ) portNO_CRITICAL_SECTION_NESTING;	
+	*pxTopOfStack-- = ( portSTACK_TYPE ) portNO_CRITICAL_SECTION_NESTING;
 
 	return pxTopOfStack;
 }

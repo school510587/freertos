@@ -170,7 +170,7 @@ typedef void (*tmrTIMER_CALLBACK)( xTimerHandle xTimer );
  *
  * 	   // Optionally do something if the pxTimer parameter is NULL.
  * 	   configASSERT( pxTimer );
- * 	
+ *
  *     // Which timer expired?
  *     lArrayIndex = ( long ) pvTimerGetTimerID( pxTimer );
  *

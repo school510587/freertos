@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -105,7 +105,7 @@ void portLOCAL_ENTER_CRITICAL( void );
 #pragma aux portLOCAL_ENTER_CRITICAL = 	"pushf" \
 										"cli";
 #define portENTER_CRITICAL() portLOCAL_ENTER_CRITICAL()
-										
+
 void portEXIT_CRITICAL( void );
 #pragma aux portEXIT_CRITICAL	=		"popf";
 

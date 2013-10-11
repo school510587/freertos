@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -146,7 +146,7 @@ unsigned long *pulLocal;
 		/* The start address / PSW value is also written in as a 32bit value,
 		so leave a space for the second two bytes. */
 		pxTopOfStack--;
-	
+
 		/* Task function start address combined with the PSW. */
 		pulLocal = ( unsigned long * ) pxTopOfStack;
 		*pulLocal = ( ( ( unsigned long ) pxCode ) | ( portPSW << 24UL ) );
@@ -190,7 +190,7 @@ unsigned long *pulLocal;
 
 	/* Finally the critical section nesting count is set to zero when the task
 	first starts. */
-	*pxTopOfStack = ( portSTACK_TYPE ) portNO_CRITICAL_SECTION_NESTING;	
+	*pxTopOfStack = ( portSTACK_TYPE ) portNO_CRITICAL_SECTION_NESTING;
 
 	/* Return a pointer to the top of the stack that has beene generated so it
 	can	be stored in the task control block for the task. */
@@ -229,26 +229,26 @@ const unsigned short usCompareMatch = ( usClockHz / configTICK_RATE_HZ ) + 1UL;
 
 	/* Supply the RTC clock. */
 	RTCEN = 1U;
-	
+
 	/* Disable ITMC operation. */
 	ITMC = 0x0000;
-	
+
 	/* Disable INTIT interrupt. */
 	ITMK = 1U;
-	
+
 	/* Set INTIT high priority */
 	ITPR1 = 1U;
 	ITPR0 = 1U;
-	
+
 	/* Set interval. */
 	ITMC = usCompareMatch;
 
 	/* Clear INIT interrupt. */
 	ITIF = 0U;
-	
+
 	/* Enable INTIT interrupt. */
 	ITMK = 0U;
-	
+
 	/* Enable IT operation. */
 	ITMC |= 0x8000;
 }

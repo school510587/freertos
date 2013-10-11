@@ -1346,8 +1346,8 @@ __inline unsigned int AT91F_RTTSetTimeBase(
 {
 	if (ms > 2000)
 		return 1;   // AT91C_TIME_OUT_OF_RANGE
-	pRTTC->RTTC_RTMR &= ~0xFFFF;	
-	pRTTC->RTTC_RTMR |= (((ms << 15) /1000) & 0xFFFF);	
+	pRTTC->RTTC_RTMR &= ~0xFFFF;
+	pRTTC->RTTC_RTMR |= (((ms << 15) /1000) & 0xFFFF);
 	return 0;
 }
 
@@ -1359,8 +1359,8 @@ __inline unsigned int AT91F_RTTSetPrescaler(
         AT91PS_RTTC pRTTC,
         unsigned int rtpres)
 {
-	pRTTC->RTTC_RTMR &= ~0xFFFF;	
-	pRTTC->RTTC_RTMR |= (rtpres & 0xFFFF);	
+	pRTTC->RTTC_RTMR &= ~0xFFFF;
+	pRTTC->RTTC_RTMR |= (rtpres & 0xFFFF);
 	return (pRTTC->RTTC_RTMR);
 }
 
@@ -1371,7 +1371,7 @@ __inline unsigned int AT91F_RTTSetPrescaler(
 __inline void AT91F_RTTRestart(
         AT91PS_RTTC pRTTC)
 {
-	pRTTC->RTTC_RTMR |= AT91C_RTTC_RTTRST;	
+	pRTTC->RTTC_RTMR |= AT91C_RTTC_RTTRST;
 }
 
 
@@ -1457,7 +1457,7 @@ __inline unsigned int AT91F_RTTReadValue(
 	{
 		val1 = pRTTC->RTTC_RTVR;
 		val2 = pRTTC->RTTC_RTVR;
-	}	
+	}
 	while(val1 != val2);
 	return(val1);
 }
@@ -1474,7 +1474,7 @@ __inline void AT91F_PITInit(
         unsigned int pit_frequency)
 {
 	pPITC->PITC_PIMR = period? (period * pit_frequency + 8) >> 4 : 0; // +8 to avoid %10 and /10
-	pPITC->PITC_PIMR |= AT91C_PITC_PITEN;	
+	pPITC->PITC_PIMR |= AT91C_PITC_PITEN;
 }
 
 //*----------------------------------------------------------------------------
@@ -1495,7 +1495,7 @@ __inline void AT91F_PITSetPIV(
 __inline void AT91F_PITEnableInt(
         AT91PS_PITC pPITC)
 {
-	pPITC->PITC_PIMR |= AT91C_PITC_PITIEN;	
+	pPITC->PITC_PIMR |= AT91C_PITC_PITIEN;
 }
 
 //*----------------------------------------------------------------------------
@@ -1505,7 +1505,7 @@ __inline void AT91F_PITEnableInt(
 __inline void AT91F_PITDisableInt(
         AT91PS_PITC pPITC)
 {
-	pPITC->PITC_PIMR &= ~AT91C_PITC_PITIEN;	
+	pPITC->PITC_PIMR &= ~AT91C_PITC_PITIEN;
 }
 
 //*----------------------------------------------------------------------------
@@ -1601,7 +1601,7 @@ __inline unsigned int AT91F_WDTGetPeriod(unsigned int ms)
 __inline void AT91F_VREG_Enable_LowPowerMode(
         AT91PS_VREG pVREG)
 {
-	pVREG->VREG_MR |= AT91C_VREG_PSTDBY;	
+	pVREG->VREG_MR |= AT91C_VREG_PSTDBY;
 }
 
 //*----------------------------------------------------------------------------
@@ -1611,7 +1611,7 @@ __inline void AT91F_VREG_Enable_LowPowerMode(
 __inline void AT91F_VREG_Disable_LowPowerMode(
         AT91PS_VREG pVREG)
 {
-	pVREG->VREG_MR &= ~AT91C_VREG_PSTDBY;	
+	pVREG->VREG_MR &= ~AT91C_VREG_PSTDBY;
 }/* *****************************************************************************
                 SOFTWARE API FOR MC
    ***************************************************************************** */
@@ -1669,7 +1669,7 @@ __inline void AT91F_MC_EFC_PerformCmd (
 	AT91PS_MC pMC, // pointer to a MC controller
     unsigned int transfer_cmd)
 {
-	pMC->MC_FCR = transfer_cmd;	
+	pMC->MC_FCR = transfer_cmd;
 }
 
 //*----------------------------------------------------------------------------
@@ -1810,7 +1810,7 @@ __inline void AT91F_SPI_CfgMode (
 __inline void AT91F_SPI_CfgPCS (
 	AT91PS_SPI pSPI, // pointer to a SPI controller
 	char PCS_Device) // PCS of the Device
-{	
+{
  	//* Write to the MR register
 	pSPI->SPI_MR &= 0xFFF0FFFF;
 	pSPI->SPI_MR |= ( (PCS_Device<<16) & AT91C_SPI_PCS );
@@ -2934,7 +2934,7 @@ __inline void AT91F_InitMailboxRegisters(AT91PS_CAN_MB	CAN_Mailbox,
 	CAN_Mailbox->CAN_MB_MMR 	= mode_reg;
 	CAN_Mailbox->CAN_MB_MAM 	= acceptance_mask_reg;
 	CAN_Mailbox->CAN_MB_MID 	= id_reg;
-	CAN_Mailbox->CAN_MB_MDL 	= data_low_reg; 		
+	CAN_Mailbox->CAN_MB_MDL 	= data_low_reg;
 	CAN_Mailbox->CAN_MB_MDH 	= data_high_reg;
 	CAN_Mailbox->CAN_MB_MCR 	= control_reg;
 }
@@ -3048,7 +3048,7 @@ __inline unsigned int AT91F_CAN_GetModeReg (
 	AT91PS_CAN pCAN // pointer to a CAN controller
 	)
 {
-	return pCAN->CAN_MR;	
+	return pCAN->CAN_MR;
 }
 
 //*----------------------------------------------------------------------------
@@ -3060,7 +3060,7 @@ __inline void AT91F_CAN_CfgBaudrateReg (
 	unsigned int baudrate_cfg)
 {
 	//* Write to the BR register
-	pCAN->CAN_BR = baudrate_cfg;	
+	pCAN->CAN_BR = baudrate_cfg;
 }
 
 //*----------------------------------------------------------------------------
@@ -3071,7 +3071,7 @@ __inline unsigned int AT91F_CAN_GetBaudrate (
 	AT91PS_CAN pCAN // pointer to a CAN controller
 	)
 {
-	return pCAN->CAN_BR;	
+	return pCAN->CAN_BR;
 }
 
 //*----------------------------------------------------------------------------
@@ -3082,7 +3082,7 @@ __inline unsigned int AT91F_CAN_GetInternalCounter (
 	AT91PS_CAN pCAN // pointer to a CAN controller
 	)
 {
-	return pCAN->CAN_TIM;	
+	return pCAN->CAN_TIM;
 }
 
 //*----------------------------------------------------------------------------
@@ -3093,7 +3093,7 @@ __inline unsigned int AT91F_CAN_GetTimestamp (
 	AT91PS_CAN pCAN // pointer to a CAN controller
 	)
 {
-	return pCAN->CAN_TIMESTP;	
+	return pCAN->CAN_TIMESTP;
 }
 
 //*----------------------------------------------------------------------------
@@ -3104,7 +3104,7 @@ __inline unsigned int AT91F_CAN_GetErrorCounter (
 	AT91PS_CAN pCAN // pointer to a CAN controller
 	)
 {
-	return pCAN->CAN_ECR;	
+	return pCAN->CAN_ECR;
 }
 
 //*----------------------------------------------------------------------------
@@ -3115,7 +3115,7 @@ __inline void AT91F_CAN_InitTransferRequest (
 	AT91PS_CAN pCAN, // pointer to a CAN controller
     unsigned int transfer_cmd)
 {
-	pCAN->CAN_TCR = transfer_cmd;	
+	pCAN->CAN_TCR = transfer_cmd;
 }
 
 //*----------------------------------------------------------------------------
@@ -3126,7 +3126,7 @@ __inline void AT91F_CAN_InitAbortRequest (
 	AT91PS_CAN pCAN, // pointer to a CAN controller
     unsigned int abort_cmd)
 {
-	pCAN->CAN_ACR = abort_cmd;	
+	pCAN->CAN_ACR = abort_cmd;
 }
 
 //*----------------------------------------------------------------------------
@@ -3137,7 +3137,7 @@ __inline void AT91F_CAN_CfgMessageModeReg (
 	AT91PS_CAN_MB	CAN_Mailbox, // pointer to a CAN Mailbox
     unsigned int mode)
 {
-	CAN_Mailbox->CAN_MB_MMR = mode;	
+	CAN_Mailbox->CAN_MB_MMR = mode;
 }
 
 //*----------------------------------------------------------------------------
@@ -3147,7 +3147,7 @@ __inline void AT91F_CAN_CfgMessageModeReg (
 __inline unsigned int AT91F_CAN_GetMessageModeReg (
 	AT91PS_CAN_MB	CAN_Mailbox) // pointer to a CAN Mailbox
 {
-	return CAN_Mailbox->CAN_MB_MMR;	
+	return CAN_Mailbox->CAN_MB_MMR;
 }
 
 //*----------------------------------------------------------------------------
@@ -3204,7 +3204,7 @@ __inline unsigned int AT91F_CAN_GetMessageAcceptanceMaskReg (
 __inline unsigned int AT91F_CAN_GetFamilyID (
 	AT91PS_CAN_MB	CAN_Mailbox) // pointer to a CAN Mailbox
 {
-	return CAN_Mailbox->CAN_MB_MFID;	
+	return CAN_Mailbox->CAN_MB_MFID;
 }
 
 //*----------------------------------------------------------------------------
@@ -3215,7 +3215,7 @@ __inline void AT91F_CAN_CfgMessageCtrlReg (
 	AT91PS_CAN_MB	CAN_Mailbox, // pointer to a CAN Mailbox
     unsigned int message_ctrl_cmd)
 {
-	CAN_Mailbox->CAN_MB_MCR = message_ctrl_cmd;	
+	CAN_Mailbox->CAN_MB_MCR = message_ctrl_cmd;
 }
 
 //*----------------------------------------------------------------------------
@@ -3225,7 +3225,7 @@ __inline void AT91F_CAN_CfgMessageCtrlReg (
 __inline unsigned int AT91F_CAN_GetMessageStatus (
 	AT91PS_CAN_MB	CAN_Mailbox) // pointer to a CAN Mailbox
 {
-	return CAN_Mailbox->CAN_MB_MSR;	
+	return CAN_Mailbox->CAN_MB_MSR;
 }
 
 //*----------------------------------------------------------------------------
@@ -3236,7 +3236,7 @@ __inline void AT91F_CAN_CfgMessageDataLow (
 	AT91PS_CAN_MB	CAN_Mailbox, // pointer to a CAN Mailbox
     unsigned int data)
 {
-	CAN_Mailbox->CAN_MB_MDL = data;	
+	CAN_Mailbox->CAN_MB_MDL = data;
 }
 
 //*----------------------------------------------------------------------------
@@ -3246,7 +3246,7 @@ __inline void AT91F_CAN_CfgMessageDataLow (
 __inline unsigned int AT91F_CAN_GetMessageDataLow (
 	AT91PS_CAN_MB	CAN_Mailbox) // pointer to a CAN Mailbox
 {
-	return CAN_Mailbox->CAN_MB_MDL;	
+	return CAN_Mailbox->CAN_MB_MDL;
 }
 
 //*----------------------------------------------------------------------------
@@ -3257,7 +3257,7 @@ __inline void AT91F_CAN_CfgMessageDataHigh (
 	AT91PS_CAN_MB	CAN_Mailbox, // pointer to a CAN Mailbox
     unsigned int data)
 {
-	CAN_Mailbox->CAN_MB_MDH = data;	
+	CAN_Mailbox->CAN_MB_MDH = data;
 }
 
 //*----------------------------------------------------------------------------
@@ -3267,7 +3267,7 @@ __inline void AT91F_CAN_CfgMessageDataHigh (
 __inline unsigned int AT91F_CAN_GetMessageDataHigh (
 	AT91PS_CAN_MB	CAN_Mailbox) // pointer to a CAN Mailbox
 {
-	return CAN_Mailbox->CAN_MB_MDH;	
+	return CAN_Mailbox->CAN_MB_MDH;
 }
 
 //*----------------------------------------------------------------------------
@@ -3369,7 +3369,7 @@ __inline unsigned int AT91F_ADC_GetModeReg (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	return pADC->ADC_MR;	
+	return pADC->ADC_MR;
 }
 
 //*----------------------------------------------------------------------------
@@ -3384,11 +3384,11 @@ __inline void AT91F_ADC_CfgTimings (
 	unsigned int sample_and_hold_time)	// in ns
 {
 	unsigned int prescal,startup,shtim;
-	
+
 	prescal = mck_clock/(2*adc_clock) - 1;
 	startup = adc_clock*startup_time/8 - 1;
 	shtim = adc_clock*sample_and_hold_time/1000 - 1;
-	
+
 	//* Write to the MR register
 	pADC->ADC_MR = ( (prescal<<8) & AT91C_ADC_PRESCAL) | ( (startup<<16) & AT91C_ADC_STARTUP) | ( (shtim<<24) & AT91C_ADC_SHTIM);
 }
@@ -3425,7 +3425,7 @@ __inline unsigned int AT91F_ADC_GetChannelStatus (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	return pADC->ADC_CHSR;	
+	return pADC->ADC_CHSR;
 }
 
 //*----------------------------------------------------------------------------
@@ -3436,7 +3436,7 @@ __inline void AT91F_ADC_StartConversion (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	pADC->ADC_CR = AT91C_ADC_START;	
+	pADC->ADC_CR = AT91C_ADC_START;
 }
 
 //*----------------------------------------------------------------------------
@@ -3447,7 +3447,7 @@ __inline void AT91F_ADC_SoftReset (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	pADC->ADC_CR = AT91C_ADC_SWRST;	
+	pADC->ADC_CR = AT91C_ADC_SWRST;
 }
 
 //*----------------------------------------------------------------------------
@@ -3458,7 +3458,7 @@ __inline unsigned int AT91F_ADC_GetLastConvertedData (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	return pADC->ADC_LCDR;	
+	return pADC->ADC_LCDR;
 }
 
 //*----------------------------------------------------------------------------
@@ -3469,7 +3469,7 @@ __inline unsigned int AT91F_ADC_GetConvertedDataCH0 (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	return pADC->ADC_CDR0;	
+	return pADC->ADC_CDR0;
 }
 
 //*----------------------------------------------------------------------------
@@ -3480,7 +3480,7 @@ __inline unsigned int AT91F_ADC_GetConvertedDataCH1 (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	return pADC->ADC_CDR1;	
+	return pADC->ADC_CDR1;
 }
 
 //*----------------------------------------------------------------------------
@@ -3491,7 +3491,7 @@ __inline unsigned int AT91F_ADC_GetConvertedDataCH2 (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	return pADC->ADC_CDR2;	
+	return pADC->ADC_CDR2;
 }
 
 //*----------------------------------------------------------------------------
@@ -3502,7 +3502,7 @@ __inline unsigned int AT91F_ADC_GetConvertedDataCH3 (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	return pADC->ADC_CDR3;	
+	return pADC->ADC_CDR3;
 }
 
 //*----------------------------------------------------------------------------
@@ -3513,7 +3513,7 @@ __inline unsigned int AT91F_ADC_GetConvertedDataCH4 (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	return pADC->ADC_CDR4;	
+	return pADC->ADC_CDR4;
 }
 
 //*----------------------------------------------------------------------------
@@ -3524,7 +3524,7 @@ __inline unsigned int AT91F_ADC_GetConvertedDataCH5 (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	return pADC->ADC_CDR5;	
+	return pADC->ADC_CDR5;
 }
 
 //*----------------------------------------------------------------------------
@@ -3535,7 +3535,7 @@ __inline unsigned int AT91F_ADC_GetConvertedDataCH6 (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	return pADC->ADC_CDR6;	
+	return pADC->ADC_CDR6;
 }
 
 //*----------------------------------------------------------------------------
@@ -3546,7 +3546,7 @@ __inline unsigned int AT91F_ADC_GetConvertedDataCH7 (
 	AT91PS_ADC pADC // pointer to a ADC controller
 	)
 {
-	return pADC->ADC_CDR7;	
+	return pADC->ADC_CDR7;
 }
 
 /* *****************************************************************************
@@ -3638,7 +3638,7 @@ __inline unsigned int AT91F_AES_GetModeReg (
 	AT91PS_AES pAES // pointer to a AES controller
 	)
 {
-	return pAES->AES_MR;	
+	return pAES->AES_MR;
 }
 
 //*----------------------------------------------------------------------------
@@ -3649,7 +3649,7 @@ __inline void AT91F_AES_StartProcessing (
 	AT91PS_AES pAES // pointer to a AES controller
 	)
 {
-	pAES->AES_CR = AT91C_AES_START;	
+	pAES->AES_CR = AT91C_AES_START;
 }
 
 //*----------------------------------------------------------------------------
@@ -3660,7 +3660,7 @@ __inline void AT91F_AES_SoftReset (
 	AT91PS_AES pAES // pointer to a AES controller
 	)
 {
-	pAES->AES_CR = AT91C_AES_SWRST;	
+	pAES->AES_CR = AT91C_AES_SWRST;
 }
 
 //*----------------------------------------------------------------------------
@@ -3671,7 +3671,7 @@ __inline void AT91F_AES_LoadNewSeed (
 	AT91PS_AES pAES // pointer to a AES controller
 	)
 {
-	pAES->AES_CR = AT91C_AES_LOADSEED;	
+	pAES->AES_CR = AT91C_AES_LOADSEED;
 }
 
 //*----------------------------------------------------------------------------
@@ -3684,7 +3684,7 @@ __inline void AT91F_AES_SetCryptoKey (
 	unsigned int keyword
 	)
 {
-	pAES->AES_KEYWxR[index] = keyword;	
+	pAES->AES_KEYWxR[index] = keyword;
 }
 
 //*----------------------------------------------------------------------------
@@ -3697,7 +3697,7 @@ __inline void AT91F_AES_InputData (
 	unsigned int indata
 	)
 {
-	pAES->AES_IDATAxR[index] = indata;	
+	pAES->AES_IDATAxR[index] = indata;
 }
 
 //*----------------------------------------------------------------------------
@@ -3709,7 +3709,7 @@ __inline unsigned int AT91F_AES_GetOutputData (
 	unsigned char index
 	)
 {
-	return pAES->AES_ODATAxR[index];	
+	return pAES->AES_ODATAxR[index];
 }
 
 //*----------------------------------------------------------------------------
@@ -3722,7 +3722,7 @@ __inline void AT91F_AES_SetInitializationVector (
 	unsigned int initvector
 	)
 {
-	pAES->AES_IVxR[index] = initvector;	
+	pAES->AES_IVxR[index] = initvector;
 }
 
 /* *****************************************************************************
@@ -3814,7 +3814,7 @@ __inline unsigned int AT91F_TDES_GetModeReg (
 	AT91PS_TDES pTDES // pointer to a TDES controller
 	)
 {
-	return pTDES->TDES_MR;	
+	return pTDES->TDES_MR;
 }
 
 //*----------------------------------------------------------------------------
@@ -3825,7 +3825,7 @@ __inline void AT91F_TDES_StartProcessing (
 	AT91PS_TDES pTDES // pointer to a TDES controller
 	)
 {
-	pTDES->TDES_CR = AT91C_TDES_START;	
+	pTDES->TDES_CR = AT91C_TDES_START;
 }
 
 //*----------------------------------------------------------------------------
@@ -3836,7 +3836,7 @@ __inline void AT91F_TDES_SoftReset (
 	AT91PS_TDES pTDES // pointer to a TDES controller
 	)
 {
-	pTDES->TDES_CR = AT91C_TDES_SWRST;	
+	pTDES->TDES_CR = AT91C_TDES_SWRST;
 }
 
 //*----------------------------------------------------------------------------
@@ -3849,7 +3849,7 @@ __inline void AT91F_TDES_SetCryptoKey1 (
 	unsigned int keyword
 	)
 {
-	pTDES->TDES_KEY1WxR[index] = keyword;	
+	pTDES->TDES_KEY1WxR[index] = keyword;
 }
 
 //*----------------------------------------------------------------------------
@@ -3862,7 +3862,7 @@ __inline void AT91F_TDES_SetCryptoKey2 (
 	unsigned int keyword
 	)
 {
-	pTDES->TDES_KEY2WxR[index] = keyword;	
+	pTDES->TDES_KEY2WxR[index] = keyword;
 }
 
 //*----------------------------------------------------------------------------
@@ -3875,7 +3875,7 @@ __inline void AT91F_TDES_SetCryptoKey3 (
 	unsigned int keyword
 	)
 {
-	pTDES->TDES_KEY3WxR[index] = keyword;	
+	pTDES->TDES_KEY3WxR[index] = keyword;
 }
 
 //*----------------------------------------------------------------------------
@@ -3888,7 +3888,7 @@ __inline void AT91F_TDES_InputData (
 	unsigned int indata
 	)
 {
-	pTDES->TDES_IDATAxR[index] = indata;	
+	pTDES->TDES_IDATAxR[index] = indata;
 }
 
 //*----------------------------------------------------------------------------
@@ -3900,7 +3900,7 @@ __inline unsigned int AT91F_TDES_GetOutputData (
 	unsigned char index
 	)
 {
-	return pTDES->TDES_ODATAxR[index];	
+	return pTDES->TDES_ODATAxR[index];
 }
 
 //*----------------------------------------------------------------------------
@@ -3913,7 +3913,7 @@ __inline void AT91F_TDES_SetInitializationVector (
 	unsigned int initvector
 	)
 {
-	pTDES->TDES_IVxR[index] = initvector;	
+	pTDES->TDES_IVxR[index] = initvector;
 }
 
 //*----------------------------------------------------------------------------

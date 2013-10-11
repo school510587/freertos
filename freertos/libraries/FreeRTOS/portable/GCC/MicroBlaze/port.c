@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -296,8 +296,8 @@ unsigned portBASE_TYPE uxMask;
 	states. */
 	uxMask = XIntc_In32( ( XPAR_OPB_INTC_0_BASEADDR + XIN_IER_OFFSET ) );
 	uxMask |= XPAR_OPB_TIMER_1_INTERRUPT_MASK;
-	XIntc_Out32( ( XPAR_OPB_INTC_0_BASEADDR + XIN_IER_OFFSET ), ( uxMask ) );	
-	
+	XIntc_Out32( ( XPAR_OPB_INTC_0_BASEADDR + XIN_IER_OFFSET ), ( uxMask ) );
+
 	XTmrCtr_Start( &xTimer, XPAR_OPB_TIMER_1_DEVICE_ID );
 	XTmrCtr_mSetControlStatusReg(XPAR_OPB_TIMER_1_BASEADDR, portCOUNTER_0, XTC_CSR_ENABLE_TMR_MASK | XTC_CSR_ENABLE_INT_MASK | XTC_CSR_AUTO_RELOAD_MASK | XTC_CSR_DOWN_COUNT_MASK | XTC_CSR_INT_OCCURED_MASK );
 	XIntc_mAckIntr( XPAR_INTC_SINGLE_BASEADDR, 1 );
@@ -354,7 +354,7 @@ unsigned long ulCSR;
 	vTaskIncrementTick();
 
 	/* Clear the timer interrupt */
-	ulCSR = XTmrCtr_mGetControlStatusReg(XPAR_OPB_TIMER_1_BASEADDR, 0);	
+	ulCSR = XTmrCtr_mGetControlStatusReg(XPAR_OPB_TIMER_1_BASEADDR, 0);
 	XTmrCtr_mSetControlStatusReg( XPAR_OPB_TIMER_1_BASEADDR, portCOUNTER_0, ulCSR );
 
 	/* If we are using the preemptive scheduler then we also need to determine

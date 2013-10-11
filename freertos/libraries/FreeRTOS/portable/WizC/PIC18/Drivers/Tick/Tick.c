@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -172,6 +172,6 @@ void portSetupTick( void )
 	bT1OSCEN	= portBIT_SET;				// Oscillator enable
 	bT1SYNC		= portBIT_SET;				// No external clock sync
 	bTMR1CS		= portBIT_CLEAR;			// Internal clock
-	
+
 	bTMR1ON		= portBIT_SET;				// Start timer1
 }

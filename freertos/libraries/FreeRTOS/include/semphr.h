@@ -169,7 +169,7 @@ typedef xQueueHandle xSemaphoreHandle;
     if( xSemaphore != NULL )
     {
         // See if we can obtain the semaphore.  If the semaphore is not available
-        // wait 10 ticks to see if it becomes free.	
+        // wait 10 ticks to see if it becomes free.
         if( xSemaphoreTake( xSemaphore, ( portTickType ) 10 ) == pdTRUE )
         {
             // We were able to obtain the semaphore and can now access the
@@ -248,7 +248,7 @@ typedef xQueueHandle xSemaphoreHandle;
     if( xMutex != NULL )
     {
         // See if we can obtain the mutex.  If the mutex is not available
-        // wait 10 ticks to see if it becomes free.	
+        // wait 10 ticks to see if it becomes free.
         if( xSemaphoreTakeRecursive( xSemaphore, ( portTickType ) 10 ) == pdTRUE )
         {
             // We were able to obtain the mutex and can now access the
@@ -409,7 +409,7 @@ typedef xQueueHandle xSemaphoreHandle;
     if( xMutex != NULL )
     {
         // See if we can obtain the mutex.  If the mutex is not available
-        // wait 10 ticks to see if it becomes free.	
+        // wait 10 ticks to see if it becomes free.
         if( xSemaphoreTakeRecursive( xMutex, ( portTickType ) 10 ) == pdTRUE )
         {
             // We were able to obtain the mutex and can now access the

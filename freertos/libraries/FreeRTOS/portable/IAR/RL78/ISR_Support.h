@@ -1,6 +1,6 @@
 ;/*
 ;    FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-;	
+;
 ;
 ;    ***************************************************************************
 ;     *                                                                       *
@@ -81,11 +81,11 @@ portSAVE_CONTEXT MACRO
 	PUSH      DE                    ; Save the remaining general purpose registers.
 	PUSH      BC
 	MOVW      AX, usCriticalNesting ; Save the usCriticalNesting value.
-	PUSH      AX	
+	PUSH      AX
 	MOVW      AX, pxCurrentTCB 	    ; Save the Stack pointer.
-	MOVW      HL, AX					
-	MOVW      AX, SP					
-	MOVW      [HL], AX					
+	MOVW      HL, AX
+	MOVW      AX, SP
+	MOVW      [HL], AX
 	ENDM
 ;------------------------------------------------------------------------------
 

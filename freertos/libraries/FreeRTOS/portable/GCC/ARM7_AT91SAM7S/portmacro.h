@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -66,7 +66,7 @@
 
 /*
 	Changes from V3.2.3
-	
+
 	+ Modified portENTER_SWITCHING_ISR() to allow use with GCC V4.0.1.
 
 	Changes from V3.2.4
@@ -120,14 +120,14 @@ extern "C" {
 	typedef unsigned portLONG portTickType;
 	#define portMAX_DELAY ( portTickType ) 0xffffffff
 #endif
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
 #define portSTACK_GROWTH			( -1 )
-#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )		
+#define portTICK_RATE_MS			( ( portTickType ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT			8
 #define portNOP()					asm volatile ( "NOP" );
-/*-----------------------------------------------------------*/	
+/*-----------------------------------------------------------*/
 
 
 /* Scheduler utilities. */
@@ -244,7 +244,7 @@ extern volatile unsigned portLONG ulCriticalNesting;					\
 
 	#define portDISABLE_INTERRUPTS()	vPortDisableInterruptsFromThumb()
 	#define portENABLE_INTERRUPTS()		vPortEnableInterruptsFromThumb()
-	
+
 #else
 
 	#define portDISABLE_INTERRUPTS()											\
@@ -254,7 +254,7 @@ extern volatile unsigned portLONG ulCriticalNesting;					\
 			"ORR	R0, R0, #0xC0	\n\t"	/* Disable IRQ, FIQ.			*/	\
 			"MSR	CPSR, R0		\n\t"	/* Write back modified value.	*/	\
 			"LDMIA	SP!, {R0}			" )	/* Pop R0.						*/
-			
+
 	#define portENABLE_INTERRUPTS()												\
 		asm volatile (															\
 			"STMDB	SP!, {R0}		\n\t"	/* Push R0.						*/	\

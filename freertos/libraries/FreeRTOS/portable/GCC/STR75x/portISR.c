@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -121,7 +121,7 @@ void vPortISRStartFirstTask( void )
 	/* And return - correcting the offset in the LR to obtain the */	\
 	/* correct address. */												\
 	"SUBS PC, LR, #4											\n\t"	\
-	);																	
+	);
 }
 /*-----------------------------------------------------------*/
 
@@ -130,13 +130,13 @@ void vPortTickISR( void )
 	/* Increment the RTOS tick count, then look for the highest priority
 	task that is ready to run. */
 	vTaskIncrementTick();
-	
+
 	#if configUSE_PREEMPTION == 1
 		vTaskSwitchContext();
 	#endif
-			
+
 	/* Ready for the next interrupt. */
-	TB_ClearITPendingBit( TB_IT_Update );	
+	TB_ClearITPendingBit( TB_IT_Update );
 }
 
 /*-----------------------------------------------------------*/
@@ -162,14 +162,14 @@ void vPortTickISR( void )
 			"LDMIA	SP!, {R0}		\n\t"	/* Pop R0.									*/
 			"BX		R14" );					/* Return back to thumb.					*/
 	}
-			
+
 	void vPortEnableInterruptsFromThumb( void )
 	{
 		asm volatile (
-			"STMDB	SP!, {R0}		\n\t"	/* Push R0.									*/	
-			"MRS	R0, CPSR		\n\t"	/* Get CPSR.								*/	
-			"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.							*/	
-			"MSR	CPSR, R0		\n\t"	/* Write back modified value.				*/	
+			"STMDB	SP!, {R0}		\n\t"	/* Push R0.									*/
+			"MRS	R0, CPSR		\n\t"	/* Get CPSR.								*/
+			"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.							*/
+			"MSR	CPSR, R0		\n\t"	/* Write back modified value.				*/
 			"LDMIA	SP!, {R0}		\n\t"	/* Pop R0.									*/
 			"BX		R14" );					/* Return back to thumb.					*/
 	}
@@ -207,10 +207,10 @@ void vPortExitCritical( void )
 		{
 			/* Enable interrupts as per portEXIT_CRITICAL().					*/
 			asm volatile (
-				"STMDB	SP!, {R0}		\n\t"	/* Push R0.						*/	
-				"MRS	R0, CPSR		\n\t"	/* Get CPSR.					*/	
-				"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.				*/	
-				"MSR	CPSR, R0		\n\t"	/* Write back modified value.	*/	
+				"STMDB	SP!, {R0}		\n\t"	/* Push R0.						*/
+				"MRS	R0, CPSR		\n\t"	/* Get CPSR.					*/
+				"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.				*/
+				"MSR	CPSR, R0		\n\t"	/* Write back modified value.	*/
 				"LDMIA	SP!, {R0}" );			/* Pop R0.						*/
 		}
 	}

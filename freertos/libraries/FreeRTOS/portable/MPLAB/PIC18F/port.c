@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -86,7 +86,7 @@ Changes from V2.1.1
 Changes from V2.3.1
 
 	+ TABLAT is now saved as part of the task context.
-	
+
 Changes from V3.2.0
 
 	+ TBLPTRU is now initialised to zero as the MPLAB compiler expects this
@@ -418,7 +418,7 @@ unsigned char ucBlock;
 	pxTopOfStack++;
 
 	/* Next are all the registers that form part of the task context. */
-	
+
 	*pxTopOfStack = ( portSTACK_TYPE ) 0x66; /* WREG. */
 	pxTopOfStack++;
 
@@ -560,7 +560,7 @@ static void prvLowInterrupt( void )
 {
 	/* Was the interrupt the tick? */
 	if( PIR1bits.CCP1IF )
-	{		
+	{
 		_asm
 			goto prvTickISR
 		_endasm
@@ -638,7 +638,7 @@ unsigned char ucByte;
 	ulCompareValue = ulConstCompareValue;
 	CCPR1L = ( unsigned char ) ( ulCompareValue & ( unsigned long ) 0xff );
 	ulCompareValue >>= ( unsigned long ) 8;
-	CCPR1H = ( unsigned char ) ( ulCompareValue & ( unsigned long ) 0xff );	
+	CCPR1H = ( unsigned char ) ( ulCompareValue & ( unsigned long ) 0xff );
 
 	CCP1CONbits.CCP1M0 = portBIT_SET;	/*< Compare match mode. */
 	CCP1CONbits.CCP1M1 = portBIT_SET;	/*< Compare match mode. */

@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -123,15 +123,15 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 	/* SR. */
 	*pxTopOfStack = portINITIAL_SR;
 	pxTopOfStack--;
-	
+
 	/* PC. */
 	*pxTopOfStack = ( unsigned long ) pxCode;
 	pxTopOfStack--;
-	
+
 	/* PR. */
 	*pxTopOfStack = 15;
 	pxTopOfStack--;
-	
+
 	/* 14. */
 	*pxTopOfStack = 14;
 	pxTopOfStack--;
@@ -187,22 +187,22 @@ portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE
 	/* R1. */
 	*pxTopOfStack = 1;
 	pxTopOfStack--;
-	
+
 	/* R0 */
 	*pxTopOfStack = 0;
 	pxTopOfStack--;
-	
+
 	/* MACL. */
 	*pxTopOfStack = 16;
 	pxTopOfStack--;
-	
+
 	/* MACH. */
 	*pxTopOfStack = 17;
 	pxTopOfStack--;
-	
+
 	/* GBR. */
 	*pxTopOfStack = ulPortGetGBR();
-	
+
 	/* GBR = global base register.
 	   VBR = vector base register.
 	   TBR = jump table base register.
@@ -249,11 +249,11 @@ long lInterruptMask;
 
 	/* taskYIELD() can only be called from a task, not an interrupt, so the
 	current interrupt mask can only be 0 or portKERNEL_INTERRUPT_PRIORITY and
-	the mask can be set without risk of accidentally lowering the mask value. */	
+	the mask can be set without risk of accidentally lowering the mask value. */
 	set_imask( portKERNEL_INTERRUPT_PRIORITY );
-	
+
 	trapa( portYIELD_TRAP_NO );
-	
+
 	/* Restore the interrupt mask to whatever it was previously (when the
 	function was entered). */
 	set_imask( ( int ) lInterruptMask );
@@ -279,26 +279,26 @@ extern void * volatile pxCurrentTCB;
 
 	/* Allocate a buffer large enough to hold all the flop registers. */
 	pulFlopBuffer = ( unsigned long * ) pvPortMalloc( portFLOP_STORAGE_SIZE );
-	
+
 	if( pulFlopBuffer != NULL )
 	{
 		/* Start with the registers in a benign state. */
 		memset( ( void * ) pulFlopBuffer, 0x00, portFLOP_STORAGE_SIZE );
-		
+
 		/* The first thing to get saved in the buffer is the FPSCR value -
 		initialise this to the current FPSCR value. */
 		*pulFlopBuffer = get_fpscr();
-		
+
 		/* Use the task tag to point to the flop buffer.  Pass pointer to just
 		above the buffer because the flop save routine uses a pre-decrement. */
-		vTaskSetApplicationTaskTag( xTask, ( void * ) ( pulFlopBuffer + portFLOP_REGISTERS_TO_STORE ) );		
+		vTaskSetApplicationTaskTag( xTask, ( void * ) ( pulFlopBuffer + portFLOP_REGISTERS_TO_STORE ) );
 		xReturn = pdPASS;
 	}
 	else
 	{
 		xReturn = pdFAIL;
 	}
-	
+
 	return xReturn;
 }
 /*-----------------------------------------------------------*/

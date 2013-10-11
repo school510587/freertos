@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -229,7 +229,7 @@ XIntc_Config *pxInterruptController;
 XIntc_VectorTableEntry *pxTable;
 
 	/* Just to remove compiler warning. */
-	( void ) pvNullDoNotUse;	
+	( void ) pvNullDoNotUse;
 
 	/* Get the configuration by using the device ID - in this case it is
 	assumed that only one interrupt controller is being used. */
@@ -295,5 +295,5 @@ portBASE_TYPE xReturn = pdFAIL;
 		xReturn = pdPASS;
 	}
 
-	return xReturn;		
+	return xReturn;
 }
