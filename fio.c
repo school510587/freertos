@@ -6,6 +6,7 @@
 #include "filesystem.h"
 #include "osdebug.h"
 #include "hash-djb2.h"
+#include "rs232_io.h"
 
 static struct fddef_t fio_fds[MAX_FDS];
 
