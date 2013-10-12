@@ -14,8 +14,6 @@
 
 extern const char _sromfs;
 
-static void setup_hardware();
-
 volatile xSemaphoreHandle serial_tx_wait_sem = NULL;
 
 
