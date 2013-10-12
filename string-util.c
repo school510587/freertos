@@ -60,6 +60,21 @@ char *strcpy(char *dest, const char *src)
 	return dest;
 }
 
+size_t strlen(const char *s) __attribute__ ((naked));
+size_t strlen(const char *s)
+{
+	asm(
+		"       sub  r3, r0, #1                 \n"
+	"strlen_loop:               \n"
+		"       ldrb r2, [r3, #1]!              \n"
+		"       cmp  r2, #0                             \n"
+	"   bne  strlen_loop        \n"
+		"       sub  r0, r3, r0                 \n"
+		"       bx   lr                                 \n"
+		:::
+	);
+}
+
 char *strncpy(char *dest, const char *src, size_t n)
 {
 	const char *s = src;
