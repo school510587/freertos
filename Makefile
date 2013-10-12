@@ -55,6 +55,8 @@ main.bin: test-romfs.o main.c
 		osdebug.c \
 		string-util.c \
 		\
+		shell.c \
+		\
 		main.c
 	$(CROSS_COMPILE)ld -Tmain.ld -nostartfiles -o main.elf \
 		core_cm3.o \
@@ -76,6 +78,8 @@ main.bin: test-romfs.o main.c
 		\
 		osdebug.o \
 		string-util.o \
+		\
+		shell.o \
 		\
 		main.o
 	$(CROSS_COMPILE)objcopy -Obinary main.elf main.bin
