@@ -11,7 +11,13 @@
 static struct fddef_t fio_fds[MAX_FDS];
 
 static ssize_t stdin_read(void * opaque, void * buf, size_t count) {
-    return 0;
+    int i;
+    char * data = buf;
+
+    for (i = 0; i < count; i++)
+        data[i] = recv_byte();
+
+    return count;
 }
 
 static ssize_t stdout_write(void * opaque, const void * buf, size_t count) {
