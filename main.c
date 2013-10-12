@@ -12,6 +12,9 @@
 #include "fio.h"
 #include "romfs.h"
 
+/* Shell includes */
+#include "shell.h"
+
 extern const uint8_t _sromfs;
 
 void read_romfs_task(void *pvParameters)
@@ -40,8 +43,8 @@ int main()
 	register_romfs("romfs", &_sromfs);
 
 	/* Create a task to output text read from romfs. */
-	xTaskCreate(read_romfs_task,
-	            (signed portCHAR *) "Read romfs",
+	xTaskCreate(shell_task,
+	            (const signed portCHAR *) "Shell",
 	            512 /* stack size */, NULL, tskIDLE_PRIORITY + 2, NULL);
 
 	/* Start running the tasks. */
