@@ -12,8 +12,9 @@
 /* Filesystem includes */
 #include "filesystem.h"
 #include "fio.h"
+#include "romfs.h"
 
-extern const char _sromfs;
+extern const uint8_t _sromfs;
 
 volatile xSemaphoreHandle serial_tx_wait_sem = NULL;
 
