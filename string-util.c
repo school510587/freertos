@@ -52,6 +52,23 @@ char *strchr(const char *s, int c)
 	return (*s == c) ? (char *)s : NULL;
 }
 
+int strcmp(const char *a, const char *b) __attribute__ ((naked));
+int strcmp(const char *a, const char *b)
+{
+	asm(
+	"strcmp_lop:                \n"
+	"   ldrb    r2, [r0],#1     \n"
+	"   ldrb    r3, [r1],#1     \n"
+	"   cmp     r2, #1          \n"
+	"   it      hi              \n"
+	"   cmphi   r2, r3          \n"
+	"   beq     strcmp_lop      \n"
+		"       sub     r0, r2, r3      \n"
+	"   bx      lr              \n"
+		:::
+	);
+}
+
 char *strcpy(char *dest, const char *src)
 {
 	const char *s = src;
