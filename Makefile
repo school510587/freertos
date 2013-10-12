@@ -45,6 +45,7 @@ main.bin: test-romfs.o main.c
 		$(FREERTOS_SRC)/portable/MemMang/heap_1.c \
 		\
 		stm32_p103.c \
+		serial_io.c \
 		\
 		romfs.c \
 		hash-djb2.c \
@@ -69,6 +70,7 @@ main.bin: test-romfs.o main.c
 		port.o heap_1.o \
 		\
 		stm32_p103.o \
+		serial_io.o \
 		\
 		romfs.o hash-djb2.o filesystem.o fio.o \
 		\
