@@ -92,6 +92,17 @@ size_t strlen(const char *s)
 	);
 }
 
+int strncmp(const char *a, const char *b, size_t n)
+{
+	size_t i;
+
+	for (i = 0; i < n; i++)
+		if (a[i] != b[i])
+			return a[i] - b[i];
+
+	return 0;
+}
+
 char *strncpy(char *dest, const char *src, size_t n)
 {
 	const char *s = src;
