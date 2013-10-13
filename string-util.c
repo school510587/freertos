@@ -8,6 +8,12 @@
 #define HASZERO(x) ((x)-ONES & ~(x) & HIGHS)
 
 #define SS (sizeof(size_t))
+
+int isspace(int c)
+{
+	return (c == ' ');
+}
+
 void *memset(void *dest, int c, size_t n)
 {
 	unsigned char *s = dest;
