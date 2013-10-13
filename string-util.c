@@ -9,6 +9,13 @@
 
 #define SS (sizeof(size_t))
 
+int isalnum(int c)
+{
+	return (('a' <= (c) && (c) <= 'z') ||
+		('A' <= (c) && (c) <= 'Z') ||
+		('0' <= (c) && (c) <= '9'));
+}
+
 int isspace(int c)
 {
 	return (c == ' ');
