@@ -4,6 +4,7 @@
 #include "shell.h"
 
 /* Command handlers. */
+static void cmd_cat(int argc, char *argv[]);
 static void cmd_echo(int argc, char *argv[]);
 static void cmd_export(int argc, char *argv[]);
 static void cmd_help(int argc, char *argv[]);
@@ -18,6 +19,7 @@ typedef struct {
 	char description[MAX_CMDHELP + 1];
 } hcmd_entry;
 static const hcmd_entry cmd_data[CMD_COUNT] = {
+	[CMD_CAT] = {.cmd = "cat", .func = cmd_cat, .description = "Concatenate & print files."},
 	[CMD_ECHO] = {.cmd = "echo", .func = cmd_echo, .description = "Show words you input."},
 	[CMD_EXPORT] = {.cmd = "export", .func = cmd_export, .description = "Export environment variables."},
 	[CMD_HELP] = {.cmd = "help", .func = cmd_help, .description = "List all commands you can use."},
@@ -198,6 +200,37 @@ static void execute_command()
 	if (i == CMD_COUNT) {
 		fio_write(1, argv[0], strlen(argv[0]));
 		fio_write(1, ": command not found\n", 20);
+	}
+}
+
+/* Command "cat" */
+static void cmd_cat(int argc, char *argv[])
+{
+	char buf[128];
+	size_t count;
+	int fd;
+	int i;
+
+	for (i = 1; i < argc; i++) {
+		fd = fs_open(argv[i], 0, O_RDONLY);
+
+		if (fd < 0) {
+			fio_write(2, "cat: ", 5);
+			fio_write(2, argv[i], strlen(argv[i]));
+			fio_write(2, ": No such file or directory\n", 28);
+			return;
+		}
+		else {
+			do {
+				/* Read from /romfs/test.txt to buffer */
+				count = fio_read(fd, buf, sizeof(buf));
+
+				/* Write buffer to fd 1 (stdout, through UART) */
+				fio_write(1, buf, count);
+			} while (count);
+		}
+
+		fio_close(fd);
 	}
 }
 
