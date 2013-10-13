@@ -12,7 +12,8 @@
 
 /* Enumeration for command types. */
 typedef enum {
-	CMD_ECHO = 0,
+	CMD_CAT = 0,
+	CMD_ECHO,
 	CMD_EXPORT,
 	CMD_HELP,
 	CMD_HISTORY,
