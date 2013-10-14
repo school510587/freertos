@@ -2,6 +2,9 @@
 #define isalnum(c) __builtin_isalnum(c)
 #define isspace(c) __builtin_isspace(c)
 
+#include "FreeRTOS.h"
+#include "task.h"
+
 #include "fio.h"
 #include "shell.h"
 
@@ -289,36 +292,10 @@ void cmd_man(int argc, char *argv[])
 /* Command "ps" */
 static void cmd_ps(int argc, char* argv[])
 {
-#if 0
-	char ps_message[]="PID STATUS PRIORITY";
-	int ps_message_length = sizeof(ps_message);
-	int task_i;
-	int task;
+	signed char buf[1024];
 
-	write(fdout, &ps_message , ps_message_length);
-	write(fdout, &next_line , 3);
-
-	for (task_i = 0; task_i < task_count; task_i++) {
-		char task_info_pid[2];
-		char task_info_status[2];
-		char task_info_priority[3];
-
-		task_info_pid[0]='0'+tasks[task_i].pid;
-		task_info_pid[1]='\0';
-		task_info_status[0]='0'+tasks[task_i].status;
-		task_info_status[1]='\0';		       
-
-		itoa(tasks[task_i].priority,task_info_priority);
-
-		write(fdout, &task_info_pid , 2);
-		write_blank(3);
-			write(fdout, &task_info_status , 2);
-		write_blank(5);
-		write(fdout, &task_info_priority , 3);
-
-		write(fdout, &next_line , 3);
-	}
-#endif
+	vTaskList(buf);
+	fio_write(1, buf, strlen((char*)buf));
 }
 
 void shell_task(void *pvParameters)
