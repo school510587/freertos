@@ -10,6 +10,7 @@ static void cmd_echo(int argc, char *argv[]);
 static void cmd_export(int argc, char *argv[]);
 static void cmd_help(int argc, char *argv[]);
 static void cmd_history(int argc, char *argv[]);
+static void cmd_ls(int argc, char *argv[]);
 static void cmd_man(int argc, char *argv[]);
 static void cmd_ps(int argc, char *argv[]);
 
@@ -25,6 +26,7 @@ static const hcmd_entry cmd_data[CMD_COUNT] = {
 	[CMD_EXPORT] = {.cmd = "export", .func = cmd_export, .description = "Export environment variables."},
 	[CMD_HELP] = {.cmd = "help", .func = cmd_help, .description = "List all commands you can use."},
 	[CMD_HISTORY] = {.cmd = "history", .func = cmd_history, .description = "Show latest commands entered."}, 
+	[CMD_LS] = {.cmd="ls", .func = cmd_ls, .description = "List files (& attributes)."},
 	[CMD_MAN] = {.cmd = "man", .func = cmd_man, .description = "Manual pager."},
 	[CMD_PS] = {.cmd = "ps", .func = cmd_ps, .description = "List all the processes."}
 };
@@ -308,6 +310,21 @@ void cmd_history(int argc, char *argv[])
 			fio_write(1, "\n", 1);
 		}
 	}
+}
+
+/* Command "ls" */
+void cmd_ls(int argc, char *argv[])
+{
+	file_attr_t entry[8];
+	size_t n;
+	size_t i;
+
+	n = fio_list(entry, 8);
+	for (i = 0; i < n; i++) {
+		fio_write(1, entry[i].name, strlen(entry[i].name));
+		fio_write(1, " ", 1);
+	}
+	fio_write(1, "\n", 1);
 }
 
 /* Command "man" */

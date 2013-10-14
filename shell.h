@@ -17,6 +17,7 @@ typedef enum {
 	CMD_EXPORT,
 	CMD_HELP,
 	CMD_HISTORY,
+	CMD_LS,
 	CMD_MAN,
 	CMD_PS,
 	CMD_COUNT
