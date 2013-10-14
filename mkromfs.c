@@ -1,6 +1,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #endif
+#include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -53,6 +54,9 @@ void processdir(DIR * dirp, const char * curpath, FILE * outfile, const char * p
             processdir(rec_dirp, fullpath + strlen(prefix) + 1, outfile, prefix);
             closedir(rec_dirp);
         } else {
+            struct stat status;
+
+            stat(fullpath, &status);
             hash = hash_djb2((const uint8_t *) ent->d_name, cur_hash);
             infile = fopen(fullpath, "rb");
             if (!infile) {
@@ -64,9 +68,7 @@ void processdir(DIR * dirp, const char * curpath, FILE * outfile, const char * p
             b = (hash >> 16) & 0xff; fwrite(&b, 1, 1, outfile);
             b = (hash >> 24) & 0xff; fwrite(&b, 1, 1, outfile);
             fwrite(ent->d_name, 1, strlen(ent->d_name) + 1, outfile);
-            fseek(infile, 0, SEEK_END);
-            size = ftell(infile);
-            fseek(infile, 0, SEEK_SET);
+            size = status.st_size;
             b = (size >>  0) & 0xff; fwrite(&b, 1, 1, outfile);
             b = (size >>  8) & 0xff; fwrite(&b, 1, 1, outfile);
             b = (size >> 16) & 0xff; fwrite(&b, 1, 1, outfile);
