@@ -1,5 +1,6 @@
-#include <ctype.h>
 #include <string.h>
+#define isalnum(c) __builtin_isalnum(c)
+#define isspace(c) __builtin_isspace(c)
 
 #include "fio.h"
 #include "shell.h"

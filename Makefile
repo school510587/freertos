@@ -23,6 +23,7 @@ main.bin: test-romfs.o main.c
 		-I$(CODEBASE)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x \
 		-I$(CODEBASE)/libraries/STM32F10x_StdPeriph_Driver/inc \
 		-fno-common -O0 \
+		-ffreestanding \
 		-Wall \
 		-gdwarf-2 -g3 \
 		-mcpu=cortex-m3 -mthumb \
