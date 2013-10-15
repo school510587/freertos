@@ -59,6 +59,16 @@ void *memcpy(void *dest, const void *src, size_t n)
 	return ret;
 }
 
+char *strcat(char *dst, const char *src)
+{
+	char *ret = dst;
+
+	for (; *dst; ++dst);
+	while ((*dst++ = *src++));
+
+	return ret;
+}
+
 char *strchr(const char *s, int c)
 {
 	for (; *s && *s != c; s++);
