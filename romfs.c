@@ -101,7 +101,20 @@ static int romfs_open(void * opaque, const char * path, int flags, int mode) {
     return r;
 }
 
+static void * romfs_mount(void * mountpoint) {
+    const uint8_t * p = (const char *)mountpoint;
+
+    if (!mountpoint)
+        return NULL;
+
+    p += 4;
+    p += strlen((const char *)p);
+    p += 4 + get_unaligned(p);
+
+    return get_unaligned(p) ? p : NULL;
+}
+
 void register_romfs(const char * mountpoint, const uint8_t * romfs) {
 //    DBGOUT("Registering romfs `%s' @ %p\r\n", mountpoint, romfs);
-    register_fs(mountpoint, romfs_open, (void *) romfs);
+    register_fs(mountpoint, romfs_mount, romfs_open, (void *) romfs);
 }
