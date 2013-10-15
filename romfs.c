@@ -101,15 +101,20 @@ static int romfs_open(void * opaque, const char * path, int flags, int mode) {
     return r;
 }
 
-static void * romfs_mount(void * mountpoint) {
+static void * romfs_mount(void * mountpoint, file_attr_t * attr) {
     const uint8_t * p = (const char *)mountpoint;
 
-    if (!mountpoint)
+    if (!mountpoint || !attr)
         return NULL;
 
+    attr->hash = get_unaligned(p);
     p += 4;
-    p += strlen((const char *)p);
-    p += 4 + get_unaligned(p);
+    attr->name = (const char *)p;
+    p += strlen(attr->name) + 1;
+    attr->size = get_unaligned(p);
+    p += 4;
+    attr->content = p;
+    p += attr->size;
 
     return get_unaligned(p) ? p : NULL;
 }

@@ -1,5 +1,6 @@
 #include <string.h>
 
+#include "fattr.h"
 #include "fio.h"
 #include "shell.h"
 
