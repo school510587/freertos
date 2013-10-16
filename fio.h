@@ -2,6 +2,7 @@
 #define __FIO_H__
 
 #include <stdio.h>
+#include "fattr.h"
 
 enum open_types_t {
     O_RDONLY = 0,

@@ -64,7 +64,7 @@ int fs_open(const char * path, int flags, int mode) {
     return -2;
 }
 
-void * fs_mount(const char * path) {
+int fs_mount(const char * path, file_attr_t * attr) {
     if (path) {
         const char * slash;
         uint32_t hash;
@@ -86,8 +86,7 @@ void * fs_mount(const char * path) {
             }
         }
     }
-    else
-        mount_data.opaque = mount_data.mount(mount_data.opaque);
+    mount_data.opaque = mount_data.mount(mount_data.opaque, attr);
 
-    return mount_data.opaque;
+    return mount_data.opaque ? 1 : 0;
 }
