@@ -5,6 +5,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
+#include "fattr.h"
 #include "fio.h"
 #include "filesystem.h"
 #include "shell.h"
