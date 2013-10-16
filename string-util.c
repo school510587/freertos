@@ -9,6 +9,20 @@
 
 #define SS (sizeof(size_t))
 
+static char *utoa(unsigned int num, char *dst, unsigned int base)
+{
+	char buf[33] = {0};
+	char *p = &buf[32];
+
+	if (num == 0)
+		*--p = '0';
+	else
+		for (; num; num/=base)
+			*--p = "0123456789ABCDEF" [num % base];
+
+	return strcpy(dst, p);
+}
+
 int isalnum(int c)
 {
 	return (('a' <= (c) && (c) <= 'z') ||
