@@ -23,6 +23,18 @@ static char *utoa(unsigned int num, char *dst, unsigned int base)
 	return strcpy(dst, p);
 }
 
+char *itoa(int num, char *dst, int base)
+{
+	if (base == 10 && num < 0) {
+		utoa(-num, dst+1, base);
+		*dst = '-';
+	}
+	else
+		utoa(num, dst, base);
+
+	return dst;
+}
+
 int isalnum(int c)
 {
 	return (('a' <= (c) && (c) <= 'z') ||
