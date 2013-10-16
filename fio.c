@@ -163,12 +163,12 @@ void fio_set_opaque(int fd, void * opaque) {
         fio_fds[fd].opaque = opaque;
 }
 
-size_t fio_list(file_attr_t * attr, size_t n) {
+size_t fio_list(const char * dir, file_attr_t * attr, size_t n) {
     int ret;
     size_t i;
 
     xSemaphoreTake(fio_sem, portMAX_DELAY);
-    ret = fs_mount("romfs/", &attr[0]);
+    ret = fs_mount(dir, &attr[0]);
     for (i = 1; i < n && ret; i++)
         ret = fs_mount(NULL, &attr[i]);
     xSemaphoreGive(fio_sem);

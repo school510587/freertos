@@ -45,6 +45,9 @@ static int cur_his=0;
 static evar_entry env_var[MAX_ENVCOUNT];
 static int env_count = 0;
 
+/* Current working directory. */
+static char cwd[CWD_LEN] = "/romfs";
+
 /* Implementation of the behavior of '!' in shell. */
 static void find_events()
 {
@@ -207,11 +210,12 @@ static void cmd_cat(int argc, char *argv[])
 	int i;
 
 	for (i = 1; i < argc; i++) {
-		fd = fs_open(argv[i], 0, O_RDONLY);
+		sprintf(buf, "%s/%s", cwd, argv[i]);
+		fd = fs_open(buf, 0, O_RDONLY);
 
 		if (fd < 0) {
 			fio_write(2, "cat: ", 5);
-			fio_write(2, argv[i], strlen(argv[i]));
+			fio_write(2, buf, strlen(argv[i]));
 			fio_write(2, ": No such file or directory\n", 28);
 			return;
 		}
@@ -311,7 +315,7 @@ void cmd_ls(int argc, char *argv[])
 	size_t n;
 	size_t i;
 
-	n = fio_list(entry, 8);
+	n = fio_list(cwd, entry, 8);
 	for (i = 0; i < n; i++) {
 		fio_write(1, entry[i].name, strlen(entry[i].name));
 		fio_write(1, " ", 1);
@@ -352,13 +356,15 @@ static void cmd_ps(int argc, char* argv[])
 
 void shell_task(void *pvParameters)
 {
-	char hint[] = "root@FreeRTOS:/# ";
+	char hint[] = "root@FreeRTOS:";
 	char *p = NULL;
 	char c;
 
 	for (;; cur_his = (cur_his + 1) % HISTORY_COUNT) {
 		p = cmd[cur_his];
 		fio_write(1, hint, strlen(hint));
+		fio_write(1, cwd, strlen(cwd));
+		fio_write(1, "# ", 2);
 
 		while (1) {
 			fio_read(0, &c, 1);
