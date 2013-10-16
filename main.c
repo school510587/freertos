@@ -17,22 +17,6 @@
 
 extern const uint8_t _sromfs;
 
-void read_romfs_task(void *pvParameters)
-{
-	char buf[128];
-	size_t count;
-	int fd = fs_open("/romfs/test.txt", 0, O_RDONLY);
-	do {
-		//Read from /romfs/test.txt to buffer
-		count = fio_read(fd, buf, sizeof(buf));
-
-		//Write buffer to fd 1 (stdout, through uart)
-		fio_write(1, buf, count);
-	} while (count);
-
-	while (1);
-}
-
 int main()
 {
 	init_serial_io();
