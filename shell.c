@@ -197,7 +197,7 @@ static void execute_command()
 	}
 	if (i == CMD_COUNT) {
 		fio_write(1, argv[0], strlen(argv[0]));
-		fio_write(1, ": command not found\n", 20);
+		fio_write(2, ": command not found\n", 20);
 	}
 }
 
