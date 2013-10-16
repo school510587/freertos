@@ -311,14 +311,34 @@ void cmd_history(int argc, char *argv[])
 /* Command "ls" */
 void cmd_ls(int argc, char *argv[])
 {
+	const int _l = 1; /* Flag for "-l" option. */
+	int flag = 0;
 	file_attr_t entry[8];
 	size_t n;
 	size_t i;
 
+	for (i = 1; i < argc; i++) {
+		if (!strcmp(argv[i], "-l"))
+			flag |= _l;
+		else
+			break;
+	}
+
 	n = fio_list(cwd, entry, 8);
 	for (i = 0; i < n; i++) {
-		puts(entry[i].name);
-		puts(" ");
+		if (flag & _l) {
+			char buf[8] = {0};
+
+			sprintf(buf, "%u", entry[i].size);
+			puts(entry[i].name);
+			puts(" ");
+			puts(buf);
+			puts("\n");
+		}
+		else {
+			puts(entry[i].name);
+			puts(" ");
+		}
 	}
 	puts("\n");
 }
