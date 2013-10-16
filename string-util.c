@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <limits.h>
+#include "fio.h"
 
 #define ALIGN (sizeof(size_t))
 #define ONES ((size_t)-1/UCHAR_MAX)
@@ -84,6 +85,12 @@ void *memcpy(void *dest, const void *src, size_t n)
 	}
 
 	return ret;
+}
+
+int puts(const char *s) 
+{
+	fio_write(1, s, strlen(s));
+	return 1;
 }
 
 int sprintf(char *dst, const char *fmt, ...)
