@@ -196,7 +196,7 @@ static void execute_command()
 		}
 	}
 	if (i == CMD_COUNT) {
-		fio_write(1, argv[0], strlen(argv[0]));
+		puts(argv[0]);
 		fio_write(2, ": command not found\n", 20);
 	}
 }
@@ -248,13 +248,13 @@ static void cmd_echo(int argc, char* argv[])
 	}
 
 	for (; i < argc; i++) {
-		fio_write(1, argv[i], strlen(argv[i]));
+		puts(argv[i]);
 		if (i < argc - 1)
-			fio_write(1, " ", 1);
+			puts(" ");
 	}
 
 	if (~flag & _n)
-		fio_write(1, "\n", 1);
+		puts("\n");
 }
 
 /* Command "export" */
@@ -286,12 +286,12 @@ static void cmd_help(int argc, char* argv[])
 {
 	int i;
 
-	fio_write(1, "This system has commands as follow\n", 35);
+	puts("This system has commands as follow\n");
 	for (i = 0; i < CMD_COUNT; i++) {
-		fio_write(1, cmd_data[i].cmd, strlen(cmd_data[i].cmd));
-		fio_write(1, ": ", 2);
-		fio_write(1, cmd_data[i].description, strlen(cmd_data[i].description));
-		fio_write(1, "\n", 1);
+		puts(cmd_data[i].cmd);
+		puts(": ");
+		puts(cmd_data[i].description);
+		puts("\n");
 	}
 }
 
@@ -302,8 +302,8 @@ void cmd_history(int argc, char *argv[])
 
 	for (i = cur_his + 1; i <= cur_his + HISTORY_COUNT; i++) {
 		if (cmd[i % HISTORY_COUNT][0]) {
-			fio_write(1, cmd[i % HISTORY_COUNT], strlen(cmd[i % HISTORY_COUNT]));
-			fio_write(1, "\n", 1);
+			puts(cmd[i % HISTORY_COUNT]);
+			puts("\n");
 		}
 	}
 }
@@ -317,10 +317,10 @@ void cmd_ls(int argc, char *argv[])
 
 	n = fio_list(cwd, entry, 8);
 	for (i = 0; i < n; i++) {
-		fio_write(1, entry[i].name, strlen(entry[i].name));
-		fio_write(1, " ", 1);
+		puts(entry[i].name);
+		puts(" ");
 	}
-	fio_write(1, "\n", 1);
+	puts("\n");
 }
 
 /* Command "man" */
@@ -337,12 +337,12 @@ void cmd_man(int argc, char *argv[])
 	if (i >= CMD_COUNT)
 		return;
 
-	fio_write(1, "NAME: ", 6);
-	fio_write(1, cmd_data[i].cmd, strlen(cmd_data[i].cmd));
-	fio_write(1, "\n", 1);
-	fio_write(1, "DESCRIPTION: ", 13);
-	fio_write(1, cmd_data[i].description, strlen(cmd_data[i].description));
-	fio_write(1, "\n", 1);
+	puts("NAME: ");
+	puts(cmd_data[i].cmd);
+	puts("\n");
+	puts("DESCRIPTION: ");
+	puts(cmd_data[i].description);
+	puts("\n");
 }
 
 /* Command "ps" */
@@ -351,7 +351,7 @@ static void cmd_ps(int argc, char* argv[])
 	signed char buf[1024];
 
 	vTaskList(buf);
-	fio_write(1, buf, strlen((char*)buf));
+	puts((char*)buf);
 }
 
 void shell_task(void *pvParameters)
@@ -362,9 +362,9 @@ void shell_task(void *pvParameters)
 
 	for (;; cur_his = (cur_his + 1) % HISTORY_COUNT) {
 		p = cmd[cur_his];
-		fio_write(1, hint, strlen(hint));
-		fio_write(1, cwd, strlen(cwd));
-		fio_write(1, "# ", 2);
+		puts(hint);
+		puts(cwd);
+		puts("# ");
 
 		while (1) {
 			fio_read(0, &c, 1);
@@ -372,14 +372,14 @@ void shell_task(void *pvParameters)
 			if (c == '\r' || c == '\n') {
 				if (p > cmd[cur_his]) {
 					*p = '\0';
-					fio_write(1, "\n", 1);
+					puts("\n");
 					break;
 				}
 			}
 			else if (c == 127 || c == '\b') {
 				if (p > cmd[cur_his]) {
 					p--;
-					fio_write(1, "\b \b", 3);
+					puts("\b \b");
 				}
 			}
 			else if (p - cmd[cur_his] < CMDBUF_SIZE - 1) {
