@@ -297,10 +297,8 @@ void cmd_history(int argc, char *argv[])
 	int i;
 
 	for (i = cur_his + 1; i <= cur_his + HISTORY_COUNT; i++) {
-		if (cmd[i % HISTORY_COUNT][0]) {
-			puts(cmd[i % HISTORY_COUNT]);
-			puts("\n");
-		}
+		if (cmd[i % HISTORY_COUNT][0])
+			printf("%s\n", cmd[i % HISTORY_COUNT]);
 	}
 }
 
