@@ -342,12 +342,7 @@ void cmd_man(int argc, char *argv[])
 	if (i >= CMD_COUNT)
 		return;
 
-	puts("NAME: ");
-	puts(cmd_data[i].cmd);
-	puts("\n");
-	puts("DESCRIPTION: ");
-	puts(cmd_data[i].description);
-	puts("\n");
+	printf("NAME: %s\nDESCRIPTION: %s\n", cmd_data[i].cmd, cmd_data[i].description);
 }
 
 /* Command "ps" */
