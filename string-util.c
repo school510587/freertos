@@ -143,52 +143,19 @@ int puts(const char *s)
 
 int sprintf(char *dst, const char *fmt, ...)
 {
-	union {
-		int i;
-		const char *s;
-		unsigned u;
-	} argv;
 	char *p = dst;
-	va_list arg_list;
 
-	va_start(arg_list, fmt);
-	for (; *fmt; ++fmt) {
-		if (*fmt == '%') {
-			switch (*++fmt) {
-				case '%':
-					*p++ = '%';
-				break;
-				case 'c':
-					argv.i = va_arg(arg_list, int);
-					*p++ = (char)argv.i;
-				break;
-				case 'd':
-				case 'i':
-					argv.i = va_arg(arg_list, int);
-					itoa(argv.i, p, 10);
-					p += strlen(p);
-				break;
-				case 'u':
-					argv.u = va_arg(arg_list, unsigned);
-					utoa(argv.u, p, 10);
-					p += strlen(p);
-				break;
-				case 's':
-					argv.s = va_arg(arg_list, const char *);
-					strcpy(p, argv.s);
-					p += strlen(p);
-				break;
-				case 'X':
-					argv.u = va_arg(arg_list, unsigned);
-					utoa(argv.u, p, 16);
-					p += strlen(p);
-				break;
-			}
-		}
-		else
-			*p++ = *fmt;
-	}
-	va_end(arg_list);
+#define _PUTC_(c) \
+	*p++ = (char)(c);
+#define _PUTS_(s) \
+	strcpy(p, s); \
+	p += strlen(s);
+
+	PRINTF_BODY(fmt)
+
+#undef _PUTC_
+#undef _PUTS_
+
 	*p = '\0';
 
 	return p - dst;
