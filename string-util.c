@@ -135,6 +135,27 @@ void *memcpy(void *dest, const void *src, size_t n)
 	return ret;
 }
 
+int printf(const char *fmt, ...)
+{
+	int count = 0;
+	char b;
+
+#define _PUTC_(c) \
+	b = (char)(c); \
+	fio_write(1, &b, 1); \
+	++count;
+#define _PUTS_(s) \
+	puts(s); \
+	count += strlen(s);
+
+	PRINTF_BODY(fmt)
+
+#undef _PUTC_
+#undef _PUTS_
+
+	return count;
+}
+
 int puts(const char *s) 
 {
 	fio_write(1, s, strlen(s));
