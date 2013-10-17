@@ -104,7 +104,7 @@ static char *cmdtok(char *cmd)
 	return cur;
 }
 
-static char *find_envvar(const char *name)
+char *getenv(const char *name)
 {
 	int i;
 
@@ -133,7 +133,7 @@ static int fill_arg(char *const dest, const char *argv)
 		else { /* Symbols. */
 			if (p) {
 				*p = '\0';
-				p = find_envvar(env_name);
+				p = getenv(env_name);
 				if (p) {
 					strcpy(buf, p);
 					buf += strlen(p);
@@ -148,7 +148,7 @@ static int fill_arg(char *const dest, const char *argv)
 	}
 	if (p) {
 		*p = '\0';
-		p = find_envvar(env_name);
+		p = getenv(env_name);
 		if (p) {
 			strcpy(buf, p);
 			buf += strlen(p);
@@ -271,7 +271,7 @@ void cmd_export(int argc, char *argv[])
 			value++;
 		if (*value)
 			*value++ = '\0';
-		found = find_envvar(argv[i]);
+		found = getenv(argv[i]);
 		if (found)
 			strcpy(found, value);
 		else if (env_count < MAX_ENVCOUNT) {
