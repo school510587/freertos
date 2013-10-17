@@ -287,12 +287,8 @@ static void cmd_help(int argc, char* argv[])
 	int i;
 
 	puts("This system has commands as follow\n");
-	for (i = 0; i < CMD_COUNT; i++) {
-		puts(cmd_data[i].cmd);
-		puts(": ");
-		puts(cmd_data[i].description);
-		puts("\n");
-	}
+	for (i = 0; i < CMD_COUNT; i++)
+		printf("%s: %s\n", cmd_data[i].cmd, cmd_data[i].description);
 }
 
 /* Command "history" */
