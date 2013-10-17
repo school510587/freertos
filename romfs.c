@@ -65,24 +65,6 @@ static off_t romfs_seek(void * opaque, off_t offset, int whence) {
     return offset;
 }
 
-const uint8_t * romfs_get_file_by_hash(const uint8_t * romfs, uint32_t h) {
-    const uint8_t * meta;
-    size_t l;
-
-    for (meta = romfs; get_unaligned(meta); meta += 4 + l) {
-        uint32_t x = get_unaligned(meta);
-
-        for (meta += 4; *meta; meta++);
-        meta += 4; /* Mode field. */
-        l = get_unaligned(++meta);
-        if (x == h) {
-            return meta + 4;
-        }
-    }
-
-    return NULL;
-}
-
 static int romfs_open(void * opaque, const char * path, int flags, int mode) {
     uint32_t h = hash_djb2((const uint8_t *) path, -1);
     const uint8_t * romfs = (const uint8_t *) opaque;
@@ -120,6 +102,19 @@ static void * romfs_mount(void * mountpoint, file_attr_t * attr) {
     p += attr->size;
 
     return get_unaligned(p) ? p : NULL;
+}
+
+const uint8_t * romfs_get_file_by_hash(const uint8_t * romfs, uint32_t h) {
+    const uint8_t * meta = romfs;
+    file_attr_t attr;
+
+    while (meta) {
+        meta = (const uint8_t *)romfs_mount((void *)meta, &attr);
+        if (attr.hash == h)
+            return attr.content;
+    }
+
+    return NULL;
 }
 
 void register_romfs(const char * mountpoint, const uint8_t * romfs) {
