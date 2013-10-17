@@ -73,6 +73,7 @@ const uint8_t * romfs_get_file_by_hash(const uint8_t * romfs, uint32_t h) {
         uint32_t x = get_unaligned(meta);
 
         for (meta += 4; *meta; meta++);
+        meta += 4; /* Mode field. */
         l = get_unaligned(++meta);
         if (x == h) {
             return meta + 4;
@@ -111,6 +112,8 @@ static void * romfs_mount(void * mountpoint, file_attr_t * attr) {
     p += 4;
     attr->name = (const char *)p;
     p += strlen(attr->name) + 1;
+    attr->mode = get_unaligned(p);
+    p += 4;
     attr->size = get_unaligned(p);
     p += 4;
     attr->content = p;
