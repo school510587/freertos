@@ -314,6 +314,7 @@ static inline void show_access_rights(mode_t m, mode_t r, mode_t w, mode_t x)
 /* Command "ls" */
 void cmd_ls(int argc, char *argv[])
 {
+	const int _a = 2; /* Flag for "-a" option. */
 	const int _l = 1; /* Flag for "-l" option. */
 	int flag = 0;
 	file_attr_t entry[8];
@@ -323,12 +324,17 @@ void cmd_ls(int argc, char *argv[])
 	for (i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "-l"))
 			flag |= _l;
+		else if (!strcmp(argv[i], "-a") || !strcmp(argv[i], "--all"))
+			flag |= _a;
 		else
 			break;
 	}
 
 	n = fio_list(cwd, entry, 8);
 	for (i = 0; i < n; i++) {
+		if (entry[i].name[0] == '.' && !(flag & _a))
+			continue;
+
 		if (flag & _l) {
 			puts(S_ISDIR(entry[i].mode) ? "d" : "-");
 			show_access_rights(entry[i].mode, S_IRUSR, S_IWUSR, S_IXUSR);
