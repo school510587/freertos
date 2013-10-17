@@ -326,19 +326,10 @@ void cmd_ls(int argc, char *argv[])
 
 	n = fio_list(cwd, entry, 8);
 	for (i = 0; i < n; i++) {
-		if (flag & _l) {
-			char buf[8] = {0};
-
-			sprintf(buf, "%u", entry[i].size);
-			puts(entry[i].name);
-			puts(" ");
-			puts(buf);
-			puts("\n");
-		}
-		else {
-			puts(entry[i].name);
-			puts(" ");
-		}
+		if (flag & _l)
+			printf("%s %u\n", entry[i].name, entry[i].size);
+		else
+			printf("%s ", entry[i].name);
 	}
 	puts("\n");
 }
