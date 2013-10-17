@@ -1,5 +1,7 @@
 #include <sys/stat.h>
 #include <string.h>
+#include <stdlib.h>
+#include <errno.h>
 #define isalnum(c) __builtin_isalnum(c)
 #define isspace(c) __builtin_isspace(c)
 
@@ -114,6 +116,31 @@ char *getenv(const char *name)
 	}
 
 	return NULL;
+}
+
+int putenv(char *str)
+{
+	char *found;
+	char *value = str;
+
+	while (*value && *value != '=')
+		value++;
+
+	if (*value)
+		*value++ = '\0';
+
+	found = getenv(str);
+	if (found)
+		strcpy(found, value);
+	else if (env_count < MAX_ENVCOUNT) {
+		strcpy(env_var[env_count].name, str);
+		strcpy(env_var[env_count].value, value);
+		env_count++;
+	}
+	else
+		return ENOMEM;
+
+	return EXIT_SUCCESS;
 }
 
 /* Fill in entire value of argument. */
@@ -261,25 +288,10 @@ static void cmd_echo(int argc, char* argv[])
 /* Command "export" */
 void cmd_export(int argc, char *argv[])
 {
-	char *found;
-	char *value;
 	int i;
 
-	for (i = 1; i < argc; i++) {
-		value = argv[i];
-		while (*value && *value != '=')
-			value++;
-		if (*value)
-			*value++ = '\0';
-		found = getenv(argv[i]);
-		if (found)
-			strcpy(found, value);
-		else if (env_count < MAX_ENVCOUNT) {
-			strcpy(env_var[env_count].name, argv[i]);
-			strcpy(env_var[env_count].value, value);
-			env_count++;
-		}
-	}
+	for (i = 1; i < argc; i++)
+		putenv(argv[i]);
 }
 
 /* Command "help" */
