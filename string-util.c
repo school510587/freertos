@@ -11,6 +11,54 @@
 
 #define SS (sizeof(size_t))
 
+#define PRINTF_BODY(fmt) \
+	char buf[8]; \
+	union { \
+		int i; \
+		const char *s; \
+		unsigned u; \
+	} argv; \
+	va_list arg_list; \
+	\
+	va_start(arg_list, fmt); \
+	for (; *fmt; ++fmt) { \
+		if (*fmt == '%') { \
+			switch (*++fmt) { \
+				case '%': \
+					_PUTC_('%') \
+				break; \
+				case 'c': \
+					argv.i = va_arg(arg_list, int); \
+					_PUTC_(argv.i) \
+				break; \
+				case 'd': \
+				case 'i': \
+					argv.i = va_arg(arg_list, int); \
+					itoa(argv.i, buf, 10); \
+					_PUTS_(buf) \
+				break; \
+				case 'u': \
+					argv.u = va_arg(arg_list, unsigned); \
+					utoa(argv.u, buf, 10); \
+					_PUTS_(buf) \
+				break; \
+				case 's': \
+					argv.s = va_arg(arg_list, const char *); \
+					_PUTS_(argv.s) \
+				break; \
+				case 'X': \
+					argv.u = va_arg(arg_list, unsigned); \
+					utoa(argv.u, buf, 16); \
+					_PUTS_(buf) \
+				break; \
+			} \
+		} \
+		else { \
+			_PUTC_(*fmt); \
+		} \
+	} \
+	va_end(arg_list);
+
 static char *utoa(unsigned int num, char *dst, unsigned int base)
 {
 	char buf[33] = {0};
