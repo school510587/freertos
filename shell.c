@@ -1,3 +1,4 @@
+#include <sys/stat.h>
 #include <string.h>
 #define isalnum(c) __builtin_isalnum(c)
 #define isspace(c) __builtin_isspace(c)
@@ -302,6 +303,14 @@ void cmd_history(int argc, char *argv[])
 	}
 }
 
+/* Show 3 characters representing reading, writing and excuting. */
+static inline void show_access_rights(mode_t m, mode_t r, mode_t w, mode_t x)
+{
+	puts(m & r ? "r" : "-");
+	puts(m & w ? "w" : "-");
+	puts(m & x ? "x" : "-");
+}
+
 /* Command "ls" */
 void cmd_ls(int argc, char *argv[])
 {
@@ -320,8 +329,13 @@ void cmd_ls(int argc, char *argv[])
 
 	n = fio_list(cwd, entry, 8);
 	for (i = 0; i < n; i++) {
-		if (flag & _l)
-			printf("%s %u\n", entry[i].name, entry[i].size);
+		if (flag & _l) {
+			puts(S_ISDIR(entry[i].mode) ? "d" : "-");
+			show_access_rights(entry[i].mode, S_IRUSR, S_IWUSR, S_IXUSR);
+			show_access_rights(entry[i].mode, S_IRGRP, S_IWGRP, S_IXGRP);
+			show_access_rights(entry[i].mode, S_IROTH, S_IWOTH, S_IXOTH);
+			printf(" %s %u\n", entry[i].name, entry[i].size);
+		}
 		else
 			printf("%s ", entry[i].name);
 	}
