@@ -159,6 +159,18 @@ void fio_set_opaque(int fd, void * opaque) {
         fio_fds[fd].opaque = opaque;
 }
 
+char *fio_getline(int fd, char *str, size_t n)
+{
+    size_t i;
+    char c;
+
+    for (i = 0; fio_read(fd, &c, 1) && c != '\r' && c != '\n' && i < n - 1; i++)
+        str[i] = c;
+    str[i] = '\0';
+
+    return i == 0 ? NULL : str;
+}
+
 size_t fio_list(const char * dir, file_attr_t * attr, size_t n) {
     int ret;
     size_t i;
