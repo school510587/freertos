@@ -29,15 +29,17 @@ typedef struct {
 	void (*func)(int, char**);
 	char description[MAX_CMDHELP + 1];
 } hcmd_entry;
+#define CMD_DEF(name, desc) \
+	[CMD_ ## name] = {.cmd = #name, .func = cmd_ ## name, .description = desc }
 static const hcmd_entry cmd_data[CMD_COUNT] = {
-	[CMD_CAT] = {.cmd = "cat", .func = cmd_cat, .description = "Concatenate & print files."},
-	[CMD_ECHO] = {.cmd = "echo", .func = cmd_echo, .description = "Show words you input."},
-	[CMD_EXPORT] = {.cmd = "export", .func = cmd_export, .description = "Export environment variables."},
-	[CMD_HELP] = {.cmd = "help", .func = cmd_help, .description = "List all commands you can use."},
-	[CMD_HISTORY] = {.cmd = "history", .func = cmd_history, .description = "Show latest commands entered."}, 
-	[CMD_LS] = {.cmd="ls", .func = cmd_ls, .description = "List files (& attributes)."},
-	[CMD_MAN] = {.cmd = "man", .func = cmd_man, .description = "Manual pager."},
-	[CMD_PS] = {.cmd = "ps", .func = cmd_ps, .description = "List all the processes."}
+	CMD_DEF(cat, "Concatenate & print files."),
+	CMD_DEF(echo, "Show words you input."),
+	CMD_DEF(export, "Export environment variables."),
+	CMD_DEF(help, "List all commands you can use."),
+	CMD_DEF(history, "Show latest commands entered."),
+	CMD_DEF(ls, "List files (& attributes)."),
+	CMD_DEF(man, "Manual pager."),
+	CMD_DEF(ps, "List all the processes.")
 };
 
 /* Command history buffer. */
