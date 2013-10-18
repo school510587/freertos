@@ -22,6 +22,7 @@ static void cmd_history(int argc, char *argv[]);
 static void cmd_ls(int argc, char *argv[]);
 static void cmd_man(int argc, char *argv[]);
 static void cmd_ps(int argc, char *argv[]);
+static void cmd_su(int argc, char *argv[]);
 
 /* Structure for command handler. */
 typedef struct {
@@ -39,7 +40,8 @@ static const hcmd_entry cmd_data[CMD_COUNT] = {
 	CMD_DEF(history, "Show latest commands entered."),
 	CMD_DEF(ls, "List files (& attributes)."),
 	CMD_DEF(man, "Manual pager."),
-	CMD_DEF(ps, "List all the processes.")
+	CMD_DEF(ps, "List all the processes."),
+	CMD_DEF(su, "Switch user.")
 };
 
 /* Command history buffer. */
@@ -397,6 +399,51 @@ static void cmd_ps(int argc, char* argv[])
 
 	vTaskList(buf);
 	puts((char*)buf);
+}
+
+/* Command "su" */
+static void cmd_su(int argc, char *argv[])
+{
+	/* Buffer includes "USER=" & account with an ending '\0'. */
+	char buf[5 + MAX_ENVVALUE + 1];
+
+	if (argc == 1 || !strcmp(argv[1], "-")) {
+		strcpy(buf, "USER=root");
+		putenv_internal(buf);
+	}
+	else {
+		int ac_config;
+		char *line;
+		char user[MAX_ENVVALUE + 1];
+
+		strcpy(user, getenv("USER"));
+		if (!strcmp(user, argv[1]))
+			return;
+
+		/* Note: Only root has access rights to this file. */
+		strcpy(buf, "USER=root");
+		putenv_internal(buf);
+
+		ac_config = fs_open("/romfs/.account_config", 0, O_RDONLY);
+		strcpy(buf, "USER=");
+		while (fio_getline(ac_config, buf + 5, MAX_ENVVALUE + 1)) {
+			if (!strcmp(argv[1], buf + 5)) {
+				putenv_internal(buf);
+				user[0] = '\0';
+				break;
+			}
+		}
+		fio_close(ac_config);
+
+		/* It is nonempty when no matching id is found. */
+		if (user[0]) {
+			strcpy(buf + 5, user);
+			putenv_internal(buf);
+			fio_write(2, "Unknown id: ", 12);
+			fio_write(2, argv[1], strlen(argv[1]));
+			fio_write(2, "\n", 1);
+		}
+	}
 }
 
 void shell_task(void *pvParameters)
