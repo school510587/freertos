@@ -31,17 +31,17 @@ typedef struct {
 	char description[MAX_CMDHELP + 1];
 } hcmd_entry;
 #define CMD_DEF(name, desc) \
-	[CMD_ ## name] = {.cmd = #name, .func = cmd_ ## name, .description = desc }
+	[CMD_ ## name] = {.cmd = #name, .func = cmd_ ## name, .description = desc "."}
 static const hcmd_entry cmd_data[CMD_COUNT] = {
-	CMD_DEF(cat, "Concatenate & print files."),
-	CMD_DEF(echo, "Show words you input."),
-	CMD_DEF(export, "Export environment variables."),
-	CMD_DEF(help, "List all commands you can use."),
-	CMD_DEF(history, "Show latest commands entered."),
-	CMD_DEF(ls, "List files (& attributes)."),
-	CMD_DEF(man, "Manual pager."),
-	CMD_DEF(ps, "List all the processes."),
-	CMD_DEF(su, "Switch user.")
+	CMD_DEF(cat, "Concatenate & print files"),
+	CMD_DEF(echo, "Show words you input"),
+	CMD_DEF(export, "Export environment variables"),
+	CMD_DEF(help, "List all commands you can use"),
+	CMD_DEF(history, "Show latest commands entered"),
+	CMD_DEF(ls, "List files (& attributes)"),
+	CMD_DEF(man, "Manual pager"),
+	CMD_DEF(ps, "List all the processes"),
+	CMD_DEF(su, "Switch user")
 };
 
 /* Command history buffer. */
