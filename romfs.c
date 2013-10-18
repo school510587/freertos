@@ -1,3 +1,5 @@
+#include <sys/stat.h>
+#include <stdlib.h>
 #include <string.h>
 #include <FreeRTOS.h>
 #include <semphr.h>
@@ -110,8 +112,14 @@ const uint8_t * romfs_get_file_by_hash(const uint8_t * romfs, uint32_t h) {
 
     while (meta) {
         meta = (const uint8_t *)romfs_mount((void *)meta, &attr);
-        if (attr.hash == h)
-            return attr.content;
+        if (attr.hash == h) {
+            mode_t r = strcmp(getenv("USER"), "root") ? S_IROTH : S_IRUSR;
+
+	    if (attr.mode & r)
+                return attr.content;
+            else
+                return NULL;
+        }
     }
 
     return NULL;
