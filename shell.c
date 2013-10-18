@@ -392,12 +392,17 @@ static void cmd_ps(int argc, char* argv[])
 
 void shell_task(void *pvParameters)
 {
+	char line[CMDBUF_SIZE + 1];
+	char *user = NULL;
 	char *p = NULL;
 	char c;
 
+	sprintf(line, "USER=%s", "root");
+	putenv(line);
+	user = getenv("USER");
 	for (;; cur_his = (cur_his + 1) % HISTORY_COUNT) {
 		p = cmd[cur_his];
-		printf("root@FreeRTOS:%s# ", cwd);
+		printf("%s@FreeRTOS:%s# ", user, cwd);
 
 		while (1) {
 			fio_read(0, &c, 1);
