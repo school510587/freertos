@@ -87,6 +87,7 @@ main.bin: test-romfs.o main.c
 
 
 mkromfs:
+	chmod 600 test-romfs/.account_config
 	gcc -o mkromfs mkromfs.c
 
 CPU=arm
