@@ -10,7 +10,6 @@
 #define MAX_ENVNAME 15
 #define MAX_ENVVALUE 15
 #define CWD_LEN 16
-#define MAX_ACCOUNT_LEN 10
 
 /* Enumeration for command types. */
 typedef enum {
