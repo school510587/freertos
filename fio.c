@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <string.h>
 #include <FreeRTOS.h>
 #include <semphr.h>
@@ -156,6 +157,22 @@ int fio_close(int fd) {
         r = -2;
     }
     return r;
+}
+
+void fio_perror(const char * prefix) {
+    int err = errno;
+
+    fio_write(2, prefix, strlen(prefix));
+    fio_write(2, ": ", 2);
+    switch (err) {
+        case EPERM:
+            fio_write(2, "Permission denied", 17);
+        break;
+        case ENOENT:
+            fio_write(2, "No such file or directory", 25);
+        break;
+    }
+    fio_write(2, "\n", 1);
 }
 
 void fio_set_opaque(int fd, void * opaque) {

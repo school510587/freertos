@@ -37,6 +37,7 @@ ssize_t fio_read(int fd, void * buf, size_t count);
 ssize_t fio_write(int fd, const void * buf, size_t count);
 off_t fio_seek(int fd, off_t offset, int whence);
 int fio_close(int fd);
+void fio_perror(const char * prefix);
 void fio_set_opaque(int fd, void * opaque);
 char *fio_getline(int fd, char *str, size_t n);
 size_t fio_list(const char * dir, file_attr_t * buf, size_t n);

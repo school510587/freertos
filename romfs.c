@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <string.h>
@@ -117,11 +118,14 @@ const uint8_t * romfs_get_file_by_hash(const uint8_t * romfs, uint32_t h) {
 
 	    if (attr.mode & r)
                 return attr.content;
-            else
+            else {
+                errno = EPERM;
                 return NULL;
+            }
         }
     }
 
+    errno = ENOENT;
     return NULL;
 }
 
