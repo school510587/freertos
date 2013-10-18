@@ -1,6 +1,7 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 #define isalnum(c) __builtin_isalnum(c)
 #define isspace(c) __builtin_isspace(c)
 
@@ -137,7 +138,7 @@ static int putenv_internal(char *str)
 		env_count++;
 	}
 	else
-		return EXIT_FAILURE;
+		return ENOMEM;
 
 	return EXIT_SUCCESS;
 }
@@ -145,7 +146,7 @@ static int putenv_internal(char *str)
 int putenv(char *str)
 {
 	if (!str || !strncmp(str, "USER=", 5))
-		return EXIT_FAILURE;
+		return EPERM;
 	return putenv_internal(str);
 }
 
