@@ -8,6 +8,8 @@
 #include "hash-djb2.h"
 #include "serial_io.h"
 
+extern const char *fio_err;
+
 static struct fddef_t fio_fds[MAX_FDS];
 
 static ssize_t stdin_read(void * opaque, void * buf, size_t count) {
@@ -152,6 +154,15 @@ int fio_close(int fd) {
         r = -2;
     }
     return r;
+}
+
+void fio_perror(const char * prefix) {
+    const char * err = fio_err;
+
+    fio_write(2, prefix, strlen(prefix));
+    fio_write(2, ": ", 2);
+    fio_write(2, err, strlen(err));
+    fio_write(2, "\n", 1);
 }
 
 void fio_set_opaque(int fd, void * opaque) {

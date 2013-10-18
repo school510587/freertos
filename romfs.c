@@ -10,6 +10,8 @@
 #include "osdebug.h"
 #include "hash-djb2.h"
 
+const char *fio_err = "";
+
 struct romfs_fds_t {
     const uint8_t * file;
     uint32_t cursor;
@@ -117,11 +119,14 @@ const uint8_t * romfs_get_file_by_hash(const uint8_t * romfs, uint32_t h) {
 
 	    if (attr.mode & r)
                 return attr.content;
-            else
+            else {
+                fio_err = "Permission denied";
                 return NULL;
+            }
         }
     }
 
+    fio_err = "No such file or directory";
     return NULL;
 }
 
