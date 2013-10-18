@@ -118,7 +118,7 @@ char *getenv(const char *name)
 	return NULL;
 }
 
-int putenv(char *str)
+static int putenv_internal(char *str)
 {
 	char *found;
 	char *value = str;
@@ -141,6 +141,13 @@ int putenv(char *str)
 		return ENOMEM;
 
 	return EXIT_SUCCESS;
+}
+
+int putenv(char *str)
+{
+	if (!str || !strncmp(str, "USER=", 5))
+		return EPERM;
+	return putenv_internal(str);
 }
 
 /* Fill in entire value of argument. */
@@ -394,7 +401,7 @@ void shell_task(void *pvParameters)
 	char c;
 
 	sprintf(line, "USER=%s", "root");
-	putenv(line);
+	putenv_internal(line);
 	user = getenv("USER");
 	for (;; cur_his = (cur_his + 1) % HISTORY_COUNT) {
 		p = cmd[cur_his];
