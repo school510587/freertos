@@ -13,14 +13,14 @@
 
 /* Enumeration for command types. */
 typedef enum {
-	CMD_CAT = 0,
-	CMD_ECHO,
-	CMD_EXPORT,
-	CMD_HELP,
-	CMD_HISTORY,
-	CMD_LS,
-	CMD_MAN,
-	CMD_PS,
+	CMD_cat = 0,
+	CMD_echo,
+	CMD_export,
+	CMD_help,
+	CMD_history,
+	CMD_ls,
+	CMD_man,
+	CMD_ps,
 	CMD_COUNT
 } CMD_TYPE;
 
