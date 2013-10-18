@@ -215,7 +215,7 @@ static void cmd_cat(int argc, char *argv[])
 
 		if (fd < 0) {
 			fio_write(2, "cat: ", 5);
-			fio_write(2, buf, strlen(argv[i]));
+			fio_write(2, argv[i], strlen(argv[i]));
 			fio_write(2, ": No such file or directory\n", 28);
 			return;
 		}
