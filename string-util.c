@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdarg.h>
@@ -59,6 +60,8 @@
 	} \
 	va_end(arg_list);
 
+static int error_n = 0;
+
 static char *utoa(unsigned int num, char *dst, unsigned int base)
 {
 	char buf[33] = {0};
@@ -71,6 +74,11 @@ static char *utoa(unsigned int num, char *dst, unsigned int base)
 			*--p = "0123456789ABCDEF" [num % base];
 
 	return strcpy(dst, p);
+}
+
+int *__errno()
+{
+	return &error_n;
 }
 
 char *itoa(int num, char *dst, int base)

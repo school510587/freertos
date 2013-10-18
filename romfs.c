@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,8 +10,6 @@
 #include "romfs.h"
 #include "osdebug.h"
 #include "hash-djb2.h"
-
-const char *fio_err = "";
 
 struct romfs_fds_t {
     const uint8_t * file;
@@ -120,13 +119,13 @@ const uint8_t * romfs_get_file_by_hash(const uint8_t * romfs, uint32_t h) {
 	    if (attr.mode & r)
                 return attr.content;
             else {
-                fio_err = "Permission denied";
+                errno = EPERM;
                 return NULL;
             }
         }
     }
 
-    fio_err = "No such file or directory";
+    errno = ENOENT;
     return NULL;
 }
 

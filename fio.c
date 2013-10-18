@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <string.h>
 #include <FreeRTOS.h>
 #include <semphr.h>
@@ -7,8 +8,6 @@
 #include "osdebug.h"
 #include "hash-djb2.h"
 #include "serial_io.h"
-
-extern const char *fio_err;
 
 static struct fddef_t fio_fds[MAX_FDS];
 
@@ -157,11 +156,18 @@ int fio_close(int fd) {
 }
 
 void fio_perror(const char * prefix) {
-    const char * err = fio_err;
+    int err = errno;
 
     fio_write(2, prefix, strlen(prefix));
     fio_write(2, ": ", 2);
-    fio_write(2, err, strlen(err));
+    switch (err) {
+        case EPERM:
+            fio_write(2, "Permission denied", 17);
+        break;
+        case ENOENT:
+            fio_write(2, "No such file or directory", 25);
+        break;
+    }
     fio_write(2, "\n", 1);
 }
 
