@@ -24,8 +24,12 @@ static ssize_t stdout_write(void * opaque, const void * buf, size_t count) {
     int i;
     const char * data = (const char *) buf;
 
-    for (i = 0; i < count; i++)
+    for (i = 0; i < count; i++) {
+        if (data[i] == '\n')
+            send_byte('\r');
+
         send_byte(data[i]);
+    }
 
     return count;
 }
