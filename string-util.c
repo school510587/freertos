@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <limits.h>
+#include "FreeRTOS.h"
 #include "fio.h"
 
 #define ALIGN (sizeof(size_t))
@@ -103,6 +104,16 @@ int isalnum(int c)
 int isspace(int c)
 {
 	return (c == ' ');
+}
+
+void free(void *p)
+{
+	vPortFree(p);
+}
+
+void *malloc(size_t size)
+{
+	return pvPortMalloc(size);
 }
 
 void *memset(void *dest, int c, size_t n)
