@@ -10,6 +10,7 @@
 #include "fattr.h"
 #include "fio.h"
 #include "filesystem.h"
+#include "osdebug.h"
 #include "shell.h"
 
 /* Command handlers. */
@@ -20,6 +21,7 @@ static void cmd_help(int argc, char *argv[]);
 static void cmd_history(int argc, char *argv[]);
 static void cmd_ls(int argc, char *argv[]);
 static void cmd_man(int argc, char *argv[]);
+static void cmd_mmtest(int argc, char *argv[]);
 static void cmd_ps(int argc, char *argv[]);
 static void cmd_su(int argc, char *argv[]);
 
@@ -39,6 +41,7 @@ static const hcmd_entry cmd_data[CMD_COUNT] = {
 	CMD_DEF(history, "Show latest commands entered"),
 	CMD_DEF(ls, "List files (& attributes)"),
 	CMD_DEF(man, "Manual pager"),
+	CMD_DEF(mmtest, "Test malloc()"),
 	CMD_DEF(ps, "List all the processes"),
 	CMD_DEF(su, "Switch user")
 };
@@ -384,6 +387,12 @@ void cmd_man(int argc, char *argv[])
 		return;
 
 	printf("NAME: %s\nDESCRIPTION: %s\n", cmd_data[i].cmd, cmd_data[i].description);
+}
+
+/* Command "mmtest" */
+static void cmd_mmtest(int argc, char *argv[])
+{
+	mmtest_task(NULL);
 }
 
 /* Command "ps" */

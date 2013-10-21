@@ -20,6 +20,7 @@ typedef enum {
 	CMD_history,
 	CMD_ls,
 	CMD_man,
+	CMD_mmtest,
 	CMD_ps,
 	CMD_su,
 	CMD_COUNT
