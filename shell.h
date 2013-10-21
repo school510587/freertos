@@ -21,6 +21,7 @@ typedef enum {
 	CMD_ls,
 	CMD_man,
 	CMD_ps,
+	CMD_su,
 	CMD_COUNT
 } CMD_TYPE;
 
