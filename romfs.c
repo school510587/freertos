@@ -91,13 +91,13 @@ static void * romfs_mount(void * mountpoint, file_attr_t * attr) {
         return NULL;
 
     attr->hash = get_unaligned(p);
-    p += 4;
+    p += sizeof(attr->hash);
     attr->name = (const char *)p;
     p += strlen(attr->name) + 1;
     attr->mode = get_unaligned(p);
-    p += 4;
+    p += sizeof(attr->mode);
     attr->size = get_unaligned(p);
-    p += 4;
+    p += sizeof(attr->size);
     attr->content = p;
     p += attr->size;
 
