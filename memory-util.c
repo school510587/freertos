@@ -1,12 +1,24 @@
 #include <limits.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
+#include "FreeRTOS.h"
 
 #define ALIGN (sizeof(size_t))
 #define ONES ((size_t)-1/UCHAR_MAX)
 #define HIGHS (ONES * (UCHAR_MAX/2+1))
 #define HASZERO(x) ((x)-ONES & ~(x) & HIGHS)
 #define SS (sizeof(size_t))
+
+void free(void *p)
+{
+	vPortFree(p);
+}
+
+void *malloc(size_t size)
+{
+	return pvPortMalloc(size);
+}
 
 void *memset(void *dest, int c, size_t n)
 {
