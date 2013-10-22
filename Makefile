@@ -53,6 +53,7 @@ main.bin: test-romfs.o main.c
 		fio.c \
 		\
 		osdebug.c \
+		memory-util.c \
 		string-util.c \
 		\
 		shell.c \
@@ -77,6 +78,7 @@ main.bin: test-romfs.o main.c
 		romfs.o hash-djb2.o filesystem.o fio.o \
 		\
 		osdebug.o \
+		memory-util.o \
 		string-util.o \
 		\
 		shell.o \
