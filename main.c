@@ -29,7 +29,7 @@ int main()
 	/* Create a task to output text read from romfs. */
 	xTaskCreate(shell_task,
 	            (const signed portCHAR *) "Shell",
-	            512 /* stack size */, NULL, tskIDLE_PRIORITY + 2, NULL);
+	            1024 /* stack size */, NULL, tskIDLE_PRIORITY + 2, NULL);
 
 	/* Start running the tasks. */
 	vTaskStartScheduler();
