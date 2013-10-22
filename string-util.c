@@ -45,7 +45,12 @@
 				break; \
 				case 's': \
 					argv.s = va_arg(arg_list, const char *); \
-					_PUTS_(argv.s) \
+					if (argv.s) { \
+						_PUTS_(argv.s) \
+					} \
+					else { \
+						_PUTS_("(null)"); \
+					} \
 				break; \
 				case 'X': \
 					argv.u = va_arg(arg_list, unsigned); \
