@@ -1,9 +1,8 @@
+#include <ctype.h>
 #include <sys/stat.h>
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
-#define isalnum(c) __builtin_isalnum(c)
-#define isspace(c) __builtin_isspace(c)
 
 #include "FreeRTOS.h"
 #include "task.h"
