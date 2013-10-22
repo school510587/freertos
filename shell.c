@@ -390,7 +390,7 @@ void cmd_man(int argc, char *argv[])
 /* Command "ps" */
 static void cmd_ps(int argc, char* argv[])
 {
-	signed char buf[1024];
+	signed char buf[768];
 
 	vTaskList(buf);
 	puts((char*)buf);
