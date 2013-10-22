@@ -1,7 +1,36 @@
+#include <ctype.h>
 #include <errno.h>
 #include <string.h>
 #include <stdarg.h>
 #include "fio.h"
+
+#define _CTYPE_DATA_0_127 \
+	_C,     _C,     _C,     _C,     _C,     _C,     _C,     _C, \
+	_C,     _C|_S, _C|_S, _C|_S,    _C|_S,  _C|_S,  _C,     _C, \
+	_C,     _C,     _C,     _C,     _C,     _C,     _C,     _C, \
+	_C,     _C,     _C,     _C,     _C,     _C,     _C,     _C, \
+	_S|_B,  _P,     _P,     _P,     _P,     _P,     _P,     _P, \
+	_P,     _P,     _P,     _P,     _P,     _P,     _P,     _P, \
+	_N,     _N,     _N,     _N,     _N,     _N,     _N,     _N, \
+	_N,     _N,     _P,     _P,     _P,     _P,     _P,     _P, \
+	_P,     _U|_X,  _U|_X,  _U|_X,  _U|_X,  _U|_X,  _U|_X,  _U, \
+	_U,     _U,     _U,     _U,     _U,     _U,     _U,     _U, \
+	_U,     _U,     _U,     _U,     _U,     _U,     _U,     _U, \
+	_U,     _U,     _U,     _P,     _P,     _P,     _P,     _P, \
+	_P,     _L|_X,  _L|_X,  _L|_X,  _L|_X,  _L|_X,  _L|_X,  _L, \
+	_L,     _L,     _L,     _L,     _L,     _L,     _L,     _L, \
+	_L,     _L,     _L,     _L,     _L,     _L,     _L,     _L, \
+	_L,     _L,     _L,     _P,     _P,     _P,     _P,     _C
+
+#define _CTYPE_DATA_128_255 \
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
 #define PRINTF_BODY(fmt) \
 	char buf[8]; \
@@ -71,6 +100,13 @@
 
 static int error_n = 0;
 
+static const char ctype_table[128 + 256] = {
+	_CTYPE_DATA_128_255,
+	_CTYPE_DATA_0_127,
+	_CTYPE_DATA_128_255
+};
+const char *__ctype_ptr__ = ctype_table + 127;
+
 static char *utoa(unsigned int num, char *dst, unsigned int base)
 {
 	char buf[33] = {0};
@@ -100,18 +136,6 @@ char *itoa(int num, char *dst, int base)
 		utoa(num, dst, base);
 
 	return dst;
-}
-
-int isalnum(int c)
-{
-	return (('a' <= (c) && (c) <= 'z') ||
-		('A' <= (c) && (c) <= 'Z') ||
-		('0' <= (c) && (c) <= '9'));
-}
-
-int isspace(int c)
-{
-	return (c == ' ');
 }
 
 int printf(const char *fmt, ...)
