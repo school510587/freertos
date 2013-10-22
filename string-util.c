@@ -43,6 +43,19 @@
 					utoa(argv.u, buf, 10); \
 					_PUTS_(buf) \
 				break; \
+				case 'p': \
+					argv.u = va_arg(arg_list, unsigned); \
+					if (argv.u) { \
+						char *q = buf + 2; \
+						strcpy(buf, "0x"); \
+						utoa(argv.u, q, 16); \
+						for (; *q; q++) \
+							*q = (char)tolower(*q); \
+					} \
+					else \
+						strcpy(buf, "(nil)"); \
+					_PUTS_(buf) \
+				break; \
 				case 's': \
 					argv.s = va_arg(arg_list, const char *); \
 					if (argv.s) { \
