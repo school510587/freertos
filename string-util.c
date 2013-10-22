@@ -126,6 +126,23 @@ int *__errno()
 	return &error_n;
 }
 
+int atoi(const char *str)
+{
+	int i = 0;
+	int negative = 0;
+
+	if (*str == '-') {
+		negative = 1;
+		str++;
+	}
+	while (isdigit(*str))
+		i = i * 10 + ((*str++) - '0');
+	if (negative)
+		i *= -1;
+
+	return i;
+}
+
 char *itoa(int num, char *dst, int base)
 {
 	if (base == 10 && num < 0) {
