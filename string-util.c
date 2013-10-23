@@ -4,6 +4,25 @@
 #include <stdarg.h>
 #include "fio.h"
 
+typedef enum {
+	IOFMT_CHAR,
+	IOFMT_ERROR,
+	IOFMT_INT,
+	IOFMT_PTR,
+	IOFMT_STR,
+	IOFMT_TEXT,
+	IOFMT_UINT,
+	IOFMT_XINT,
+	IOFMT_UNKNOWN
+} IOFMT_TOKEN;
+
+typedef struct {
+	const char *fw_str;
+	IOFMT_TOKEN type;
+	char spec;
+	char width;
+} output_token;
+
 #define _CTYPE_DATA_0_127 \
 	_C,     _C,     _C,     _C,     _C,     _C,     _C,     _C, \
 	_C,     _C|_S, _C|_S, _C|_S,    _C|_S,  _C|_S,  _C,     _C, \
@@ -34,6 +53,7 @@
 
 #define PRINTF_BODY(fmt) \
 	char buf[8]; \
+	output_token out; \
 	union { \
 		int i; \
 		const char *s; \
@@ -42,58 +62,56 @@
 	va_list arg_list; \
 	\
 	va_start(arg_list, fmt); \
-	for (; *fmt; ++fmt) { \
-		if (*fmt == '%') { \
-			switch (*++fmt) { \
-				case '%': \
-					_PUTC_('%') \
-				break; \
-				case 'c': \
-					argv.i = va_arg(arg_list, int); \
-					_PUTC_(argv.i) \
-				break; \
-				case 'd': \
-				case 'i': \
-					argv.i = va_arg(arg_list, int); \
-					itoa(argv.i, buf, 10); \
-					_PUTS_(buf) \
-				break; \
-				case 'u': \
-					argv.u = va_arg(arg_list, unsigned); \
-					utoa(argv.u, buf, 10); \
-					_PUTS_(buf) \
-				break; \
-				case 'p': \
-					argv.u = va_arg(arg_list, unsigned); \
-					if (argv.u) { \
-						char *q = buf + 2; \
-						strcpy(buf, "0x"); \
-						utoa(argv.u, q, 16); \
-						for (; *q; q++) \
-							*q = (char)tolower(*q); \
-					} \
-					else \
-						strcpy(buf, "(nil)"); \
-					_PUTS_(buf) \
-				break; \
-				case 's': \
-					argv.s = va_arg(arg_list, const char *); \
-					if (argv.s) { \
-						_PUTS_(argv.s) \
-					} \
-					else { \
-						_PUTS_("(null)"); \
-					} \
-				break; \
-				case 'X': \
-					argv.u = va_arg(arg_list, unsigned); \
-					utoa(argv.u, buf, 16); \
-					_PUTS_(buf) \
-				break; \
-			} \
-		} \
-		else { \
-			_PUTC_(*fmt); \
+	for (; *fmt; fmt = out.fw_str) { \
+		out = get_next_output_token(fmt); \
+		switch (out.type) { \
+			case IOFMT_CHAR: \
+				argv.i = va_arg(arg_list, int); \
+				_PUTC_(argv.i) \
+			break; \
+			case IOFMT_INT: \
+				argv.i = va_arg(arg_list, int); \
+				itoa(argv.i, buf, 10); \
+				_PUTS_(buf) \
+			break; \
+			case IOFMT_PTR: \
+				argv.u = va_arg(arg_list, unsigned); \
+				if (argv.u) { \
+					char *q = buf + 2; \
+					strcpy(buf, "0x"); \
+					utoa(argv.u, q, 16); \
+					for (; *q; q++) \
+						*q = (char)tolower(*q); \
+				} \
+				else \
+					strcpy(buf, "(nil)"); \
+				_PUTS_(buf) \
+			break; \
+			case IOFMT_STR: \
+				argv.s = va_arg(arg_list, const char *); \
+				if (argv.s) { \
+					_PUTS_(argv.s) \
+				} \
+				else { \
+					_PUTS_("(null)"); \
+				} \
+			break; \
+			case IOFMT_TEXT: \
+				_PUTC_(out.spec) \
+			break; \
+			case IOFMT_UINT: \
+				argv.u = va_arg(arg_list, unsigned); \
+				utoa(argv.u, buf, 10); \
+				_PUTS_(buf) \
+			break; \
+			case IOFMT_XINT: \
+				argv.u = va_arg(arg_list, unsigned); \
+				utoa(argv.u, buf, 16); \
+				_PUTS_(buf) \
+			break; \
+			default: \
+				argv.s = NULL; \
+			break; \
 		} \
 	} \
 	va_end(arg_list);
@@ -106,6 +124,62 @@ static const char ctype_table[128 + 256] = {
 	_CTYPE_DATA_128_255
 };
 const char *__ctype_ptr__ = ctype_table + 127;
+
+static output_token get_next_output_token(const char *fmt)
+{
+	output_token ret = {.fw_str = fmt, .type = IOFMT_UNKNOWN, .spec = '\0', .width = 0};
+
+	if (*ret.fw_str == '%') {
+		char width[8] = {0};
+		char *p = width;
+
+		ret.fw_str++;
+		if (*ret.fw_str == '-' || *ret.fw_str == '0')
+			ret.spec = *ret.fw_str++;
+		for (; *ret.fw_str && ret.type == IOFMT_UNKNOWN; ret.fw_str++) {
+			switch (*ret.fw_str) {
+				case '%':
+					if (ret.spec || ret.width > 0) {
+						ret.type = IOFMT_ERROR;
+						ret.fw_str--;
+					}
+					else {
+						ret.spec = '%';
+						ret.type = IOFMT_TEXT;
+					}
+				break;
+				case 'c':
+					ret.type = IOFMT_CHAR;
+				break;
+				case 'd':
+				case 'i':
+					ret.type = IOFMT_INT;
+				break;
+				case 'p':
+					ret.type = IOFMT_PTR;
+				break;
+				case 's':
+					ret.type = IOFMT_STR;
+				break;
+				case 'u':
+					ret.type = IOFMT_UINT;
+				break;
+				case 'X':
+					ret.type = IOFMT_XINT;
+				break;
+				default:
+					ret.width = 10 * ret.width + (*ret.fw_str - '0');
+				break;
+			}
+		}
+	}
+	else {
+		ret.type = IOFMT_TEXT;
+		ret.spec = *ret.fw_str++;
+	}
+
+	return ret;
+}
 
 static char *utoa(unsigned int num, char *dst, unsigned int base)
 {
