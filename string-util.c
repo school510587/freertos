@@ -68,11 +68,12 @@ typedef struct {
 			case IOFMT_CHAR: \
 				argv.i = va_arg(arg_list, int); \
 				_PUTC_(argv.i) \
+				argv.s = NULL; \
 			break; \
 			case IOFMT_INT: \
 				argv.i = va_arg(arg_list, int); \
 				itoa(argv.i, buf, 10); \
-				_PUTS_(buf) \
+				argv.s = buf; \
 			break; \
 			case IOFMT_PTR: \
 				argv.u = va_arg(arg_list, unsigned); \
@@ -82,36 +83,50 @@ typedef struct {
 					utoa(argv.u, q, 16); \
 					for (; *q; q++) \
 						*q = (char)tolower(*q); \
+					argv.s = buf; \
 				} \
 				else \
-					strcpy(buf, "(nil)"); \
-				_PUTS_(buf) \
+					argv.s = "(nil)"; \
 			break; \
 			case IOFMT_STR: \
 				argv.s = va_arg(arg_list, const char *); \
-				if (argv.s) { \
-					_PUTS_(argv.s) \
-				} \
-				else { \
-					_PUTS_("(null)"); \
-				} \
+				if (!argv.s) \
+					argv.s = "(null)"; \
 			break; \
 			case IOFMT_TEXT: \
 				_PUTC_(out.spec) \
+				argv.s = NULL; \
 			break; \
 			case IOFMT_UINT: \
 				argv.u = va_arg(arg_list, unsigned); \
 				utoa(argv.u, buf, 10); \
-				_PUTS_(buf) \
+				argv.s = buf; \
 			break; \
 			case IOFMT_XINT: \
 				argv.u = va_arg(arg_list, unsigned); \
 				utoa(argv.u, buf, 16); \
-				_PUTS_(buf) \
+				argv.s = buf; \
 			break; \
 			default: \
 				argv.s = NULL; \
 			break; \
+		} \
+		if (argv.s) { \
+			int w = out.width - strlen(argv.s); \
+			if (out.spec == '-') { \
+				_PUTS_(argv.s) \
+				while (w-- > 0) { \
+					_PUTC_(' ') \
+				} \
+			} \
+			else { \
+				if (!out.spec) \
+					out.spec = ' '; \
+				while (w-- > 0) { \
+					_PUTC_(out.spec) \
+				} \
+				_PUTS_(argv.s) \
+			} \
 		} \
 	} \
 	va_end(arg_list);
