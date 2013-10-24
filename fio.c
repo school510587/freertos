@@ -16,7 +16,7 @@ static ssize_t stdin_read(void * opaque, void * buf, size_t count) {
     char * data = buf;
 
     for (i = 0; i < count; i++)
-        data[i] = recv_byte();
+        data[i] = recv_byte(NULL);
 
     return count;
 }
