@@ -1,8 +1,10 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "FreeRTOS.h"
 #include "osdebug.h"
+#include "serial_io.h"
 
 #define ALLOC_SIZE_MASK 0x7FF 
 #define MIN_ALLOC_SIZE 256
@@ -57,12 +59,12 @@ void mmtest_task(void * pvParameters)
     mmtest_slot slots[CIRCBUFSIZE];
     unsigned int write_pointer = 0;
     unsigned int read_pointer = 0;
-    int test_count = 0;
     int i;
     int size;
     char *p;
+    char c;
 
-    for (; test_count < 200; test_count++) {
+    for (;;) {
         do {
             size = prng() & ALLOC_SIZE_MASK;
         } while (size < MIN_ALLOC_SIZE);
@@ -100,6 +102,16 @@ void mmtest_task(void * pvParameters)
             for (i = 0; i < size; i++) {
                 p[i] = (unsigned char) prng();
             }
+        }
+        c = recv_byte(&i);
+        if (i == pdTRUE) {
+            if (tolower(c) == 'x')
+                return;
+            puts("(x: exit; other key to continue)");
+            c = recv_byte(NULL);
+            puts("\n");
+            if (tolower(c) == 'x')
+                return;
         }
     }
 
