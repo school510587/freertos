@@ -1,6 +1,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #include "FreeRTOS.h"
 #include "osdebug.h"
@@ -14,10 +15,10 @@
 typedef struct {
     void *pointer;
     unsigned int size;
-    unsigned int lfsr;
+    uint16_t lfsr;
 } mmtest_slot;
 
-static unsigned int lfsr = 0xACE1;
+static uint16_t lfsr = 0xACE1;
 
 // Get a pseudorandom number generator from Wikipedia
 static int prng(void) __attribute__((naked));
@@ -32,8 +33,6 @@ static int prng(void)
         "and r1, r1, #1         \t\n" // bit = r1 = r1 & 1
         "lsl r1, r1, #15        \t\n" // r1 = bit << 15
         "orr r0, r1, r0, lsr #1 \t\n" // lfsr = r1 | (lfsr >> 1)
-        "movw r1, #0xFFFF       \t\n"
-        "and r0, r0, r1         \t\n" // r0 = r1 & 0xffff
         "mov %0, r0             \t\n"
         : "=r" (lfsr)
         : "r" (lfsr)
@@ -66,7 +65,8 @@ void mmtest_task(void * pvParameters)
 
     for (;;) {
         do {
-            size = prng() & ALLOC_SIZE_MASK;
+            i = prng();
+            size = i & ALLOC_SIZE_MASK;
         } while (size < MIN_ALLOC_SIZE);
         printf("try to allocate %d bytes\n", size);
         p = (char*)malloc(size);
@@ -97,7 +97,7 @@ void mmtest_task(void * pvParameters)
                 fio_write(2, "circular buffer overflow\n", 25);
                 return;
             }
-            slots[write_pointer++] = (mmtest_slot){.pointer=p, .size=size, .lfsr=lfsr};
+            slots[write_pointer++] = (mmtest_slot){.pointer=p, .size=size, .lfsr=i};
             write_pointer %= CIRCBUFSIZE;
             for (i = 0; i < size; i++) {
                 p[i] = (unsigned char) prng();
