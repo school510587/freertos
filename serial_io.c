@@ -90,12 +90,16 @@ void send_byte(char ch)
 	USART_ITConfig(USART2, USART_IT_TXE, ENABLE);
 }
 
-char recv_byte()
+char recv_byte(int *log)
 {
-	serial_ch_msg msg;
+	serial_ch_msg msg = {0};
 
+	/* Non-blocking input. Log keeps pdTRUE or pdFALSE. */
+	if (log)
+		*log = xQueueReceive(serial_rx_queue, &msg, 10);
 	/* Wait for a byte to be queued by the receive interrupts handler. */
-	while (!xQueueReceive(serial_rx_queue, &msg, portMAX_DELAY));
+	else
+		while (!xQueueReceive(serial_rx_queue, &msg, portMAX_DELAY));
 
 	return msg.ch;
 }
