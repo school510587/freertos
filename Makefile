@@ -54,6 +54,7 @@ main.bin: test-romfs.o main.c
 		\
 		osdebug.c \
 		memory-util.c \
+		random-util.c \
 		string-util.c \
 		\
 		shell.c \
@@ -79,6 +80,7 @@ main.bin: test-romfs.o main.c
 		\
 		osdebug.o \
 		memory-util.o \
+		random-util.o \
 		string-util.o \
 		\
 		shell.o \
