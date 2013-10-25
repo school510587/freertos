@@ -78,11 +78,8 @@ typedef struct {
 			case IOFMT_PTR: \
 				argv.u = va_arg(arg_list, unsigned); \
 				if (argv.u) { \
-					char *q = buf + 2; \
 					strcpy(buf, "0x"); \
-					utoa(argv.u, q, 16); \
-					for (; *q; q++) \
-						*q = (char)tolower(*q); \
+					utoa(argv.u, buf + 2, 16, 1); \
 					argv.s = buf; \
 				} \
 				else \
@@ -99,12 +96,12 @@ typedef struct {
 			break; \
 			case IOFMT_UINT: \
 				argv.u = va_arg(arg_list, unsigned); \
-				utoa(argv.u, buf, 10); \
+				utoa(argv.u, buf, 10, 0); \
 				argv.s = buf; \
 			break; \
 			case IOFMT_XINT: \
 				argv.u = va_arg(arg_list, unsigned); \
-				utoa(argv.u, buf, 16); \
+				utoa(argv.u, buf, 16, 0); \
 				argv.s = buf; \
 			break; \
 			default: \
@@ -196,16 +193,22 @@ static output_token get_next_output_token(const char *fmt)
 	return ret;
 }
 
-static char *utoa(unsigned int num, char *dst, unsigned int base)
+static char *utoa(unsigned int num, char *dst, unsigned int base, int lowercase)
 {
 	char buf[33] = {0};
 	char *p = &buf[32];
 
 	if (num == 0)
 		*--p = '0';
-	else
+	else {
+		char *q;
+
 		for (; num; num/=base)
 			*--p = "0123456789ABCDEF" [num % base];
+		if (lowercase)
+			for (q = p; *q; q++)
+				*q = (char)tolower(*q);
+	}
 
 	return strcpy(dst, p);
 }
@@ -218,11 +221,11 @@ int *__errno()
 char *itoa(int num, char *dst, int base)
 {
 	if (base == 10 && num < 0) {
-		utoa(-num, dst+1, base);
+		utoa(-num, dst+1, base, 0);
 		*dst = '-';
 	}
 	else
-		utoa(num, dst, base);
+		utoa(num, dst, base, 0);
 
 	return dst;
 }
