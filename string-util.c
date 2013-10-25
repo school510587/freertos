@@ -13,6 +13,7 @@ typedef enum {
 	IOFMT_TEXT,
 	IOFMT_UINT,
 	IOFMT_XINT,
+	IOFMT_xINT,
 	IOFMT_UNKNOWN
 } IOFMT_TOKEN;
 
@@ -104,6 +105,11 @@ typedef struct {
 				utoa(argv.u, buf, 16, 0); \
 				argv.s = buf; \
 			break; \
+			case IOFMT_xINT: \
+				argv.u = va_arg(arg_list, unsigned); \
+				utoa(argv.u, buf, 16, 1); \
+				argv.s = buf; \                                 
+			break; \
 			default: \
 				argv.s = NULL; \
 			break; \
@@ -178,6 +184,9 @@ static output_token get_next_output_token(const char *fmt)
 				break;
 				case 'X':
 					ret.type = IOFMT_XINT;
+				break;
+				case 'x':
+					ret.type = IOFMT_xINT;
 				break;
 				default:
 					ret.width = 10 * ret.width + (*ret.fw_str - '0');
