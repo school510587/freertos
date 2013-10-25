@@ -42,7 +42,7 @@ void mmtest_task(void * pvParameters)
     char *p;
     char c;
 
-    srand(0xACE1);
+    srand(xTaskGetTickCount());
     for (;;) {
         do {
             i = rand();
