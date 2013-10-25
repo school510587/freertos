@@ -13,7 +13,7 @@
 #define SS (sizeof(size_t))
 
 #define PRINTF_BODY(fmt) \
-	char buf[8]; \
+	char buf[12]; \
 	union { \
 		int i; \
 		const char *s; \
