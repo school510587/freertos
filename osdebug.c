@@ -8,6 +8,8 @@
 
 #define ALLOC_SIZE_MASK 0x7FF 
 #define MIN_ALLOC_SIZE 256
+#define RANGE_PER_RECORD 256
+#define RECORD_INDEX_OF(size) (((size) - MIN_ALLOC_SIZE) / RANGE_PER_RECORD)
 #define CIRCBUFSIZE (configTOTAL_HEAP_SIZE / MIN_ALLOC_SIZE)
 #define circbuf_size(r_ptr, w_ptr) (((w_ptr) + CIRCBUFSIZE - (r_ptr)) % CIRCBUFSIZE)
 
@@ -34,6 +36,7 @@ void mmtest_task(void * pvParameters)
     mmtest_slot slots[CIRCBUFSIZE];
     unsigned int write_pointer = 0;
     unsigned int read_pointer = 0;
+    int record[RECORD_INDEX_OF(ALLOC_SIZE_MASK) + 1][2] = {0};
     int i;
     int size;
     char *p;
@@ -70,6 +73,7 @@ void mmtest_task(void * pvParameters)
                 if ((rand() & 1) == 0)
                     break;
             }
+            record[RECORD_INDEX_OF(size)][1]++;
         }
         else {
             printf("allocate a block, size %d\n", size);
@@ -83,11 +87,17 @@ void mmtest_task(void * pvParameters)
             for (i = 0; i < size; i++) {
                 p[i] = (unsigned char) rand();
             }
+            record[RECORD_INDEX_OF(size)][0]++;
         }
         c = recv_byte(&i);
         if (i == pdTRUE) {
             if (tolower(c) == 'x')
                 return;
+            puts("  Range   Success Failure\n");
+            for (i = 0; i < sizeof(record) / sizeof(record[0]); i++) {
+                int j = MIN_ALLOC_SIZE + i * RANGE_PER_RECORD;
+                printf("%4d~%4d %7d %7d\n", j, j + RANGE_PER_RECORD - 1, record[i][0], record[i][1]);
+            }
             puts("(x: exit; other key to continue)");
             c = recv_byte(NULL);
             puts("\n");
