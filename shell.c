@@ -476,6 +476,6 @@ void shell_task(void *pvParameters)
 				fio_write(1, &c, 1);
 			}
 		}
-		execute_command();	
+		execute_command();
 	}
 }

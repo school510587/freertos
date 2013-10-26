@@ -164,7 +164,7 @@ int printf(const char *fmt, ...)
 	return count;
 }
 
-int puts(const char *s) 
+int puts(const char *s)
 {
 	fio_write(1, s, strlen(s));
 	return 1;

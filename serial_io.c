@@ -70,7 +70,7 @@ __attribute__((constructor)) void init_serial_io()
 	vSemaphoreCreateBinary(serial_tx_wait_sem);
 
 	/* Create the queue used by the serial task.  Messages for read from
-	 * the RS232.                                                           
+	 * the RS232.
 	 */
 	serial_rx_queue = xQueueCreate(1, sizeof(serial_ch_msg));
 }

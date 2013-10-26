@@ -69,7 +69,7 @@ void processdir(DIR * dirp, const char * curpath, FILE * outfile, const char * p
             b = (hash >> 16) & 0xff; fwrite(&b, 1, 1, outfile);
             b = (hash >> 24) & 0xff; fwrite(&b, 1, 1, outfile);
             fwrite(ent->d_name, 1, strlen(ent->d_name) + 1, outfile);
-            mode = status.st_mode;                                              
+            mode = status.st_mode;
             b = (mode >>  0) & 0xff; fwrite(&b, 1, 1, outfile);
             b = (mode >>  8) & 0xff; fwrite(&b, 1, 1, outfile);
             b = (mode >> 16) & 0xff; fwrite(&b, 1, 1, outfile);
