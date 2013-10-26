@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdarg.h>
+#include <stdlib.h>
 #include "fio.h"
 
 typedef enum {
@@ -23,6 +24,9 @@ typedef struct {
 	char spec;
 	char width;
 } output_token;
+
+typedef int (*putc_t)(void *param, char c);
+typedef int (*puts_t)(void *param, const char *s);
 
 #define _CTYPE_DATA_0_127 \
 	_C,     _C,     _C,     _C,     _C,     _C,     _C,     _C, \
@@ -52,93 +56,6 @@ typedef struct {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
-#define PRINTF_BODY(fmt) \
-	char buf[12]; \
-	output_token out; \
-	union { \
-		int i; \
-		const char *s; \
-		unsigned u; \
-	} argv; \
-	va_list arg_list; \
-	\
-	va_start(arg_list, fmt); \
-	for (; *fmt; fmt = out.fw_str) { \
-		out = get_next_output_token(fmt); \
-		switch (out.type) { \
-			case IOFMT_CHAR: \
-				argv.i = va_arg(arg_list, int); \
-				_PUTC_(argv.i) \
-				argv.s = NULL; \
-			break; \
-			case IOFMT_INT: \
-				argv.i = va_arg(arg_list, int); \
-				if (argv.i < 0) { \
-					buf[0] = '-'; \
-					utoa(-argv.i, buf + 1, 10, 0); \
-				} \
-				else \
-					utoa(argv.i, buf, 10, 0); \
-				argv.s = buf; \
-			break; \
-			case IOFMT_PTR: \
-				argv.u = va_arg(arg_list, unsigned); \
-				if (argv.u) { \
-					strcpy(buf, "0x"); \
-					utoa(argv.u, buf + 2, 16, 1); \
-					argv.s = buf; \
-				} \
-				else \
-					argv.s = "(nil)"; \
-			break; \
-			case IOFMT_STR: \
-				argv.s = va_arg(arg_list, const char *); \
-				if (!argv.s) \
-					argv.s = "(null)"; \
-			break; \
-			case IOFMT_TEXT: \
-				_PUTC_(out.spec) \
-				argv.s = NULL; \
-			break; \
-			case IOFMT_UINT: \
-				argv.u = va_arg(arg_list, unsigned); \
-				utoa(argv.u, buf, 10, 0); \
-				argv.s = buf; \
-			break; \
-			case IOFMT_XINT: \
-				argv.u = va_arg(arg_list, unsigned); \
-				utoa(argv.u, buf, 16, 0); \
-				argv.s = buf; \
-			break; \
-			case IOFMT_xINT: \
-				argv.u = va_arg(arg_list, unsigned); \
-				utoa(argv.u, buf, 16, 1); \
-				argv.s = buf; \
-			break; \
-			default: \
-				argv.s = NULL; \
-			break; \
-		} \
-		if (argv.s) { \
-			int w = out.width - strlen(argv.s); \
-			if (out.spec == '-') { \
-				_PUTS_(argv.s) \
-				while (w-- > 0) { \
-					_PUTC_(' ') \
-				} \
-			} \
-			else { \
-				if (!out.spec) \
-					out.spec = ' '; \
-				while (w-- > 0) { \
-					_PUTC_(out.spec) \
-				} \
-				_PUTS_(argv.s) \
-			} \
-		} \
-	} \
-	va_end(arg_list);
-
 static int error_n = 0;
 
 static const char ctype_table[128 + 256] = {
@@ -147,6 +64,39 @@ static const char ctype_table[128 + 256] = {
 	_CTYPE_DATA_128_255
 };
 const char *__ctype_ptr__ = ctype_table + 127;
+
+static int _putc_printf(void *param, char c)
+{
+	int r = fio_write(1, &c, 1);
+
+	if (r > 0)
+		(*(int*)param)++;
+	return r;
+}
+
+static int _putc_sprintf(void *param, char c)
+{
+	*(*((char**)param))++ = c;
+	return 0;
+}
+
+static int _puts_printf(void *param, const char *s)
+{
+	int r = puts(s);
+
+	if (r > 0)
+		*(int*)param += strlen(s);
+	return r;
+}
+
+static int _puts_sprintf(void *param, const char *s)
+{
+	char **p = (char**)param;
+
+	strcpy(*p, s);
+	*p += strlen(s);
+	return 0;
+}
 
 static output_token get_next_output_token(const char *fmt)
 {
@@ -227,6 +177,96 @@ static char *utoa(unsigned int num, char *dst, unsigned int base, int lowercase)
 	return strcpy(dst, p);
 }
 
+static int vprintf_core(const char *fmt, va_list arg_list, putc_t _putc_, puts_t _puts_, void *param)
+{
+	char buf[12];
+	output_token out;
+	union {
+		int i;
+		const char *s;
+		unsigned u;
+	} argv;
+
+	for (; *fmt; fmt = out.fw_str) {
+		int ret = 0;
+
+		out = get_next_output_token(fmt);
+		switch (out.type) {
+			case IOFMT_CHAR:
+				argv.i = va_arg(arg_list, int);
+				_putc_(param, (char)argv.i);
+				argv.s = NULL;
+			break;
+			case IOFMT_INT:
+				argv.i = va_arg(arg_list, int);
+				if (argv.i < 0) {
+					buf[0] = '-';
+					utoa(-argv.i, buf + 1, 10, 0);
+				}
+				else
+					utoa(argv.i, buf, 10, 0);
+				argv.s = buf;
+			break;
+			case IOFMT_PTR:
+				argv.u = va_arg(arg_list, unsigned);
+				if (argv.u) {
+					strcpy(buf, "0x");
+					utoa(argv.u, buf + 2, 16, 1);
+					argv.s = buf;
+				}
+				else
+					argv.s = "(nil)";
+			break;
+			case IOFMT_STR:
+				argv.s = va_arg(arg_list, const char *);
+				if (!argv.s)
+					argv.s = "(null)";
+			break;
+			case IOFMT_TEXT:
+				_putc_(param, out.spec);
+				argv.s = NULL;
+			break;
+			case IOFMT_UINT:
+				argv.u = va_arg(arg_list, unsigned);
+				utoa(argv.u, buf, 10, 0);
+				argv.s = buf;
+			break;
+			case IOFMT_XINT:
+				argv.u = va_arg(arg_list, unsigned);
+				utoa(argv.u, buf, 16, 0);
+				argv.s = buf;
+			break;
+			case IOFMT_xINT:
+				argv.u = va_arg(arg_list, unsigned);
+				utoa(argv.u, buf, 16, 1);
+				argv.s = buf;
+			break;
+			default:
+				argv.s = NULL;
+			break;
+		}
+		if (argv.s) {
+			int w = out.width - strlen(argv.s);
+			if (out.spec == '-') {
+				_puts_(param, argv.s);
+				while (w-- > 0) {
+					_putc_(param, ' ');
+				}
+			}
+			else {
+				if (!out.spec)
+					out.spec = ' ';
+				while (w-- > 0) {
+					_putc_(param, out.spec);
+				}
+				_puts_(param, argv.s);
+			}
+		}
+	}
+
+	return 0;
+}
+
 int *__errno()
 {
 	return &error_n;
@@ -235,20 +275,11 @@ int *__errno()
 int printf(const char *fmt, ...)
 {
 	int count = 0;
-	char b;
+	va_list arg_list;
 
-#define _PUTC_(c) \
-	b = (char)(c); \
-	fio_write(1, &b, 1); \
-	++count;
-#define _PUTS_(s) \
-	puts(s); \
-	count += strlen(s);
-
-	PRINTF_BODY(fmt)
-
-#undef _PUTC_
-#undef _PUTS_
+	va_start(arg_list, fmt);
+	vprintf_core(fmt, arg_list, _putc_printf, _puts_printf, &count);
+	va_end(arg_list);
 
 	return count;
 }
@@ -262,18 +293,11 @@ int puts(const char *s)
 int sprintf(char *dst, const char *fmt, ...)
 {
 	char *p = dst;
+	va_list arg_list;
 
-#define _PUTC_(c) \
-	*p++ = (char)(c);
-#define _PUTS_(s) \
-	strcpy(p, s); \
-	p += strlen(s);
-
-	PRINTF_BODY(fmt)
-
-#undef _PUTC_
-#undef _PUTS_
-
+	va_start(arg_list, fmt);
+	vprintf_core(fmt, arg_list, _putc_sprintf, _puts_sprintf, &p);
+	va_end(arg_list);
 	*p = '\0';
 
 	return p - dst;
