@@ -73,7 +73,12 @@ typedef struct {
 			break; \
 			case IOFMT_INT: \
 				argv.i = va_arg(arg_list, int); \
-				itoa(argv.i, buf, 10); \
+				if (argv.i < 0) { \
+					buf[0] = '-'; \
+					utoa(-argv.i, buf + 1, 10, 0); \
+				} \
+				else \
+					utoa(argv.i, buf, 10, 0); \
 				argv.s = buf; \
 			break; \
 			case IOFMT_PTR: \
@@ -225,18 +230,6 @@ static char *utoa(unsigned int num, char *dst, unsigned int base, int lowercase)
 int *__errno()
 {
 	return &error_n;
-}
-
-char *itoa(int num, char *dst, int base)
-{
-	if (base == 10 && num < 0) {
-		utoa(-num, dst+1, base, 0);
-		*dst = '-';
-	}
-	else
-		utoa(num, dst, base, 0);
-
-	return dst;
 }
 
 int printf(const char *fmt, ...)
