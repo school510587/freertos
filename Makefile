@@ -52,6 +52,7 @@ main.bin: test-romfs.o main.c
 		filesystem.c \
 		fio.c \
 		\
+		semihost.c \
 		osdebug.c \
 		memory-util.c \
 		random-util.c \
@@ -78,6 +79,7 @@ main.bin: test-romfs.o main.c
 		\
 		romfs.o hash-djb2.o filesystem.o fio.o \
 		\
+		semihost.o \
 		osdebug.o \
 		memory-util.o \
 		random-util.o \
@@ -104,7 +106,7 @@ test-romfs.o: mkromfs
 
 
 qemu: main.bin $(QEMU_STM32)
-	$(QEMU_STM32) -M stm32-p103 -kernel main.bin
+	$(QEMU_STM32) -nographic -M stm32-p103 -kernel main.bin -semihosting
 
 qemudbg: main.bin $(QEMU_STM32)
 	$(QEMU_STM32) -M stm32-p103 \

@@ -1,3 +1,4 @@
+#include "semihost.h"
 #include <ctype.h>
 #include <sys/stat.h>
 #include <string.h>
@@ -484,6 +485,7 @@ void shell_task(void *pvParameters)
 				fio_write(1, &c, 1);
 			}
 		}
-		execute_command();
+host_system(cmd[cur_his], strlen(cmd[cur_his]));
+		//execute_command();
 	}
 }
