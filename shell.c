@@ -253,7 +253,19 @@ static void cmd_cat(int argc, char *argv[])
 
 	for (i = 1; i < argc; i++) {
 		sprintf(buf, "%s/%s", cwd, argv[i]);
-		fd = fs_open(buf, 0, O_RDONLY);
+		//fd = fs_open(buf, 0, O_RDONLY);
+fd=host_open(argv[i], OPEN_RD);
+int k=0;
+for(; k<16; k++){
+count=host_read(fd, buf, 1);
+if(count){
+printf("%d ", count);
+fio_write(1, buf, 1);
+puts("\n");
+}
+}
+host_close(fd);
+break;
 
 		if (fd < 0) {
 			fio_write(2, "cat: ", 5);
@@ -485,7 +497,7 @@ void shell_task(void *pvParameters)
 				fio_write(1, &c, 1);
 			}
 		}
-host_system(cmd[cur_his], strlen(cmd[cur_his]));
-		//execute_command();
+//host_system(cmd[cur_his], strlen(cmd[cur_his]));
+		execute_command();
 	}
 }
